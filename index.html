@@ -1,3 +1,4 @@
+<html><head>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -22,6 +23,19 @@
 
     main {
       flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 2rem;
+    }
+
+    .banner {
+      width: 800px;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     footer {
@@ -69,6 +83,14 @@
       gap: 0.5rem;
     }
 
+    @media (max-width: 840px) {
+      .banner {
+        width: 95%;
+        height: auto;
+        max-height: 300px;
+      }
+    }
+
     @media (max-width: 480px) {
       .social-links {
         gap: 1rem;
@@ -87,7 +109,9 @@
   </style>
 </head>
 <body>
-  <main></main>
+  <main>
+    <img src="https://acatnamedmanwhore.com/25bonesMoonshotBanner.png" alt="BONES Banner" class="banner">
+  </main>
   <footer>
     <div class="social-links">
       <span class="bones-text">BONES -></span>
