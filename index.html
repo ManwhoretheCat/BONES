@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Links</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: url('https://images5.fanpop.com/image/photos/28300000/Cat-Eye-Wallpaper-eyes-28331369-1680-1050.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    footer {
+      padding: 1rem;
+      background: rgba(248, 249, 250, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(222, 226, 230, 0.5);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .social-links a {
+      color: #333;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .social-links a:hover {
+      color: #000;
+    }
+
+    .fab, .dex-icon {
+      font-size: 1.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    .dex-icon {
+      fill: currentColor;
+    }
+
+    .bones-text {
+      color: #000;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-right: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    @media (max-width: 480px) {
+      .social-links {
+        gap: 1rem;
+      }
+      
+      .fab, .dex-icon {
+        font-size: 1.25rem;
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+
+      .bones-text {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main></main>
+  <footer>
+    <div class="social-links">
+      <span class="bones-text">BONES -></span>
+      <a href="https://t.me/BONES_PORTAL" target="_blank" aria-label="Telegram">
+        <i class="fab fa-telegram"></i>
+      </a>
+      <a href="https://x.com/ManwhoretheCat" target="_blank" aria-label="X (Twitter)">
+        <i class="fab fa-x-twitter"></i>
+      </a>
+      <a href="https://dexscreener.com/solana/8rym1xjmjuc3mkuuhtw9894dfo5gf9bz8pdbews7moon" target="_blank" aria-label="DexScreener">
+        <svg class="dex-icon" viewBox="0 0 24 24" width="24" height="24">
+          <path d="M21 3v18h-18v-2h16v-16h2zm-4 3h-2v12h2v-12zm-4 2h-2v10h2v-10zm-4 3h-2v7h2v-7z"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+</body>
+</html>
