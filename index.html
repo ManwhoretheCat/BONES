@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Links</title>
+  <title>A Cat Named Manwhore</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     * {
@@ -19,23 +19,81 @@
       background: url('https://images5.fanpop.com/image/photos/28300000/Cat-Eye-Wallpaper-eyes-28331369-1680-1050.jpg') no-repeat center center fixed;
       background-size: cover;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding-bottom: 60px; 
     }
 
-    main {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-top: 2rem;
+    .container {
+      width: 860px; 
+      margin: 2rem auto;
+      padding: 0 30px;
     }
 
-    .banner {
+    .comic-section {
       width: 800px;
+      height: 400px;
+      margin-bottom: 2rem;
+      border: 3px solid #000;
+      position: relative;
+      background: #fff;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .comic-section::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+      border: 2px solid #000;
+      z-index: -1;
+    }
+
+    .comic-image {
+      width: 100%;
       height: 300px;
       object-fit: cover;
       display: block;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .comic-caption {
+      height: 100px;
+      padding: 0.5rem;
+      font-family: 'Comic Sans MS', cursive;
+      font-size: 1.2rem;
+      text-align: center;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+
+    .caption-social-links {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .buffer {
+      height: 4rem;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 20px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-left: 2px solid #000;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #000;
+      border: 2px solid #fff;
+      border-radius: 10px;
     }
 
     footer {
@@ -44,22 +102,26 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border-top: 1px solid rgba(222, 226, 230, 0.5);
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      z-index: 1000;
     }
 
-    .social-links {
+    .social-links, .caption-social-links {
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 2rem;
     }
 
-    .social-links a {
+    .social-links a, .caption-social-links a {
       color: #333;
       text-decoration: none;
       transition: color 0.2s ease;
     }
 
-    .social-links a:hover {
+    .social-links a:hover, .caption-social-links a:hover {
       color: #000;
     }
 
@@ -73,7 +135,7 @@
       fill: currentColor;
     }
 
-    .bones-text {
+    .welcome-text {
       color: #000;
       font-weight: 700;
       font-size: 1.2rem;
@@ -83,42 +145,128 @@
       gap: 0.5rem;
     }
 
-    @media (max-width: 840px) {
-      .banner {
+    @media (max-width: 900px) {
+      .container {
         width: 95%;
-        height: auto;
-        max-height: 300px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .social-links {
-        gap: 1rem;
+        padding: 0 15px;
       }
       
-      .fab, .dex-icon {
-        font-size: 1.25rem;
-        width: 1.25rem;
-        height: 1.25rem;
+      .comic-section {
+        width: 100%;
       }
 
-      .bones-text {
-        font-size: 1rem;
+      .comic-image {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
-  <main>
-    <img src="https://acatnamedmanwhore.com/25bonesMoonshotBanner.png" alt="BONES Banner" class="banner">
-  </main>
+  <div class="container">
+    <div class="comic-section">
+      <img src="https://acatnamedmanwhore.com/25bonesMoonshotBanner.png" alt="BONES Banner" class="comic-image">
+      <div class="comic-caption">
+        <div>Meet BONES - The Audacious Undaunted Skeletal Maverick</div>
+        <div class="caption-social-links">
+          <a href="https://t.me/BONES_PORTAL" target="_blank" aria-label="Telegram">
+            <i class="fab fa-telegram"></i>
+          </a>
+          <a href="https://x.com/ManwhoretheCat" target="_blank" aria-label="X (Twitter)">
+            <i class="fab fa-x-twitter"></i>
+          </a>
+          <a href="https://dexscreener.com/solana/8rym1xjmjuc3mkuuhtw9894dfo5gf9bz8pdbews7moon" target="_blank" aria-label="DexScreener">
+            <svg class="dex-icon" viewBox="0 0 24 24" width="24" height="24">
+              <path d="M21 3v18h-18v-2h16v-16h2zm-4 3h-2v12h2v-12zm-4 2h-2v10h2v-10zm-4 3h-2v7h2v-7z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Coming Soon: More Characters from the Universe</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 3</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 4</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 5</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 6</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 7</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 8</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 9</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 10</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 11</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 12</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 13</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 14</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 15</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 16</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 17</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 18</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 19</div>
+    </div>
+    <div class="comic-section">
+      <img src="https://placehold.co/800x300/lightgray/gray?text=Coming+Soon" alt="Placeholder" class="comic-image">
+      <div class="comic-caption">Section 20</div>
+    </div>
+    <div class="buffer"></div>
+  </div>
   <footer>
     <div class="social-links">
-      <span class="bones-text">BONES -></span>
+      <span class="welcome-text">Welcome to the A CAT NAMED MANWHORE website</span>
       <a href="https://t.me/BONES_PORTAL" target="_blank" aria-label="Telegram">
         <i class="fab fa-telegram"></i>
       </a>
-      <a href="https://x.com/CatManwhore" target="_blank" aria-label="X (Twitter)">
+      <a href="https://x.com/ManwhoretheCat" target="_blank" aria-label="X (Twitter)">
         <i class="fab fa-x-twitter"></i>
       </a>
       <a href="https://dexscreener.com/solana/8rym1xjmjuc3mkuuhtw9894dfo5gf9bz8pdbews7moon" target="_blank" aria-label="DexScreener">
