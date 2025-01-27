@@ -222,20 +222,44 @@
         padding: 0 10px;
       }
 
-      .studio-text::before {
-        content: '★';
-        position: absolute;
-        left: -15px;
-        color: #ffd700;
+      /* Mobile specific styles */
+      .mobile-device * {
+        font-family: Arial, sans-serif !important;
       }
 
-      .studio-text::after {
-        content: '★';
-        position: absolute;
-        right: -15px;
-        color: #ffd700;
+      .mobile-device .comic-section {
+        max-width: 640px; /* 20% less than 800px */
       }
-  
+
+      .mobile-device .comic-image {
+        width: 100%;
+        max-width: 640px; /* 20% less than 800px */
+        margin: 0 auto;
+        display: block;
+      }
+
+      .mobile-device .modal {
+        width: 640px; /* 20% less than 800px */
+      }
+
+      .mobile-device .comic-caption {
+        font-family: Arial, sans-serif !important;
+      }
+
+      @media (max-width: 900px) {
+        .mobile-device .comic-section {
+          max-width: 100%;
+        }
+
+        .mobile-device .comic-image {
+          max-width: 100%;
+        }
+
+        .mobile-device .modal {
+          width: 90%;
+        }
+      }
+
       @media (max-width: 900px) {
         .container {
           width: 100%;
@@ -251,36 +275,6 @@
           width: 100%;
           height: auto;
           min-height: 200px;
-        }
-      }
-
-      /* Mobile specific styles */
-      .mobile-device {
-        font-family: Arial, sans-serif !important;
-      }
-
-      .mobile-device .comic-section {
-        max-width: 640px; /* 20% less than 800px */
-      }
-
-      .mobile-device .modal {
-        width: 640px; /* 20% less than 800px */
-      }
-
-      .mobile-device .modal-title,
-      .mobile-device .studio-text,
-      .mobile-device .info-box,
-      .mobile-device .speech-bubble {
-        font-family: Arial, sans-serif !important;
-      }
-
-      @media (max-width: 900px) {
-        .mobile-device .comic-section {
-          max-width: 100%;
-        }
-
-        .mobile-device .modal {
-          width: 90%;
         }
       }
 
@@ -394,7 +388,7 @@
       }
 
       .info-box::before {
-        content: '★';
+        content: '';
         position: absolute;
         top: -15px;
         left: 20px;
