@@ -107,10 +107,10 @@
 
       .menu-panel {
         position: fixed;
-        bottom: -300px;
+        bottom: -400px;
         left: 0;
         width: 100%;
-        height: 300px;
+        height: 400px;
         background: #fff;
         transition: transform 0.3s ease-in-out;
         z-index: 99;
@@ -167,7 +167,7 @@
       }
 
       .menu-panel.active {
-        transform: translateY(-300px);
+        transform: translateY(-400px);
       }
 
       .menu-button {
@@ -229,52 +229,72 @@
 
       .mobile-device .comic-section {
         max-width: 640px; /* 20% less than 800px */
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .mobile-device .comic-image {
-        width: 100%;
-        max-width: 640px; /* 20% less than 800px */
+        max-width: 100%;
+        height: auto;
         margin: 0 auto;
         display: block;
+        box-sizing: border-box;
       }
 
-      .mobile-device .modal {
-        width: 640px; /* 20% less than 800px */
+      .mobile-device .menu-button {
+        font-size: 2rem;
+        padding: 10px;
+        z-index: 1001;
       }
 
-      .mobile-device .comic-caption {
-        font-family: Arial, sans-serif !important;
+      .mobile-device .social-links {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0 15px;
+      }
+
+      .mobile-device .caption-social-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .mobile-device .caption-social-links a {
+        font-size: 1.2rem;
+        padding: 5px;
       }
 
       @media (max-width: 900px) {
         .mobile-device .comic-section {
+          width: 100%;
           max-width: 100%;
+          padding: 0;
+          margin: 1rem auto;
         }
 
         .mobile-device .comic-image {
+          width: 100%;
           max-width: 100%;
         }
 
         .mobile-device .modal {
           width: 90%;
         }
-      }
 
-      @media (max-width: 900px) {
-        .container {
-          width: 100%;
-          padding: 0 15px;
-        }
-        
-        .comic-section {
-          width: 100%;
-          margin: 0 auto 2rem auto;
+        .mobile-device .social-links {
+          padding: 0 10px;
         }
 
-        .comic-image {
-          width: 100%;
-          height: auto;
-          min-height: 200px;
+        .mobile-device .studio-text {
+          font-size: 1.2rem;
+        }
+
+        .mobile-device .menu-button {
+          padding: 8px;
         }
       }
 
