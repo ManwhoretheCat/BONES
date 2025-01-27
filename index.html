@@ -98,11 +98,14 @@
   
       footer {
         padding: 1rem;
-        background: rgba(248, 249, 250, 0.9);
+        background: rgba(248, 249, 250, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         position: fixed;
         bottom: 0;
         width: 100%;
         z-index: 100;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
       }
 
       .menu-panel {
@@ -266,6 +269,30 @@
       .mobile-device .caption-social-links a {
         font-size: 1.2rem;
         padding: 5px;
+      }
+
+      .mobile-device .menu-button i {
+        font-family: "Font Awesome 6 Free" !important;
+        font-weight: 900;
+      }
+
+      .mobile-device .fa-bars,
+      .mobile-device .fa-telegram,
+      .mobile-device .fa-x-twitter {
+        font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free" !important;
+        font-weight: 400;
+      }
+
+      /* Ensure Font Awesome icons load properly */
+      .fa,
+      .fas,
+      .far,
+      .fab {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+      }
+
+      .fab {
+        font-family: "Font Awesome 6 Brands" !important;
       }
 
       @media (max-width: 900px) {
