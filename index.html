@@ -1,1 +1,760 @@
 https://placehold.co/800x300/lightgray/gray?text=Coming+Soon
+<html><head>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Cat Named Manwhore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+  
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: url('https://images5.fanpop.com/image/photos/28300000/Cat-Eye-Wallpaper-eyes-28331369-1680-1050.jpg') no-repeat center center fixed;
+        background-size: cover;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        padding-bottom: 60px; 
+      }
+  
+      .container {
+        width: 100%;
+        margin: 2rem auto;
+        padding: 0 30px;
+      }
+  
+      .comic-section {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto 2rem auto;
+        border: 3px solid #000;
+        position: relative;
+        background: #fff;
+        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+  
+      .comic-section::before {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
+        border: 2px solid #000;
+        z-index: -1;
+      }
+  
+      .comic-image {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        display: block;
+      }
+  
+      .comic-caption {
+        height: 100px;
+        padding: 0.5rem;
+        font-family: 'Comic Sans MS', cursive;
+        font-size: 1.2rem;
+        text-align: center;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+      }
+  
+      .caption-social-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+      }
+  
+      .buffer {
+        height: 4rem;
+      }
+  
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 20px;
+      }
+  
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
+        border-left: 2px solid #000;
+      }
+  
+      ::-webkit-scrollbar-thumb {
+        background: #000;
+        border: 2px solid #fff;
+        border-radius: 10px;
+      }
+  
+      footer {
+        padding: 1rem;
+        background: rgba(248, 249, 250, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 100;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .menu-panel {
+        position: fixed;
+        bottom: -400px;
+        left: 0;
+        width: 100%;
+        height: 400px;
+        background: #fff;
+        transition: transform 0.3s ease-in-out;
+        z-index: 99;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 3px solid #000;
+        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .menu-panel::before {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        right: -8px;
+        bottom: -8px;
+        border: 2px solid #000;
+        z-index: -1;
+      }
+
+      .menu-panel a {
+        color: #000;
+        text-decoration: none;
+        font-size: 2rem;
+        margin: 1.5rem 0;
+        font-family: 'Comic Sans MS', cursive;
+        text-transform: uppercase;
+        padding: 10px 20px;
+        position: relative;
+        transition: transform 0.2s;
+      }
+
+      .menu-panel a::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #ffd700;
+        z-index: -1;
+        transform: skew(-5deg);
+        transition: transform 0.2s;
+      }
+
+      .menu-panel a:hover {
+        transform: scale(1.1);
+      }
+
+      .menu-panel a:hover::before {
+        transform: skew(-15deg);
+      }
+
+      .menu-panel.active {
+        transform: translateY(-400px);
+      }
+
+      .menu-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #000;
+        transition: transform 0.2s;
+      }
+
+      .menu-button:hover {
+        transform: scale(1.2);
+      }
+
+      .social-links, .caption-social-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+      }
+  
+      .social-links a, .caption-social-links a {
+        color: #333;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+  
+      .social-links a:hover, .caption-social-links a:hover {
+        color: #000;
+      }
+  
+      .fab, .dex-icon {
+        font-size: 1.5rem;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+  
+      .dex-icon {
+        fill: currentColor;
+      }
+  
+      .studio-text {
+        font-family: 'Comic Sans MS', cursive;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: white;
+        -webkit-text-stroke: 2px black;
+        text-stroke: 2px black;
+        position: relative;
+        padding: 0 10px;
+      }
+
+      /* Mobile specific styles */
+      .mobile-device * {
+        font-family: Arial, sans-serif !important;
+      }
+
+      .mobile-device .comic-section {
+        max-width: 640px; /* 20% less than 800px */
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .mobile-device .comic-image {
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+        display: block;
+        box-sizing: border-box;
+      }
+
+      .mobile-device .menu-button {
+        font-size: 2rem;
+        padding: 10px;
+        z-index: 1001;
+      }
+
+      .mobile-device .social-links {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0 15px;
+      }
+
+      .mobile-device .caption-social-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .mobile-device .caption-social-links a {
+        font-size: 1.2rem;
+        padding: 5px;
+      }
+
+      .mobile-device .menu-button i {
+        font-family: "Font Awesome 6 Free" !important;
+        font-weight: 900;
+      }
+
+      .mobile-device .fa-bars,
+      .mobile-device .fa-telegram,
+      .mobile-device .fa-x-twitter {
+        font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free" !important;
+        font-weight: 400;
+      }
+
+      /* Ensure Font Awesome icons load properly */
+      .fa,
+      .fas,
+      .far,
+      .fab {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+      }
+
+      .fab {
+        font-family: "Font Awesome 6 Brands" !important;
+      }
+
+      @media (max-width: 900px) {
+        .mobile-device .comic-section {
+          width: 100%;
+          max-width: 100%;
+          padding: 0;
+          margin: 1rem auto;
+        }
+
+        .mobile-device .comic-image {
+          width: 100%;
+          max-width: 100%;
+        }
+
+        .mobile-device .modal {
+          width: 90%;
+        }
+
+        .mobile-device .social-links {
+          padding: 0 10px;
+        }
+
+        .mobile-device .studio-text {
+          font-size: 1.2rem;
+        }
+
+        .mobile-device .menu-button {
+          padding: 8px;
+        }
+      }
+
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.5);
+        width: 800px;
+        background: #fff;
+        border: 5px solid #000;
+        z-index: 1001;
+        opacity: 0;
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                    opacity 0.3s ease-out;
+      }
+
+      .modal.active {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+
+      .modal::before {
+        content: '';
+        position: absolute;
+        top: -12px;
+        left: -12px;
+        right: -12px;
+        bottom: -12px;
+        border: 3px solid #000;
+        z-index: -1;
+      }
+
+      .modal-content {
+        padding: 30px;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      .modal-header {
+        text-align: center;
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .modal-title {
+        font-family: 'Comic Sans MS', cursive;
+        font-size: 2.5rem;
+        color: #000;
+        text-transform: uppercase;
+        margin: 0;
+        padding: 10px;
+        background: #ffd700;
+        transform: rotate(-2deg);
+        box-shadow: 5px 5px 0 #000;
+      }
+
+      .close-modal {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 40px;
+        height: 40px;
+        background: #ff4444;
+        border: 3px solid #000;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        transform: rotate(0deg);
+        transition: transform 0.3s;
+      }
+
+      .close-modal:hover {
+        transform: rotate(90deg);
+      }
+
+      .studio-info {
+        font-family: 'Comic Sans MS', cursive;
+        line-height: 1.6;
+      }
+
+      .info-box {
+        background: #fff;
+        border: 3px solid #000;
+        padding: 20px;
+        margin: 20px 0;
+        position: relative;
+        transform: rotate(1deg);
+        transition: transform 0.3s;
+      }
+
+      .info-box:hover {
+        transform: rotate(-1deg) scale(1.02);
+      }
+
+      .info-box::before {
+        content: '';
+        position: absolute;
+        top: -15px;
+        left: 20px;
+        background: #ffd700;
+        padding: 5px;
+        border: 2px solid #000;
+        transform: rotate(-15deg);
+      }
+
+      .info-box a {
+        color: #000;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .info-box a:hover {
+        color: #ff4444;
+      }
+
+      .speech-bubble {
+        position: relative;
+        background: #fff;
+        border: 3px solid #000;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 20px;
+      }
+
+      .speech-bubble::before {
+        content: '';
+        position: absolute;
+        bottom: -20px;
+        left: 30px;
+        border: 10px solid transparent;
+        border-top-color: #000;
+      }
+
+      .highlight-text {
+        display: inline-block;
+        background: #ffd700;
+        padding: 0 5px;
+        transform: skew(-5deg);
+      }
+
+      @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      .bounce {
+        animation: bounce 2s infinite;
+      }
+
+      .modal-section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s, transform 0.5s;
+      }
+
+      .modal.active .modal-section {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .pow-effect {
+        position: absolute;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #ff4444;
+        pointer-events: none;
+        animation: pow 0.5s forwards;
+      }
+
+      @keyframes pow {
+        0% { transform: scale(0) rotate(0deg); opacity: 1; }
+        100% { transform: scale(2) rotate(360deg); opacity: 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="comic-section">
+        <img src="https://acatnamedmanwhore.com/25bonesMoonshotBanner.png" alt="BONES Banner" class="comic-image">
+        <div class="comic-caption">
+          <div>Meet BONES - The Audacious Undaunted Skeletal Maverick</div>
+          <div class="caption-social-links">
+            <a href="https://t.me/BONES_PORTAL" target="_blank" aria-label="Telegram">
+              <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://x.com/ManwhoretheCat" target="_blank" aria-label="X (Twitter)">
+              <i class="fab fa-x-twitter"></i>
+            </a>
+            <a href="https://dexscreener.com/solana/8rym1xjmjuc3mkuuhtw9894dfo5gf9bz8pdbews7moon" target="_blank" aria-label="DexScreener">
+              <svg class="dex-icon" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M21 3v18h-18v-2h16v-16h2zm-4 3h-2v12h2v-12zm-4 2h-2v10h2v-10zm-4 3h-2v7h2v-7z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">More Character Panels from the Universe Coming Soon</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 3</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 4</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 5</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 6</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 7</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 8</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 9</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 10</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 11</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 12</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 13</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 14</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 15</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 16</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 17</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 18</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 19</div>
+      </div>
+      <div class="comic-section">
+        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-caption">Section 20</div>
+      </div>
+      <div class="buffer"></div>
+    </div>
+    <div class="modal-overlay">
+      <div class="modal">
+        <button class="close-modal">×</button>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title">A Cat Named Manwhore Studios</h2>
+          </div>
+          
+          <div class="modal-section" style="transition-delay: 0.1s;">
+            <div class="speech-bubble">
+              <h3>Welcome to the <span class="highlight-text">Creative Mayhem!</span></h3>
+              <p>Where imagination runs wild and cats rule the universe! 🐱✨</p>
+            </div>
+          </div>
+
+          <div class="modal-section" style="transition-delay: 0.2s;">
+            <div class="info-box">
+              <h3>Our Mission</h3>
+              <p>Creating mind-bending stories that make you question reality while petting cats.</p>
+            </div>
+          </div>
+
+          <div class="modal-section" style="transition-delay: 0.3s;">
+            <div class="info-box">
+              <h3>The Team</h3>
+              <p>A bunch of creative misfits led by a charismatic feline overlord.</p>
+            </div>
+          </div>
+
+          <div class="modal-section" style="transition-delay: 0.4s;">
+            <div class="speech-bubble">
+              <h3>Current Projects</h3>
+              <ul>
+                <li>🌟 BONES - The Skeletal Sensation</li>
+                <li>🚀 Secret Project X (Shhh!)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="modal-section bounce" style="transition-delay: 0.5s;">
+            <div class="info-box" style="transform: rotate(1deg);">
+              <h3>Join the Adventure!</h3>
+              <p><a href="https://x.com/CatManwhore">X.com: @CatManwhore</a></p>
+              <p><a href="https://www.instagram.com/acatnamedmanwhore">Instagram: @acatnamedmanwhore</a></p>
+              <p><a href="mailto:manwhore@acatnamedmanwhore.com">spamus@acatnamedmanwhore.com</a></p>
+              <p>Follow us on our social channels for daily doses of creativity and cat-titude!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="menu-panel">
+      <a href="/structure/structure.html">Structure</a>
+      <a href="/about/about.html">About</a>
+    </div>
+    <footer>
+      <div class="social-links">
+        <span class="studio-text">A CAT NAMED MANWHORE studios</span>
+        <button class="menu-button">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </footer>
+    <script>
+      // Mobile detection
+      function detectMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+          || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+      }
+
+      // Add mobile class if device is mobile
+      if (detectMobile()) {
+        document.body.classList.add('mobile-device');
+      }
+
+      // Listen for resize events to handle orientation changes
+      window.addEventListener('resize', function() {
+        if (detectMobile()) {
+          document.body.classList.add('mobile-device');
+        } else {
+          document.body.classList.remove('mobile-device');
+        }
+      });
+
+      // Menu toggle
+      document.querySelector('.menu-button').addEventListener('click', function() {
+        document.querySelector('.menu-panel').classList.toggle('active');
+      });
+
+      // Modal functionality
+      const modalOverlay = document.querySelector('.modal-overlay');
+      const modal = document.querySelector('.modal');
+      const closeModal = document.querySelector('.close-modal');
+
+      // Function to create POW effect
+      function createPowEffect(x, y) {
+        const pow = document.createElement('div');
+        pow.className = 'pow-effect';
+        pow.style.left = x + 'px';
+        pow.style.top = y + 'px';
+        pow.textContent = 'POW!';
+        document.body.appendChild(pow);
+        setTimeout(() => pow.remove(), 500);
+      }
+
+      // Open modal when clicking About in menu
+      document.querySelector('a[href="/about/about.html"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('.menu-panel').classList.remove('active');
+        modalOverlay.style.display = 'block';
+        setTimeout(() => modal.classList.add('active'), 10);
+        
+        // Create POW effect at click position
+        createPowEffect(e.clientX, e.clientY);
+      });
+
+      // Close modal
+      closeModal.addEventListener('click', function() {
+        modal.classList.remove('active');
+        setTimeout(() => modalOverlay.style.display = 'none', 300);
+      });
+
+      modalOverlay.addEventListener('click', function(e) {
+        if (e.target === modalOverlay) {
+          modal.classList.remove('active');
+          setTimeout(() => modalOverlay.style.display = 'none', 300);
+        }
+      });
+
+      // Add hover effects to info boxes
+      document.querySelectorAll('.info-box').forEach(box => {
+        box.addEventListener('mouseover', function(e) {
+          createPowEffect(e.clientX, e.clientY);
+        });
+      });
+    </script>
+  </body>
+</html>
