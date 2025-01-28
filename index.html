@@ -37,19 +37,162 @@
         background: #fff;
         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
         overflow: hidden;
+        perspective: 1000px;
       }
   
-      .comic-section::before {
+      .comic-image-container {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        cursor: pointer;
+        perspective: 2000px;
+        transform-style: preserve-3d;
+      }
+
+      .comic-image-front,
+      .comic-image-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: visible;
+        transform-origin: left center;
+        transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+      }
+
+      .comic-image-front {
+        z-index: 3;
+        background: #fff;
+        transform-style: preserve-3d;
+        transform: rotateY(0);
+      }
+
+      .comic-image-back {
+        background: #fff;
+        padding: 15px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 10px;
+        overflow: hidden;
+        transform: rotateY(0);
+        z-index: 1;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .comic-image-back.active {
+        opacity: 1;
+        pointer-events: auto;
+        z-index: 2;
+      }
+
+      .comic-image-back.flipping,
+      .comic-image-front.flipping {
+        transform: rotateY(-90deg);
+        box-shadow: -30px 0 30px rgba(0,0,0,0.2);
+      }
+
+      .comic-image-container.peeled .comic-image-front {
+        transform: rotateY(-90deg);
+        box-shadow: -30px 0 30px rgba(0,0,0,0.2);
+        z-index: 1;
+      }
+
+      .comic-panel-large {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+
+      .comic-panel {
+        background: #fff;
+        border: 2px solid #000;
+        position: relative;
+        padding: 30px 10px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+        overflow: hidden;
+      }
+
+      .comic-panel::before {
         content: '';
         position: absolute;
-        top: -8px;
-        left: -8px;
-        right: -8px;
-        bottom: -8px;
-        border: 2px solid #000;
-        z-index: -1;
+        top: -4px;
+        left: -4px;
+        right: -4px;
+        bottom: -4px;
+        border: 1px solid #000;
+        z-index: 1;
       }
-  
+
+      .comic-panel-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+      }
+
+      .speech-bubble-comic {
+        background: #fff;
+        border-radius: 15px;
+        padding: 8px 12px;
+        font-size: 0.9em;
+        max-width: 80%;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        transform: translateY(-10px);
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        font-family: 'Comic Sans MS', cursive;
+        z-index: 2;
+      }
+
+      .speech-bubble-comic::before {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 20px;
+        border: 10px solid transparent;
+        border-top-color: #000;
+        border-bottom: 0;
+        z-index: 2;
+      }
+
+      .speech-bubble-comic::after {
+        content: '';
+        position: absolute;
+        bottom: -7px;
+        left: 21px;
+        border: 9px solid transparent;
+        border-top-color: #fff;
+        border-bottom: 0;
+        z-index: 2;
+      }
+
+      .comic-text {
+        position: absolute;
+        color: #333;
+        font-size: 0.85em;
+        text-align: center;
+        padding: 5px;
+        width: 90%;
+        transform: translateY(-5px);
+        font-family: 'Comic Sans MS', cursive;
+        z-index: 2;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #fff;
+        margin: 0;
+        border: 2px solid #000;
+      }
+
       .comic-image {
         width: 100%;
         height: 300px;
@@ -523,7 +666,26 @@
   <body>
     <div class="container">
       <div class="comic-section">
-        <img src="https://acatnamedmanwhore.com/25bonesMoonshotBanner.png" alt="BONES Banner" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Coming soon: Amazing content!</div>
+              <span class="comic-effect">BOOM!</span>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Stay tuned for updates!</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">More excitement ahead!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="https://acatnamedmanwhore.com/25bonesMoonshotBanner.png" alt="BONES Banner" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">
           <div>Meet BONES - The Audacious Undaunted Skeletal Maverick</div>
           <div class="caption-social-links">
@@ -542,79 +704,421 @@
         </div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">More Character Panels from the Universe Coming Soon</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 3</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 4</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 5</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 6</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 7</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 8</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 9</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 10</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 11</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 12</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 13</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 14</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 15</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 16</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 17</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 18</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 19</div>
       </div>
       <div class="comic-section">
-        <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+        <div class="comic-image-container">
+          <div class="comic-image-back">
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          </div>
+          <div class="comic-image-front">
+            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+          </div>
+        </div>
         <div class="comic-caption">Section 20</div>
       </div>
       <div class="buffer"></div>
@@ -752,6 +1256,161 @@
       document.querySelectorAll('.info-box').forEach(box => {
         box.addEventListener('mouseover', function(e) {
           createPowEffect(e.clientX, e.clientY);
+        });
+      });
+
+      // Add click handlers for comic images
+      document.querySelectorAll('.comic-image').forEach((img, index) => {
+        // Create container and wrap image
+        const container = document.createElement('div');
+        container.className = 'comic-image-container';
+        
+        // Create panels array to store all panels
+        const panels = [];
+        
+        // Create initial front panel
+        const frontPanel = document.createElement('div');
+        frontPanel.className = 'comic-image-front';
+        frontPanel.appendChild(img.cloneNode(true));
+        panels.push(frontPanel);
+        
+        // Create different content based on section
+        let panel2Content, panel3Content;
+        
+        if (index === 0) {
+          // BONES section (first section)
+          panel2Content = `
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">BONES: The Moonshot Maverick</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Join the skeletal revolution!</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">To the moon and beyond!</div>
+            </div>
+          `;
+          
+          panel3Content = `
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">The Final Frontier</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Last stop before takeoff!</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Click to return home</div>
+            </div>
+          `;
+        } else {
+          // All other sections (2-20) - A Cat Named Manwhore Universe
+          panel2Content = `
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          `;
+          
+          panel3Content = `
+            <div class="comic-panel comic-panel-large">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Adventures Await</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Purr-fect stories coming soon</div>
+            </div>
+            <div class="comic-panel">
+              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Click to close</div>
+            </div>
+          `;
+        }
+        
+        // Create panel 2
+        const panel2 = document.createElement('div');
+        panel2.className = 'comic-image-back';
+        panel2.innerHTML = panel2Content;
+        panels.push(panel2);
+        
+        // Create panel 3
+        const panel3 = document.createElement('div');
+        panel3.className = 'comic-image-back';
+        panel3.innerHTML = panel3Content;
+        panels.push(panel3);
+        
+        // Add all panels to container
+        panels.forEach(panel => container.appendChild(panel));
+        
+        // Replace original image with container
+        img.parentNode.insertBefore(container, img);
+        img.remove();
+        
+        // Track current panel index
+        let currentPanelIndex = 0;
+        let isAnimating = false;
+        
+        function animatePageTurn(fromPanel, toPanel, onComplete) {
+          isAnimating = true;
+          
+          // Start the page turn animation
+          fromPanel.classList.add('flipping');
+          
+          // Wait for the flip animation to reach halfway
+          setTimeout(() => {
+            toPanel.classList.add('active');
+            fromPanel.classList.remove('active');
+            
+            // Complete the animation
+            setTimeout(() => {
+              fromPanel.classList.remove('flipping');
+              isAnimating = false;
+              if (onComplete) onComplete();
+            }, 400);
+          }, 200);
+        }
+        
+        // Add click handler
+        container.addEventListener('click', function() {
+          if (isAnimating) return;
+          
+          const currentPanel = panels[currentPanelIndex];
+          const nextPanel = panels[currentPanelIndex + 1];
+          
+          if (currentPanelIndex === 0) {
+            // First panel to second
+            currentPanel.classList.add('active');
+            animatePageTurn(currentPanel, nextPanel, () => {
+              this.classList.add('peeled');
+              currentPanelIndex++;
+            });
+          } else if (currentPanelIndex === 1) {
+            // Second panel to third
+            animatePageTurn(currentPanel, nextPanel, () => {
+              currentPanelIndex++;
+            });
+          } else if (currentPanelIndex === 2) {
+            // Third panel back to first
+            animatePageTurn(currentPanel, panels[0], () => {
+              this.classList.remove('peeled');
+              panels.forEach(panel => panel.classList.remove('active'));
+              currentPanelIndex = 0;
+            });
+          }
         });
       });
     </script>
