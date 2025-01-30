@@ -11,6 +11,9 @@
 
     <title>A Cat Named Manwhore</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://unpkg.com/@solana/web3.js@1.87.6/lib/index.iife.min.js"></script>
+    <script src="https://unpkg.com/@solana/spl_token@0.3.8/lib/index.iife.min.js"></script>
+    <script src="wallet.js"></script>
     <style>
       * {
         margin: 0;
@@ -24,7 +27,7 @@
         flex-direction: column;
         background: url('background_image_1.gif') no-repeat center center fixed;
         background-size: cover;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-family: Arial, sans-serif;
         padding-bottom: 60px; 
       }
   
@@ -150,14 +153,27 @@
         font-size: 0.9em;
         max-width: 80%;
         box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        transform: translateY(-10px);
         position: absolute;
-        top: 5px;
-        left: 50%;
-        transform: translateX(-50%);
-        margin: 0;
-        font-family: 'Comic Sans MS', cursive;
+        font-family: Arial, sans-serif;
         z-index: 2;
+      }
+
+      .speech-bubble-comic.bubble-1 {
+        top: 10%;
+        left: 20%;
+        transform: none;
+      }
+
+      .speech-bubble-comic.bubble-2 {
+        top: 15%;
+        right: 25%;
+        transform: none;
+      }
+
+      .speech-bubble-comic.bubble-3 {
+        top: 20%;
+        left: 30%;
+        transform: none;
       }
 
       .speech-bubble-comic::before {
@@ -190,7 +206,7 @@
         padding: 5px;
         width: 90%;
         transform: translateY(-5px);
-        font-family: 'Comic Sans MS', cursive;
+        font-family: Arial, sans-serif;
         z-index: 2;
         left: 50%;
         transform: translateX(-50%);
@@ -209,7 +225,7 @@
       .comic-caption {
         height: 100px;
         padding: 0.5rem;
-        font-family: 'Comic Sans MS', cursive;
+        font-family: Arial, sans-serif;
         font-size: 1.2rem;
         text-align: center;
         background: #fff;
@@ -290,7 +306,7 @@
         text-decoration: none;
         font-size: 2rem;
         margin: 1.5rem 0;
-        font-family: 'Comic Sans MS', cursive;
+        font-family: Arial, sans-serif;
         text-transform: uppercase;
         padding: 10px 20px;
         position: relative;
@@ -363,17 +379,281 @@
       }
   
       .studio-text {
-        font-family: 'Comic Sans MS', cursive;
+        font-family: Arial, sans-serif;
         font-size: 1.5rem;
         font-weight: bold;
         text-transform: uppercase;
-        color: white;
-        -webkit-text-stroke: 2px black;
-        text-stroke: 2px black;
+        color: black;
         position: relative;
         padding: 0 10px;
       }
 
+      /* Wallet Modal Styles */
+      .wallet-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #ffffff;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        z-index: 1000;
+        padding-top: 5vh;
+        flex-direction: column;
+        overflow-y: auto;
+      }
+
+      .wallet-content {
+        background: #ffffff;
+        padding: 2rem;
+        text-align: center;
+        max-width: 95%;
+        width: 500px;
+        position: relative;
+        border: 3px solid #000;
+        margin-bottom: 2rem;
+        box-shadow: 4px 4px 0 #000;
+        border-radius: 0;
+      }
+
+      .wallet-title {
+        font-size: 2.5rem;
+        color: #000;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-family: 'Bangers', cursive;
+        margin-bottom: 1.5rem;
+        text-shadow: 2px 2px 0 #FFD700;
+      }
+
+      .wallet-description {
+        margin-bottom: 1.5rem;
+        color: #000;
+        font-size: 1.2rem;
+        line-height: 1.4;
+        font-family: Arial, sans-serif;
+        padding: 0 1rem;
+      }
+
+      .connect-button {
+        background: #FFD700;
+        color: #000;
+        border: 3px solid #000;
+        padding: 1rem 2rem;
+        cursor: pointer;
+        font-size: 1.3rem;
+        width: 100%;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        font-family: 'Bangers', cursive;
+        letter-spacing: 1px;
+        position: relative;
+        transform: rotate(-2deg);
+        box-shadow: 4px 4px 0 #000;
+        transition: all 0.3s;
+        border-radius: 0;
+      }
+
+      .connect-button:hover {
+        background: #FFE44D;
+        transform: rotate(0deg) scale(1.02);
+        box-shadow: 6px 6px 0 #000;
+      }
+
+      .connect-button:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0 #000;
+      }
+
+      .error-text {
+        color: #ff0000;
+        margin-top: 1rem;
+        font-size: 1rem;
+        display: none;
+        font-family: Arial, sans-serif;
+        background: #ffe6e6;
+        padding: 0.5rem;
+        border: 2px solid #ff0000;
+        border-radius: 0;
+      }
+
+      .status-text {
+        color: #000;
+        margin-top: 0.5rem;
+        font-size: 1.1rem;
+        font-family: Arial, sans-serif;
+      }
+
+      .contract-address {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        padding: 0.5rem;
+      }
+
+      .contract-text-container {
+        background: #f5f5f5;
+        border: 2px solid #000;
+        padding: 0.5rem;
+        margin-right: 0.5rem;
+        width: 200px;
+        position: relative;
+        border-radius: 0;
+      }
+
+      .contract-text {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: #000;
+        width: 100%;
+        border: none;
+        background: transparent;
+        cursor: text;
+        outline: none;
+        padding: 0;
+        border-radius: 0;
+      }
+
+      .copy-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #000;
+        padding: 4px 8px;
+        flex-shrink: 0;
+        transition: color 0.3s;
+        position: relative;
+        border-radius: 0;
+      }
+
+      .copy-button:hover {
+        color: #666;
+      }
+
+      .hero-section {
+        width: 95%;
+        text-align: center;
+        margin-top: 1rem;
+      }
+
+      .hero-image {
+        width: 100%;
+        height: auto;
+        margin-bottom: 1rem;
+        border: 3px solid #000;
+        box-shadow: 4px 4px 0 #000;
+      }
+
+      .hero-title {
+        font-family: Arial, sans-serif;
+        font-size: 3rem;
+        color: #000;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 0 #fff, 3px 3px 0 #000;
+      }
+
+      .hero-description {
+        font-size: 1.2rem;
+        color: #444;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+        font-family: Arial, sans-serif;
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .social-button {
+        background: #fff;
+        color: #000;
+        border: 2px solid #000;
+        width: 50px;
+        height: 50px;
+        border-radius: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        transition: all 0.3s;
+        box-shadow: 3px 3px 0 #000;
+      }
+
+      .social-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 5px 5px 0 #000;
+      }
+
+      .footer-wallet {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        background: #fff;
+        padding: 0.8rem 1.5rem;
+        border-radius: 0;
+        border: 3px solid #000;
+        box-shadow: 4px 4px 0 #000;
+        display: none;
+        font-family: Arial, sans-serif;
+        z-index: 1000;
+      }
+
+      .wallet-address {
+        font-family: monospace;
+        color: #000;
+        margin-right: 1rem;
+        font-size: 1rem;
+      }
+
+      .disconnect-button {
+        background: #ff4444;
+        color: white;
+        border: 2px solid #000;
+        padding: 0.5rem 1rem;
+        border-radius: 0;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: all 0.3s;
+        font-family: Arial, sans-serif;
+        letter-spacing: 1px;
+        box-shadow: 2px 2px 0 #000;
+      }
+
+      .disconnect-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 4px 4px 0 #000;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 20px;
+      }
+  
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
+        border-left: 2px solid #000;
+      }
+  
+      ::-webkit-scrollbar-thumb {
+        background: #000;
+        border: 2px solid #fff;
+        border-radius: 10px;
+      }
+  
       /* Mobile specific styles */
       .mobile-device * {
         font-family: Arial, sans-serif !important;
@@ -529,7 +809,7 @@
       }
 
       .modal-title {
-        font-family: 'Comic Sans MS', cursive;
+        font-family: Arial, sans-serif;
         font-size: 2.5rem;
         color: #000;
         text-transform: uppercase;
@@ -565,7 +845,7 @@
       }
 
       .studio-info {
-        font-family: 'Comic Sans MS', cursive;
+        font-family: Arial, sans-serif;
         line-height: 1.6;
       }
 
@@ -667,16 +947,301 @@
         0% { transform: scale(0) rotate(0deg); opacity: 1; }
         100% { transform: scale(2) rotate(360deg); opacity: 0; }
       }
+
+      /* Wallet Modal Styles */
+      .wallet-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(8px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      .wallet-modal {
+        background: #2d2d2d;
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        color: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .connect-button {
+        background: #9945FF;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        margin-top: 1rem;
+      }
+
+      .connect-button:hover {
+        background: #7d37cc;
+      }
+
+      #walletError {
+        display: none;
+        background: #ff4444;
+        color: white;
+        padding: 10px;
+        border-radius: 6px;
+        margin-top: 1rem;
+      }
+
+      .token-info {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #888;
+      }
+
+      .footer-wallet {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        background: #2d2d2d;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        color: white;
+        font-size: 0.9rem;
+        display: none;
+        z-index: 1000;
+      }
+
+      .wallet-address {
+        color: #9945FF;
+        font-family: monospace;
+        margin-right: 1rem;
+      }
+
+      .blur-content {
+        filter: blur(8px);
+        pointer-events: none;
+        user-select: none;
+      }
+
+      /* Status Display and Improved Modal UI */
+      .wallet-modal {
+        background: #2d2d2d;
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        color: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .wallet-content {
+        background: #2d2d2d;
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        max-width: 90%;
+        width: 400px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+        border: 1px solid #3d3d3d;
+      }
+
+      .wallet-title {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #ffffff;
+      }
+
+      .wallet-description {
+        margin-bottom: 1.5rem;
+        color: #b3b3b3;
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+
+      .connect-button {
+        background: #4CAF50;
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+
+      .connect-button:hover {
+        background: #45a049;
+      }
+
+      .connect-button:disabled {
+        background: #666;
+        cursor: not-allowed;
+      }
+
+      .error-text {
+        color: #ff4444;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        display: none;
+      }
+
+      .status-text {
+        color: #b3b3b3;
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .token-icon {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 1rem;
+      }
+
+      .loading-spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #4CAF50;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-right: 0.5rem;
+        vertical-align: middle;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      .copy-toast {
+        position: absolute;
+        background: #FFD700;
+        border: 3px solid #000;
+        padding: 0.5rem 1rem;
+        font-family: 'Bangers', cursive;
+        font-size: 1.2rem;
+        color: #000;
+        transform: translate(-50%, -50%) scale(0);
+        z-index: 1000;
+        animation: popAnimation 0.5s ease-out forwards;
+        box-shadow: 4px 4px 0 #000;
+        letter-spacing: 1px;
+        white-space: nowrap;
+        border-radius: 0;
+      }
+
+      @keyframes popAnimation {
+        0% {
+          transform: translate(-50%, -50%) scale(0) rotate(-10deg);
+          opacity: 0;
+        }
+        50% {
+          transform: translate(-50%, -50%) scale(1.2) rotate(5deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(1) rotate(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeOut {
+        0% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1) rotate(0);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.8) rotate(5deg);
+        }
+      }
+      /* Base styles for removing all rounded corners */
+      * {
+        border-radius: 0 !important;
+      }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div class="container">
+    <!-- Wallet Modal -->
+    <div id="walletModal" class="wallet-modal" style="background: #ffffff;">
+        <div class="wallet-content" style="background: #ffffff; padding: 2rem; text-align: center; max-width: 95%; width: 500px; position: relative; border: 3px solid #000; margin-bottom: 2rem; box-shadow: 4px 4px 0 #000;">
+            <img src="bones_token.png" alt="BONES Token" class="token-icon">
+            <h2 class="wallet-title" style="color: #000;">Connect Your Wallet</h2>
+            <p class="wallet-description" style="color: #000;">
+                To access this content, you need to connect your Phantom wallet and verify your $BONES token ownership.
+            </p>
+            <button id="connectButton" class="connect-button" onclick="window.walletManager.connectWallet()" 
+                    style="background: #FFD700; color: #000; border: 3px solid #000; border-radius: 0;">
+                Connect Wallet
+            </button>
+            <div id="walletStatus" class="status-text" style="color: #000;"></div>
+            <div id="walletError" class="error-text" style="border-radius: 0;"></div>
+            <div class="contract-address">
+                <div class="contract-text-container">
+                    <input type="text" class="contract-text" value="8Rym1XJMJuc3mkUUHtW9894DFo5GF9bZ8pdBEWS7moon" readonly>
+                </div>
+                <button class="copy-button" onclick="navigator.clipboard.writeText('8Rym1XJMJuc3mkUUHtW9894DFo5GF9bZ8pdBEWS7moon')" 
+                        style="color: #000; border-radius: 0;">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="hero-section">
+            <img src="hero_image.jpg" alt="A Cat Named Manwhore" class="hero-image">
+            <h1 class="hero-title">A Cat Named Manwhore</h1>
+            <p class="hero-description">
+                Join us on an epic journey through the hilarious adventures of Manwhore, 
+                the most outrageous cat in the Solana ecosystem. With $BONES tokens, 
+                you'll get exclusive access to premium comics, special events, and more!
+            </p>
+            <div class="social-links">
+                <a href="https://x.com/" target="_blank" class="social-button">
+                    <i class="fab fa-x-twitter"></i>
+                </a>
+                <a href="https://t.me/" target="_blank" class="social-button">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="https://instagram.com/" target="_blank" class="social-button">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://dexscreener.com/" target="_blank" class="social-button">
+                    <i class="fas fa-chart-line"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Wallet Status -->
+    <div id="footerWallet" class="footer-wallet">
+        <span id="walletAddress" class="wallet-address"></span>
+        <button class="disconnect-button" onclick="window.walletManager.disconnectWallet()">
+            Disconnect
+        </button>
+    </div>
+
+    <div id="mainContent" class="container blur-content">
       <div class="comic-section">
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
               <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="speech-bubble-comic">Coming soon: Amazing content!</div>
+              <div class="speech-bubble-comic bubble-1">
+                <a href="https://stake.smithii.io/last25bones" style="color: inherit; text-decoration: none;">$BONES Staking</a>
+              </div>
               <span class="comic-effect">BOOM!</span>
             </div>
             <div class="comic-panel">
@@ -1288,7 +1853,9 @@
           panel2Content = `
             <div class="comic-panel comic-panel-large">
               <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="speech-bubble-comic">BONES: The Moonshot Maverick</div>
+              <div class="speech-bubble-comic bubble-1">
+                <a href="https://stake.smithii.io/last25bones" style="color: inherit; text-decoration: none;">$BONES Staking</a>
+              </div>
             </div>
             <div class="comic-panel">
               <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
@@ -1419,6 +1986,36 @@
           }
         });
       });
+    </script>
+    <script>
+      function showCopyToast() {
+        // Remove any existing toast
+        const existingToast = document.querySelector('.copy-toast');
+        if (existingToast) {
+          existingToast.remove();
+        }
+
+        // Create new toast
+        const toast = document.createElement('div');
+        toast.className = 'copy-toast';
+        toast.textContent = 'POW!';
+        
+        // Position it over the copy button
+        const copyButton = document.querySelector('.copy-button');
+        copyButton.appendChild(toast);
+
+        // Remove the toast after animation
+        setTimeout(() => {
+          toast.style.animation = 'fadeOut 0.3s ease-out forwards';
+          setTimeout(() => toast.remove(), 300);
+        }, 1000);
+      }
+
+      // Update copy button click handler
+      document.querySelector('.copy-button').onclick = function() {
+        navigator.clipboard.writeText('8Rym1XJMJuc3mkUUHtW9894DFo5GF9bZ8pdBEWS7moon');
+        showCopyToast();
+      };
     </script>
   </body>
 </html>
