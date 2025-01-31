@@ -8,9 +8,7 @@ class WalletManager {
         this.retryDelay = 1000;
         this.verifyInProgress = false;
         this.rpcEndpoints = [
-            'https://solana-mainnet.g.alchemy.com/v2/demo',
-            'https://rpc.helius.xyz/?api-key=48f4c558-2c89-4745-a5b3-1bb3a3813b5c',
-            'https://neat-hidden-sanctuary.solana-mainnet.discover.quiknode.pro/2af5315d336f9ae920028bbb90a73b724dc1bbed/'
+            'https://acatnamedmanwhorecomsolana-proxy.acatnamedmanwhore.workers.dev'
         ];
         this.currentRpcIndex = 0;
         this.tokenBalance = 0;
