@@ -25,16 +25,18 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        background: url('background_image_1.gif') no-repeat center center fixed;
+        background: url('../background_image_1.gif') no-repeat center center fixed;
         background-size: cover;
         font-family: Arial, sans-serif;
         padding-bottom: 60px; 
       }
   
       .container {
-        width: 100%;
-        margin: 2rem auto;
-        padding: 0 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        position: relative;
+        transition: filter 0.3s ease-out;
       }
   
       .comic-section {
@@ -598,13 +600,36 @@
         bottom: 1rem;
         right: 1rem;
         background: #fff;
-        padding: 0.8rem 1.5rem;
-        border-radius: 0;
+        padding: 0.5rem;
         border: 3px solid #000;
+        border-radius: 8px;
         box-shadow: 4px 4px 0 #000;
-        display: none;
-        font-family: Arial, sans-serif;
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
         z-index: 1000;
+        font-family: Arial, sans-serif;
+      }
+
+      .info-button-mini {
+        background: #FFD700;
+        color: #000;
+        border: 2px solid #000;
+        border-radius: 4px;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-weight: bold;
+        padding: 0;
+        font-size: 14px;
+      }
+
+      .info-button-mini:hover {
+        background: #FFC500;
+        transform: translateY(-1px);
       }
 
       .wallet-address {
@@ -631,403 +656,6 @@
       .disconnect-button:hover {
         transform: translateY(-2px);
         box-shadow: 4px 4px 0 #000;
-      }
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-
-      /* Custom Scrollbar */
-      ::-webkit-scrollbar {
-        width: 20px;
-      }
-  
-      ::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.1);
-        border-left: 2px solid #000;
-      }
-  
-      ::-webkit-scrollbar-thumb {
-        background: #000;
-        border: 2px solid #fff;
-        border-radius: 10px;
-      }
-  
-      /* Mobile specific styles */
-      .mobile-device * {
-        font-family: Arial, sans-serif !important;
-      }
-
-      .mobile-device .comic-section {
-        max-width: 640px; /* 20% less than 800px */
-        width: 100%;
-        box-sizing: border-box;
-      }
-
-      .mobile-device .comic-image {
-        max-width: 100%;
-        height: auto;
-        margin: 0 auto;
-        display: block;
-        box-sizing: border-box;
-      }
-
-      .mobile-device .menu-button {
-        font-size: 2rem;
-        padding: 10px;
-        z-index: 1001;
-      }
-
-      .mobile-device .social-links {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        padding: 0 15px;
-      }
-
-      .mobile-device .caption-social-links {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 1rem;
-        flex-wrap: wrap;
-      }
-
-      .mobile-device .caption-social-links a {
-        font-size: 1.2rem;
-        padding: 5px;
-      }
-
-      .mobile-device .menu-button i {
-        font-family: "Font Awesome 6 Free" !important;
-        font-weight: 900;
-      }
-
-      .mobile-device .fa-bars,
-      .mobile-device .fa-telegram,
-      .mobile-device .fa-x-twitter {
-        font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free" !important;
-        font-weight: 400;
-      }
-
-      /* Ensure Font Awesome icons load properly */
-      .fa,
-      .fas,
-      .far,
-      .fab {
-        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
-      }
-
-      .fab {
-        font-family: "Font Awesome 6 Brands" !important;
-      }
-
-      @media (max-width: 900px) {
-        .mobile-device .comic-section {
-          width: 100%;
-          max-width: 100%;
-          padding: 0;
-          margin: 1rem auto;
-        }
-
-        .mobile-device .comic-image {
-          width: 100%;
-          max-width: 100%;
-        }
-
-        .mobile-device .modal {
-          width: 90%;
-        }
-
-        .mobile-device .social-links {
-          padding: 0 10px;
-        }
-
-        .mobile-device .studio-text {
-          font-size: 1.2rem;
-        }
-
-        .mobile-device .menu-button {
-          padding: 8px;
-        }
-      }
-
-      .modal-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        z-index: 1000;
-        animation: fadeIn 0.3s ease-out;
-      }
-
-      .modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0.5);
-        width: 800px;
-        background: #fff;
-        border: 5px solid #000;
-        z-index: 1001;
-        opacity: 0;
-        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                    opacity 0.3s ease-out;
-      }
-
-      .modal.active {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-      }
-
-      .modal::before {
-        content: '';
-        position: absolute;
-        top: -12px;
-        left: -12px;
-        right: -12px;
-        bottom: -12px;
-        border: 3px solid #000;
-        z-index: -1;
-      }
-
-      .modal-content {
-        padding: 30px;
-        max-height: 80vh;
-        overflow-y: auto;
-      }
-
-      .modal-header {
-        text-align: center;
-        margin-bottom: 20px;
-        position: relative;
-      }
-
-      .modal-title {
-        font-family: Arial, sans-serif;
-        font-size: 2.5rem;
-        color: #000;
-        text-transform: uppercase;
-        margin: 0;
-        padding: 10px;
-        background: #ffd700;
-        transform: rotate(-2deg);
-        box-shadow: 5px 5px 0 #000;
-      }
-
-      .close-modal {
-        position: absolute;
-        top: -20px;
-        right: -20px;
-        width: 40px;
-        height: 40px;
-        background: #ff4444;
-        border: 3px solid #000;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 1.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: bold;
-        transform: rotate(0deg);
-        transition: transform 0.3s;
-      }
-
-      .close-modal:hover {
-        transform: rotate(90deg);
-      }
-
-      .studio-info {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-      }
-
-      .info-box {
-        background: #fff;
-        border: 3px solid #000;
-        padding: 20px;
-        margin: 20px 0;
-        position: relative;
-        transform: rotate(1deg);
-        transition: transform 0.3s;
-      }
-
-      .info-box:hover {
-        transform: rotate(-1deg) scale(1.02);
-      }
-
-      .info-box::before {
-        content: '';
-        position: absolute;
-        top: -15px;
-        left: 20px;
-        background: #ffd700;
-        padding: 5px;
-        border: 2px solid #000;
-        transform: rotate(-15deg);
-      }
-
-      .info-box a {
-        color: #000;
-        text-decoration: none;
-        transition: color 0.3s;
-      }
-
-      .info-box a:hover {
-        color: #ff4444;
-      }
-
-      .speech-bubble {
-        position: relative;
-        background: #fff;
-        border: 3px solid #000;
-        padding: 20px;
-        margin: 20px 0;
-        border-radius: 20px;
-      }
-
-      .speech-bubble::before {
-        content: '';
-        position: absolute;
-        bottom: -20px;
-        left: 30px;
-        border: 10px solid transparent;
-        border-top-color: #000;
-      }
-
-      .highlight-text {
-        display: inline-block;
-        background: #ffd700;
-        padding: 0 5px;
-        transform: skew(-5deg);
-      }
-
-      @keyframes bounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-      }
-
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-
-      .bounce {
-        animation: bounce 2s infinite;
-      }
-
-      .modal-section {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.5s, transform 0.5s;
-      }
-
-      .modal.active .modal-section {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .pow-effect {
-        position: absolute;
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #ff4444;
-        pointer-events: none;
-        animation: pow 0.5s forwards;
-      }
-
-      @keyframes pow {
-        0% { transform: scale(0) rotate(0deg); opacity: 1; }
-        100% { transform: scale(2) rotate(360deg); opacity: 0; }
-      }
-
-      /* Wallet Modal Styles */
-      .wallet-modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(8px);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-      }
-
-      .wallet-modal {
-        background: #2d2d2d;
-        padding: 2rem;
-        border-radius: 12px;
-        text-align: center;
-        max-width: 400px;
-        width: 90%;
-        color: white;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      }
-
-      .connect-button {
-        background: #9945FF;
-        color: white;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 6px;
-        font-size: 1.1rem;
-        cursor: pointer;
-        transition: background 0.3s ease;
-        margin-top: 1rem;
-      }
-
-      .connect-button:hover {
-        background: #7d37cc;
-      }
-
-      #walletError {
-        display: none;
-        background: #ff4444;
-        color: white;
-        padding: 10px;
-        border-radius: 6px;
-        margin-top: 1rem;
-      }
-
-      .token-info {
-        margin-top: 1rem;
-        font-size: 0.9rem;
-        color: #888;
-      }
-
-      .footer-wallet {
-        position: fixed;
-        bottom: 1rem;
-        right: 1rem;
-        background: #2d2d2d;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        color: white;
-        font-size: 0.9rem;
-        display: none;
-        z-index: 1000;
-      }
-
-      .wallet-address {
-        color: #9945FF;
-        font-family: monospace;
-        margin-right: 1rem;
-      }
-
-      .blur-content {
-        filter: blur(8px);
-        pointer-events: none;
-        user-select: none;
       }
 
       /* Status Display and Improved Modal UI */
@@ -1171,6 +799,703 @@
       * {
         border-radius: 0 !important;
       }
+
+      /* Modal Toggle Button */
+      .modal-toggle {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+        background: #FFD700;
+        border: 3px solid #000;
+        padding: 0.5rem 1rem;
+        font-family: 'Bangers', cursive;
+        font-size: 1.2rem;
+        color: #000;
+        cursor: pointer;
+        transform: rotate(-5deg);
+        box-shadow: 4px 4px 0 #000;
+        transition: all 0.3s;
+        display: none;
+        letter-spacing: 1px;
+      }
+
+      .modal-toggle:hover {
+        transform: rotate(0deg) scale(1.1);
+        box-shadow: 6px 6px 0 #000;
+      }
+
+      .modal-toggle:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0 #000;
+      }
+
+      .modal-toggle.visible {
+        display: block;
+        animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+
+      @keyframes bounceIn {
+        0% {
+          transform: scale(0) rotate(-15deg);
+          opacity: 0;
+        }
+        60% {
+          transform: scale(1.2) rotate(5deg);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1) rotate(-5deg);
+          opacity: 1;
+        }
+      }
+
+      /* Modal Slide Animation */
+      .wallet-modal {
+        transform: translateX(0);
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .wallet-modal.slide-out {
+        transform: translateX(-100%);
+      }
+
+      .wallet-modal.slide-in {
+        transform: translateX(0);
+      }
+
+      /* Footer Wallet - Minimal */
+      .footer-wallet {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        background: #fff;
+        padding: 0.2rem;
+        border: 2px solid #000;
+        display: none;
+        z-index: 1000;
+        font-family: Arial, sans-serif;
+      }
+
+      .disconnect-button-mini {
+        background: #ff4444;
+        color: white;
+        border: 2px solid #000;
+        padding: 0.2rem 0.5rem;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-family: Arial, sans-serif;
+      }
+
+      .disconnect-button-mini:hover {
+        background: #ff6666;
+      }
+
+      /* Connected Wallet Panel */
+      .wallet-panel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 400px;
+        height: 100%;
+        background: #ffffff;
+        display: none;
+        z-index: 1000;
+        transform: translateX(-100%);
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow-y: scroll;
+      }
+
+      .wallet-panel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 400px;
+        height: 100%;
+        background: #ffffff;
+        display: none;
+        z-index: 1000;
+        transform: translateX(-100%);
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow-y: scroll;
+      }
+
+      .panel-content {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        min-height: 100%;
+        padding-top: 6rem; /* Move content down */
+      }
+
+      .wallet-title {
+        font-family: 'Bangers', cursive;
+        font-size: 2rem;
+        color: #000;
+        margin-bottom: 2rem;
+        letter-spacing: 1px;
+      }
+
+      .wallet-address-display {
+        width: 100%;
+        padding: 1rem;
+        background: #f9f9f9;
+        border: 3px solid #000;
+        font-family: monospace;
+        font-size: 0.9rem;
+        color: #000;
+        text-align: center;
+        word-break: break-all;
+        margin: 1rem 0;
+        box-shadow: 4px 4px 0 #000;
+      }
+
+      .wallet-address-display {
+        width: 100%;
+        padding: 1rem;
+        background: #f9f9f9;
+        border: 3px solid #000;
+        font-family: monospace;
+        font-size: 0.9rem;
+        color: #000;
+        text-align: center;
+        word-break: break-all;
+        margin: 1rem 0;
+        box-shadow: 4px 4px 0 #000;
+      }
+
+      .disconnect-button {
+        width: 100%;
+        padding: 1rem;
+        background: #FFD700;
+        color: #000;
+        border: 3px solid #000;
+        font-family: 'Bangers', cursive;
+        font-size: 1.3rem;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin: 1rem 0;
+        transform: rotate(-2deg);
+        box-shadow: 4px 4px 0 #000;
+        transition: all 0.3s;
+      }
+
+      .disconnect-button:hover {
+        background: #FFE44D;
+        transform: rotate(0deg) scale(1.02);
+        box-shadow: 6px 6px 0 #000;
+      }
+
+      .disconnect-button:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0 #000;
+      }
+
+      .wallet-panel .info-box {
+        width: 100%;
+        padding: 1.5rem;
+        background: #f9f9f9;
+        border: 3px solid #000;
+        margin: 1rem 0;
+        text-align: center;
+        box-shadow: 4px 4px 0 #000;
+        transform: none;
+      }
+
+      .wallet-panel .info-box p {
+        font-family: 'Bangers', cursive;
+        color: #000;
+        font-size: 1.2rem;
+        margin: 0;
+        letter-spacing: 1px;
+      }
+
+      .wallet-panel .info-box::before {
+        display: none;
+      }
+
+      .wallet-panel .panel-bottom {
+        margin-top: auto;
+        width: 100%;
+        padding: 2rem;
+        background: #f9f9f9;
+        border-top: 3px solid #000;
+        text-align: center;
+      }
+
+      .wallet-panel .panel-bottom p {
+        font-family: 'Bangers', cursive;
+        color: #000;
+        font-size: 1.2rem;
+        margin: 0;
+        letter-spacing: 1px;
+      }
+
+      /* Wallet Info Side Panel */
+      .wallet-info-panel {
+        position: fixed;
+        top: 50%;
+        right: -400px;
+        transform: translateY(-50%);
+        width: 350px;
+        background: #fff;
+        border: 3px solid #000;
+        box-shadow: 8px 8px 0 #000;
+        padding: 20px;
+        transition: right 0.3s ease;
+        z-index: 1000;
+        font-family: 'Bangers', cursive;
+        letter-spacing: 1px;
+      }
+
+      .wallet-info-panel.active {
+        right: 20px;
+      }
+
+      .wallet-info-header {
+        background: #FFD700;
+        margin: -20px -20px 20px -20px;
+        padding: 15px;
+        border-bottom: 3px solid #000;
+        text-align: center;
+        font-size: 24px;
+        position: relative;
+      }
+
+      .wallet-info-header::after {
+        content: 'POW!';
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        background: #ff4444;
+        color: #fff;
+        padding: 5px 15px;
+        transform: rotate(15deg);
+        border: 2px solid #000;
+        box-shadow: 3px 3px 0 #000;
+        font-size: 16px;
+      }
+
+      .wallet-balance {
+        background: #fff;
+        border: 2px solid #000;
+        padding: 15px;
+        margin: 10px 0;
+        text-align: center;
+        position: relative;
+        font-size: 20px;
+      }
+
+      .wallet-balance::before {
+        content: 'BONES';
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #fff;
+        padding: 0 10px;
+        font-size: 16px;
+        color: #000;
+      }
+
+      .wallet-address {
+        font-family: monospace;
+        background: #f0f0f0;
+        padding: 10px;
+        border: 2px solid #000;
+        margin-top: 20px;
+        word-break: break-all;
+        font-size: 14px;
+        position: relative;
+      }
+
+      .wallet-address::before {
+        content: 'WALLET';
+        position: absolute;
+        top: -12px;
+        left: 10px;
+        background: #fff;
+        padding: 0 10px;
+        font-family: 'Bangers', cursive;
+        font-size: 16px;
+        color: #000;
+      }
+
+      .close-wallet-info {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #000;
+      }
+
+      /* Disconnect Modal Styles */
+      .disconnect-modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      .disconnect-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.5);
+        width: 500px;
+        background: #fff;
+        border: 5px solid #000;
+        z-index: 1001;
+        opacity: 0;
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                    opacity 0.3s ease-out;
+      }
+
+      .disconnect-modal.active {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+
+      .disconnect-modal::before {
+        content: '';
+        position: absolute;
+        top: -12px;
+        left: -12px;
+        right: -12px;
+        bottom: -12px;
+        border: 3px solid #000;
+        z-index: -1;
+      }
+
+      .disconnect-modal-content {
+        padding: 30px;
+        text-align: center;
+      }
+
+      .disconnect-modal-header {
+        text-align: center;
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .disconnect-modal-title {
+        font-family: 'Bangers', cursive;
+        font-size: 2.5rem;
+        color: #000;
+        text-transform: uppercase;
+        margin: 0;
+        padding: 10px;
+        background: #ffd700;
+        transform: rotate(-2deg);
+        box-shadow: 5px 5px 0 #000;
+        letter-spacing: 1px;
+      }
+
+      .close-disconnect-modal {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 40px;
+        height: 40px;
+        background: #ff4444;
+        border: 3px solid #000;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        transform: rotate(0deg);
+        transition: transform 0.3s;
+      }
+
+      .close-disconnect-modal:hover {
+        transform: rotate(90deg);
+      }
+
+      .disconnect-modal-message {
+        font-family: 'Bangers', cursive;
+        font-size: 1.5rem;
+        color: #000;
+        margin: 20px 0;
+        letter-spacing: 1px;
+        line-height: 1.4;
+      }
+
+      .disconnect-modal-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 30px;
+      }
+
+      .disconnect-modal-button {
+        padding: 1rem 2rem;
+        background: #FFD700;
+        color: #000;
+        border: 3px solid #000;
+        font-family: 'Bangers', cursive;
+        font-size: 1.3rem;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transform: rotate(-2deg);
+        box-shadow: 4px 4px 0 #000;
+        transition: all 0.3s;
+      }
+
+      .disconnect-modal-button:hover {
+        background: #FFE44D;
+        transform: rotate(0deg) scale(1.02);
+        box-shadow: 6px 6px 0 #000;
+      }
+
+      .disconnect-modal-button:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0 #000;
+      }
+
+      .disconnect-modal-button.cancel {
+        background: #f9f9f9;
+      }
+
+      .disconnect-modal-button.cancel:hover {
+        background: #ffffff;
+      }
+
+      .disconnect-modal-section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s, transform 0.5s;
+      }
+
+      .disconnect-modal.active .disconnect-modal-section {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* About Modal Styles */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 900;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.5);
+        width: 800px;
+        background: #fff;
+        border: 5px solid #000;
+        z-index: 901;
+        opacity: 0;
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                    opacity 0.3s ease-out;
+      }
+
+      .modal.active {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+
+      .modal::before {
+        content: '';
+        position: absolute;
+        top: -12px;
+        left: -12px;
+        right: -12px;
+        bottom: -12px;
+        border: 3px solid #000;
+        z-index: -1;
+      }
+
+      .modal-content {
+        padding: 30px;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+
+      .modal-header {
+        text-align: center;
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .modal-title {
+        font-family: Arial, sans-serif;
+        font-size: 2.5rem;
+        color: #000;
+        text-transform: uppercase;
+        margin: 0;
+        padding: 10px;
+        background: #ffd700;
+        transform: rotate(-2deg);
+        box-shadow: 5px 5px 0 #000;
+      }
+
+      .close-modal {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 40px;
+        height: 40px;
+        background: #ff4444;
+        border: 3px solid #000;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        transform: rotate(0deg);
+        transition: transform 0.3s;
+      }
+
+      .close-modal:hover {
+        transform: rotate(90deg);
+      }
+
+      .studio-info {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+      }
+
+      .modal .info-box {
+        background: #fff;
+        border: 3px solid #000;
+        padding: 20px;
+        margin: 20px 0;
+        position: relative;
+        transform: rotate(1deg);
+        transition: transform 0.3s;
+      }
+
+      .modal .info-box:hover {
+        transform: rotate(-1deg) scale(1.02);
+      }
+
+      .modal .info-box::before {
+        content: '';
+        position: absolute;
+        top: -15px;
+        left: 20px;
+        background: #ffd700;
+        padding: 5px;
+        border: 2px solid #000;
+        transform: rotate(-15deg);
+      }
+
+      .modal .info-box a {
+        color: #000;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .modal .info-box a:hover {
+        color: #ff4444;
+      }
+
+      .speech-bubble {
+        position: relative;
+        background: #fff;
+        border: 3px solid #000;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 20px;
+      }
+
+      .speech-bubble::before {
+        content: '';
+        position: absolute;
+        bottom: -20px;
+        left: 30px;
+        border: 10px solid transparent;
+        border-top-color: #000;
+      }
+
+      .highlight-text {
+        display: inline-block;
+        background: #ffd700;
+        padding: 0 5px;
+        transform: skew(-5deg);
+      }
+
+      .modal-section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s, transform 0.5s;
+      }
+
+      .modal.active .modal-section {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .modal.active .modal-section:last-child {
+        animation: bounce 2s infinite;
+      }
+
+      /* About Modal Animations */
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+          transform: translateY(0) rotate(1deg);
+        }
+        40% {
+          transform: translateY(-20px) rotate(1deg);
+        }
+        60% {
+          transform: translateY(-10px) rotate(1deg);
+        }
+      }
+
+      .bounce-section {
+        animation: bounce 2s infinite;
+      }
+
+      .modal-section:not(.bounce-section) {
+        animation: slideIn 0.5s ease-out forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateY(-100%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
   </head>
@@ -1183,10 +1508,12 @@
             <p class="wallet-description" style="color: #000;">
                 To access this content, you need to connect your Phantom wallet and verify your $BONES token ownership.
             </p>
-            <button id="connectButton" class="connect-button" onclick="window.walletManager.connectWallet()" 
-                    style="background: #FFD700; color: #000; border: 3px solid #000; border-radius: 0;">
+            <div class="connect-button-container">
+              <button class="connect-button connect-toggle-button" onclick="window.walletManager.connectWallet()" 
+                    style="background: #FFD700; color: #000; border: 3px solid #000; padding: 1rem 2rem; cursor: pointer; font-size: 1.3rem; width: 100%; margin-bottom: 1rem; text-transform: uppercase; font-family: 'Bangers', cursive; letter-spacing: 1px; position: relative; transform: rotate(-2deg); box-shadow: 4px 4px 0 #000; transition: all 0.3s; border-radius: 0;">
                 Connect Wallet
-            </button>
+              </button>
+            </div>
             <div id="walletStatus" class="status-text" style="color: #000;"></div>
             <div id="walletError" class="error-text" style="border-radius: 0;"></div>
             <div class="contract-address">
@@ -1218,39 +1545,73 @@
                 <a href="https://instagram.com/" target="_blank" class="social-button">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://dexscreener.com/" target="_blank" class="social-button">
+                <a href="https://dexscreener.com/solana/8rym1xjmjuc3mkuuhtw9894dfo5gf9bz8pdbews7moon" target="_blank" class="social-button">
                     <i class="fas fa-chart-line"></i>
                 </a>
             </div>
         </div>
     </div>
 
+    <!-- Toggle Button -->
+    <button id="modalToggle" class="modal-toggle">
+        <i class="fas fa-chevron-right"></i> ZOOM!
+    </button>
+
     <!-- Footer Wallet Status -->
     <div id="footerWallet" class="footer-wallet">
-        <span id="walletAddress" class="wallet-address"></span>
-        <button class="disconnect-button" onclick="window.walletManager.disconnectWallet()">
-            Disconnect
-        </button>
+        <button class="info-button-mini" onclick="toggleWalletInfo()">i</button>
+        <button class="disconnect-button-mini" onclick="window.walletManager.disconnectWallet()">×</button>
     </div>
 
-    <div id="mainContent" class="container blur-content">
+    <!-- Connected Wallet Panel -->
+    <div id="walletPanel" class="wallet-panel">
+        <div class="panel-content">
+            <h2 class="wallet-title">Connected Wallet</h2>
+            <div class="wallet-address-display" id="panelWalletAddress"></div>
+            <div class="info-box">
+                <p>Your BONES balance: <span id="panelBonesBalance">Loading...</span></p>
+            </div>
+            <button class="disconnect-button" onclick="window.walletManager.disconnectWallet()">
+                Disconnect Wallet
+            </button>
+            <div class="panel-bottom">
+                <p>Thanks for being part of the BONES community! 🦴</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wallet Info Panel -->
+    <div class="wallet-info-panel" id="walletInfoPanel">
+      <div class="wallet-info-header">
+        Your Wallet Stats
+        <button class="close-wallet-info" onclick="toggleWalletInfo()">×</button>
+      </div>
+      <div class="wallet-balance" id="infoBonesBalance">
+        Loading...
+      </div>
+      <div class="wallet-address" id="walletAddress">
+        Loading...
+      </div>
+    </div>
+
+    <div id="mainContent" class="container">
       <div class="comic-section">
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic bubble-1">
                 <a href="https://stake.smithii.io/last25bones" style="color: inherit; text-decoration: none;">$BONES Staking</a>
               </div>
               <span class="comic-effect">BOOM!</span>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="comic-text">Stay tuned for updates!</div>
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Join the skeletal revolution!</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="speech-bubble-comic">More excitement ahead!</div>
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">To the moon and beyond!</div>
             </div>
           </div>
           <div class="comic-image-front">
@@ -1278,20 +1639,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">More Character Panels from the Universe Coming Soon</div>
@@ -1300,20 +1661,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 3</div>
@@ -1322,20 +1683,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 4</div>
@@ -1344,20 +1705,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 5</div>
@@ -1366,20 +1727,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 6</div>
@@ -1388,20 +1749,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 7</div>
@@ -1410,20 +1771,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 8</div>
@@ -1432,20 +1793,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 9</div>
@@ -1454,20 +1815,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 10</div>
@@ -1476,20 +1837,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 11</div>
@@ -1498,20 +1859,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 12</div>
@@ -1520,20 +1881,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 13</div>
@@ -1542,20 +1903,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 14</div>
@@ -1564,20 +1925,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 15</div>
@@ -1586,20 +1947,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 16</div>
@@ -1608,20 +1969,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 17</div>
@@ -1630,20 +1991,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 18</div>
@@ -1652,20 +2013,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 19</div>
@@ -1674,20 +2035,20 @@
         <div class="comic-image-container">
           <div class="comic-image-back">
             <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">A Cat Named Manwhore</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="comic-text">Tales of feline mischief...</div>
             </div>
             <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
               <div class="speech-bubble-comic">Meow meow!</div>
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
           </div>
         </div>
         <div class="comic-caption">Section 20</div>
@@ -1701,7 +2062,7 @@
           <div class="modal-header">
             <h2 class="modal-title">A Cat Named Manwhore Studios</h2>
           </div>
-          
+
           <div class="modal-section" style="transition-delay: 0.1s;">
             <div class="speech-bubble">
               <h3>Welcome to the <span class="highlight-text">Creative Mayhem!</span></h3>
@@ -1733,10 +2094,10 @@
             </div>
           </div>
 
-          <div class="modal-section bounce" style="transition-delay: 0.5s;">
-            <div class="info-box" style="transform: rotate(1deg);">
+          <div class="modal-section bounce-section" style="transition-delay: 0.5s;">
+            <div class="info-box">
               <h3>Join the Adventure!</h3>
-              <p><a href="https://x.com/CatManwhore">X.com: @CatManwhore</a></p>
+              <p><a href="https://x.com/ManwhoretheCat">X.com: @ManwhoretheCat</a></p>
               <p><a href="https://www.instagram.com/acatnamedmanwhore">Instagram: @acatnamedmanwhore</a></p>
               <p><a href="mailto:manwhore@acatnamedmanwhore.com">spamus@acatnamedmanwhore.com</a></p>
               <p>Follow us on our social channels for daily doses of creativity and cat-titude!</p>
@@ -1784,210 +2145,90 @@
       });
 
       // Modal functionality
-      const modalOverlay = document.querySelector('.modal-overlay');
-      const modal = document.querySelector('.modal');
-      const closeModal = document.querySelector('.close-modal');
+      const aboutModalOverlay = document.querySelector('.modal-overlay');
+      const aboutModal = document.querySelector('.modal');
+      const closeAboutModal = document.querySelector('.close-modal');
+      const aboutMenuButton = document.querySelector('.about-button');
+      const disconnectModalOverlay = document.querySelector('.disconnect-modal-overlay');
+      const disconnectModal = document.querySelector('.disconnect-modal');
+      const closeDisconnectModal = document.querySelector('.close-disconnect-modal');
+      const cancelDisconnectButton = document.querySelector('.disconnect-modal-button.cancel');
+      const confirmDisconnectButton = document.querySelector('.disconnect-modal-button.confirm');
+      const disconnectBtn = document.querySelector('.disconnect-button');
 
-      // Function to create POW effect
-      function createPowEffect(x, y) {
-        const pow = document.createElement('div');
-        pow.className = 'pow-effect';
-        pow.style.left = x + 'px';
-        pow.style.top = y + 'px';
-        pow.textContent = 'POW!';
-        document.body.appendChild(pow);
-        setTimeout(() => pow.remove(), 500);
+      // About Modal Functions
+      function showModal() {
+        aboutModalOverlay.style.display = 'block';
+        setTimeout(() => {
+          aboutModal.classList.add('active');
+        }, 10);
       }
 
-      // Open modal when clicking About in menu
-      document.querySelector('a[href="/about/about.html"]').addEventListener('click', function(e) {
+      function hideModal() {
+        aboutModal.classList.remove('active');
+        setTimeout(() => {
+          aboutModalOverlay.style.display = 'none';
+        }, 300);
+      }
+
+      // Disconnect Modal Functions
+      function showDisconnectModal() {
+        disconnectModalOverlay.style.display = 'block';
+        setTimeout(() => {
+          disconnectModal.classList.add('active');
+        }, 10);
+      }
+
+      function hideDisconnectModal() {
+        disconnectModal.classList.remove('active');
+        setTimeout(() => {
+          disconnectModalOverlay.style.display = 'none';
+        }, 300);
+      }
+
+      // Event Listeners for About Modal
+      aboutMenuButton?.addEventListener('click', showModal);
+      closeAboutModal?.addEventListener('click', hideModal);
+      aboutModalOverlay?.addEventListener('click', (e) => {
+        if (e.target === aboutModalOverlay) {
+          hideModal();
+        }
+      });
+
+      // Event Listeners for Disconnect Modal
+      disconnectBtn?.addEventListener('click', (e) => {
         e.preventDefault();
-        document.querySelector('.menu-panel').classList.remove('active');
-        modalOverlay.style.display = 'block';
-        setTimeout(() => modal.classList.add('active'), 10);
-        
-        // Create POW effect at click position
-        createPowEffect(e.clientX, e.clientY);
+        showDisconnectModal();
       });
 
-      // Close modal
-      closeModal.addEventListener('click', function() {
-        modal.classList.remove('active');
-        setTimeout(() => modalOverlay.style.display = 'none', 300);
+      closeDisconnectModal?.addEventListener('click', hideDisconnectModal);
+      cancelDisconnectButton?.addEventListener('click', hideDisconnectModal);
+
+      confirmDisconnectButton?.addEventListener('click', () => {
+        hideDisconnectModal();
+        walletManager.handleDisconnect();
       });
 
-      modalOverlay.addEventListener('click', function(e) {
-        if (e.target === modalOverlay) {
-          modal.classList.remove('active');
-          setTimeout(() => modalOverlay.style.display = 'none', 300);
+      disconnectModalOverlay?.addEventListener('click', (e) => {
+        if (e.target === disconnectModalOverlay) {
+          hideDisconnectModal();
         }
       });
 
-      // Add hover effects to info boxes
-      document.querySelectorAll('.info-box').forEach(box => {
-        box.addEventListener('mouseover', function(e) {
-          createPowEffect(e.clientX, e.clientY);
-        });
-      });
-
-      // Add click handlers for comic images
-      document.querySelectorAll('.comic-image').forEach((img, index) => {
-        // Create container and wrap image
-        const container = document.createElement('div');
-        container.className = 'comic-image-container';
-        
-        // Create panels array to store all panels
-        const panels = [];
-        
-        // Create initial front panel
-        const frontPanel = document.createElement('div');
-        frontPanel.className = 'comic-image-front';
-        frontPanel.appendChild(img.cloneNode(true));
-        panels.push(frontPanel);
-        
-        // Create different content based on section
-        let panel2Content, panel3Content;
-        
-        if (index === 0) {
-          // BONES section (first section)
-          panel2Content = `
-            <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="speech-bubble-comic bubble-1">
-                <a href="https://stake.smithii.io/last25bones" style="color: inherit; text-decoration: none;">$BONES Staking</a>
-              </div>
-            </div>
-            <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="comic-text">Join the skeletal revolution!</div>
-            </div>
-            <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="speech-bubble-comic">To the moon and beyond!</div>
-            </div>
-          `;
-          
-          panel3Content = `
-            <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="speech-bubble-comic">The Final Frontier</div>
-            </div>
-            <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="comic-text">Last stop before takeoff!</div>
-            </div>
-            <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="speech-bubble-comic">Click to return home</div>
-            </div>
-          `;
-        } else {
-          // All other sections (2-20) - A Cat Named Manwhore Universe
-          panel2Content = `
-            <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
-            </div>
-            <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="comic-text">Tales of feline mischief...</div>
-            </div>
-            <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="speech-bubble-comic">Meow meow!</div>
-            </div>
-          `;
-          
-          panel3Content = `
-            <div class="comic-panel comic-panel-large">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="speech-bubble-comic">Adventures Await</div>
-            </div>
-            <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="comic-text">Purr-fect stories coming soon</div>
-            </div>
-            <div class="comic-panel">
-              <img src="comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="speech-bubble-comic">Click to close</div>
-            </div>
-          `;
-        }
-        
-        // Create panel 2
-        const panel2 = document.createElement('div');
-        panel2.className = 'comic-image-back';
-        panel2.innerHTML = panel2Content;
-        panels.push(panel2);
-        
-        // Create panel 3
-        const panel3 = document.createElement('div');
-        panel3.className = 'comic-image-back';
-        panel3.innerHTML = panel3Content;
-        panels.push(panel3);
-        
-        // Add all panels to container
-        panels.forEach(panel => container.appendChild(panel));
-        
-        // Replace original image with container
-        img.parentNode.insertBefore(container, img);
-        img.remove();
-        
-        // Track current panel index
-        let currentPanelIndex = 0;
-        let isAnimating = false;
-        
-        function animatePageTurn(fromPanel, toPanel, onComplete) {
-          isAnimating = true;
-          
-          // Start the page turn animation
-          fromPanel.classList.add('flipping');
-          
-          // Wait for the flip animation to reach halfway
-          setTimeout(() => {
-            toPanel.classList.add('active');
-            fromPanel.classList.remove('active');
-            
-            // Complete the animation
-            setTimeout(() => {
-              fromPanel.classList.remove('flipping');
-              isAnimating = false;
-              if (onComplete) onComplete();
-            }, 400);
-          }, 200);
-        }
-        
-        // Add click handler
-        container.addEventListener('click', function() {
-          if (isAnimating) return;
-          
-          const currentPanel = panels[currentPanelIndex];
-          const nextPanel = panels[currentPanelIndex + 1];
-          
-          if (currentPanelIndex === 0) {
-            // First panel to second
-            currentPanel.classList.add('active');
-            animatePageTurn(currentPanel, nextPanel, () => {
-              this.classList.add('peeled');
-              currentPanelIndex++;
-            });
-          } else if (currentPanelIndex === 1) {
-            // Second panel to third
-            animatePageTurn(currentPanel, nextPanel, () => {
-              currentPanelIndex++;
-            });
-          } else if (currentPanelIndex === 2) {
-            // Third panel back to first
-            animatePageTurn(currentPanel, panels[0], () => {
-              this.classList.remove('peeled');
-              panels.forEach(panel => panel.classList.remove('active'));
-              currentPanelIndex = 0;
-            });
+      // Close modals with escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (aboutModalOverlay.style.display === 'block') {
+            hideModal();
           }
-        });
+          if (disconnectModalOverlay.style.display === 'block') {
+            hideDisconnectModal();
+          }
+        }
       });
     </script>
     <script>
+      // Copy Toast Function
       function showCopyToast() {
         // Remove any existing toast
         const existingToast = document.querySelector('.copy-toast');
@@ -1998,24 +2239,219 @@
         // Create new toast
         const toast = document.createElement('div');
         toast.className = 'copy-toast';
-        toast.textContent = 'POW!';
-        
-        // Position it over the copy button
-        const copyButton = document.querySelector('.copy-button');
-        copyButton.appendChild(toast);
+        toast.textContent = 'Copied to clipboard!';
 
-        // Remove the toast after animation
+        // Add toast to body
+        document.body.appendChild(toast);
+
+        // Remove toast after animation
         setTimeout(() => {
-          toast.style.animation = 'fadeOut 0.3s ease-out forwards';
-          setTimeout(() => toast.remove(), 300);
-        }, 1000);
+          toast.remove();
+        }, 2000);
       }
 
       // Update copy button click handler
-      document.querySelector('.copy-button').onclick = function() {
-        navigator.clipboard.writeText('8Rym1XJMJuc3mkUUHtW9894DFo5GF9bZ8pdBEWS7moon');
-        showCopyToast();
+      const copyButton = document.querySelector('.copy-button');
+      if (copyButton) {
+        copyButton.onclick = function() {
+          navigator.clipboard.writeText('8Rym1XJMJuc3mkUUHtW9894DFo5GF9bZ8pdBEWS7moon');
+          showCopyToast();
+        };
+      }
+
+      // Initialize wallet manager first
+      window.walletManager = new WalletManager();
+
+      // Modal Toggle Logic
+      const modalToggle = document.getElementById('modalToggle');
+      const walletModal = document.getElementById('walletModal');
+      const walletPanel = document.getElementById('walletPanel');
+      let isModalOpen = true;
+
+      function updateToggleButton() {
+        const isConnected = window.walletManager?.isConnected;
+        const hasTokens = window.walletManager?.hasTokens;
+        
+        // Update footer wallet visibility
+        const footerWallet = document.getElementById('footerWallet');
+        if (footerWallet) {
+          footerWallet.style.display = isConnected ? 'block' : 'none';
+        }
+
+        // Hide toggle button if user has tokens
+        if (hasTokens) {
+          modalToggle.style.display = 'none';
+          modalToggle.classList.remove('visible');
+          if (walletPanel) {
+            walletPanel.classList.remove('slide-in');
+            walletPanel.style.display = 'none';
+          }
+          return;
+        }
+
+        if (!isConnected) {
+          modalToggle.style.display = 'block';
+          modalToggle.classList.add('visible');
+          modalToggle.innerHTML = '<i class="fas fa-chevron-left"></i> Purrr';
+          
+          // Hide wallet panel
+          if (walletPanel) {
+            walletPanel.classList.remove('slide-in');
+            walletPanel.style.display = 'none';
+          }
+        } else if (isConnected) {
+          modalToggle.style.display = 'block';
+          modalToggle.classList.add('visible');
+          modalToggle.innerHTML = '<i class="fas fa-chevron-left"></i> Purrr';
+          
+          // Show wallet panel
+          if (walletPanel) {
+            walletPanel.style.display = 'flex';
+          }
+          
+          // Hide connect modal
+          if (walletModal) {
+            walletModal.style.display = 'none';
+          }
+        } else {
+          modalToggle.style.display = 'none';
+          modalToggle.classList.remove('visible');
+          if (walletPanel) {
+            walletPanel.classList.remove('slide-in');
+            walletPanel.style.display = 'none';
+          }
+        }
+      }
+
+      modalToggle.addEventListener('click', () => {
+        const isConnected = window.walletManager?.isConnected;
+        
+        if (isConnected) {
+          // Toggle wallet panel
+          if (isModalOpen) {
+            walletPanel.classList.add('slide-in');
+            modalToggle.innerHTML = '<i class="fas fa-chevron-right"></i> MEOW!';
+          } else {
+            walletPanel.classList.remove('slide-in');
+            modalToggle.innerHTML = '<i class="fas fa-chevron-left"></i> Purrr';
+          }
+        } else {
+          // Toggle connect modal
+          if (isModalOpen) {
+            walletModal.classList.add('slide-out');
+            modalToggle.innerHTML = '<i class="fas fa-chevron-right"></i> MEOW!';
+          } else {
+            walletModal.classList.remove('slide-out');
+            modalToggle.innerHTML = '<i class="fas fa-chevron-left"></i> Purrr';
+          }
+        }
+        isModalOpen = !isModalOpen;
+      });
+
+      // Update on wallet connection changes
+      window.addEventListener('walletConnectionChanged', () => {
+        setTimeout(updateToggleButton, 100);
+      });
+
+      // Initial setup
+      document.addEventListener('DOMContentLoaded', () => {
+        updateToggleButton();
+      });
+
+      // Preserve original wallet manager functions
+      const originalShowPaywall = window.walletManager.showPaywall;
+      window.walletManager.showPaywall = function() {
+        originalShowPaywall.call(window.walletManager);
+        setTimeout(updateToggleButton, 100);
       };
+
+      const originalHidePaywall = window.walletManager.hidePaywall;
+      window.walletManager.hidePaywall = function() {
+        originalHidePaywall.call(window.walletManager);
+        setTimeout(updateToggleButton, 100);
+      };
+
+      // Handle disconnect properly
+      const originalDisconnect = window.walletManager.disconnectWallet;
+      window.walletManager.disconnectWallet = function() {
+        originalDisconnect.call(window.walletManager);
+        // Reset panel state
+        if (walletPanel) {
+          walletPanel.classList.remove('slide-in');
+        }
+        isModalOpen = true;
+        setTimeout(updateToggleButton, 100);
+      };
+    </script>
+    <script>
+      // Open modal when clicking About in menu
+      const aboutLink = document.querySelector('a[href="/about/about.html"]');
+      if (aboutLink) {
+        aboutLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          const menuPanel = document.querySelector('.menu-panel');
+          if (menuPanel) {
+            menuPanel.classList.remove('active');
+          }
+          showModal();
+          createPowEffect(e.clientX, e.clientY);
+        });
+      }
+
+      // Add hover effects to info boxes
+      document.querySelectorAll('.info-box').forEach(box => {
+        box?.addEventListener('mouseover', function(e) {
+          createPowEffect(e.clientX, e.clientY);
+        });
+      });
+    </script>
+    <script>
+      // Wallet Info Panel Functions
+      let walletInfoVisible = false;
+
+      function toggleWalletInfo() {
+        const panel = document.getElementById('walletInfoPanel');
+        walletInfoVisible = !walletInfoVisible;
+        panel.classList.toggle('active', walletInfoVisible);
+      }
+
+      function updateWalletInfo() {
+        const walletAddress = document.getElementById('walletAddress');
+        const panelBonesBalance = document.getElementById('panelBonesBalance');
+        const infoBonesBalance = document.getElementById('infoBonesBalance');
+        
+        if (window.walletManager?.isConnected) {
+          const address = window.walletManager.publicKey?.toBase58() || 'Not Connected';
+          const hasTokens = window.walletManager.hasTokens;
+          
+          walletAddress.textContent = address;
+          if (hasTokens) {
+            // Balance will be updated by verifyTokenOwnership
+            if (panelBonesBalance.textContent === 'Loading...') {
+              panelBonesBalance.textContent = 'Checking balance...';
+              infoBonesBalance.textContent = 'Checking balance...';
+            }
+          } else {
+            panelBonesBalance.textContent = '0 $BONES';
+            infoBonesBalance.textContent = '0 $BONES';
+          }
+        } else {
+          walletAddress.textContent = 'Not Connected';
+          panelBonesBalance.textContent = '0 $BONES';
+          infoBonesBalance.textContent = '0 $BONES';
+        }
+      }
+
+      // Update wallet info when connection changes
+      window.addEventListener('walletConnectionChanged', updateWalletInfo);
+      window.addEventListener('tokensDetected', (e) => {
+        const panelBonesBalance = document.getElementById('panelBonesBalance');
+        const infoBonesBalance = document.getElementById('infoBonesBalance');
+        if (panelBonesBalance && infoBonesBalance) {
+          panelBonesBalance.textContent = `${e.detail.amount.toLocaleString()} $BONES`;
+          infoBonesBalance.textContent = `${e.detail.amount.toLocaleString()} $BONES`;
+        }
+      });
     </script>
   </body>
 </html>
