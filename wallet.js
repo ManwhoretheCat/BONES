@@ -1,46 +1,27 @@
 class WalletManager {
     constructor() {
-        this.connection = null;
         this.wallet = null;
-        this.tokenAddress = new solanaWeb3.PublicKey('8Rym1XJMJuc3mkUUHtW9894DFo5GF9bZ8pdBEWS7moon');
+        this.connection = null;
         this.isConnected = false;
-        this.isVerifying = false;
         this.connectionRetries = 0;
         this.maxRetries = 3;
         this.retryDelay = 1000;
         this.verifyInProgress = false;
         this.rpcEndpoints = [
-            {
-                url: 'https://solana-mainnet.g.alchemy.com/v2/demo',
-                options: {
-                    commitment: 'confirmed',
-                    wsEndpoint: undefined,
-                    httpHeaders: { 'Origin': window.location.origin }
-                }
-            },
-            {
-                url: 'https://api.mainnet-beta.solana.com',
-                options: {
-                    commitment: 'confirmed',
-                    wsEndpoint: undefined
-                }
-            },
-            {
-                url: 'https://solana-api.projectserum.com',
-                options: {
-                    commitment: 'confirmed',
-                    wsEndpoint: undefined
-                }
-            }
+            'https://solana-mainnet.g.alchemy.com/v2/demo',
+            'https://rpc.helius.xyz/?api-key=48f4c558-2c89-4745-a5b3-1bb3a3813b5c',
+            'https://neat-hidden-sanctuary.solana-mainnet.discover.quiknode.pro/2af5315d336f9ae920028bbb90a73b724dc1bbed/'
         ];
         this.currentRpcIndex = 0;
         this.tokenBalance = 0;
         this.hasTokens = false;
+        this.tokenAddress = new solanaWeb3.PublicKey('8Rym1XJMJuc3mkUUHtW9894DFo5GF9bZ8pdBEWS7moon');
         this.init();
     }
 
     async init() {
         try {
+            console.log('Initializing wallet manager');
             await this.establishConnection();
 
             // Setup wallet event listeners
@@ -52,6 +33,14 @@ class WalletManager {
                 this.showWalletError("Please install Phantom Wallet", 5000);
             }
 
+            // Check if already connected
+            if (window.solana.isConnected) {
+                console.log('Wallet already connected');
+                this.wallet = window.solana;
+                this.isConnected = true;
+                await this.verifyTokenHoldings();
+            }
+
             this.showPaywall();
             await this.checkStoredWallet();
         } catch (err) {
@@ -61,21 +50,28 @@ class WalletManager {
     }
 
     async establishConnection() {
-        for (let i = 0; i < this.rpcEndpoints.length; i++) {
-            const endpoint = this.rpcEndpoints[this.currentRpcIndex];
+        for (const endpoint of this.rpcEndpoints) {
             try {
-                console.log('Trying RPC endpoint:', endpoint.url);
-                this.connection = new solanaWeb3.Connection(endpoint.url, endpoint.options);
+                console.log('Trying RPC endpoint:', endpoint);
+                const connection = new solanaWeb3.Connection(endpoint, {
+                    commitment: 'confirmed',
+                    confirmTransactionInitialTimeout: 60000,
+                    httpHeaders: {
+                        'Origin': window.location.origin
+                    }
+                });
                 
                 // Test the connection
-                await this.connection.getSlot();
-                console.log('Successfully connected to:', endpoint.url);
-                return;
+                const version = await connection.getVersion();
+                console.log('Connected to Solana node version:', version);
+                
+                this.connection = connection;
+                return true;
             } catch (err) {
-                console.warn('Failed to connect to:', endpoint.url, err);
-                this.currentRpcIndex = (this.currentRpcIndex + 1) % this.rpcEndpoints.length;
+                console.warn('Failed to connect to endpoint:', endpoint, err);
             }
         }
+
         throw new Error('Failed to connect to any RPC endpoint');
     }
 
@@ -120,37 +116,48 @@ class WalletManager {
             return await this.retryWithFallback(async () => {
                 console.log('Verifying token ownership for address:', this.wallet.publicKey.toString());
                 
-                const response = await this.connection.getParsedTokenAccountsByOwner(
-                    this.wallet.publicKey,
-                    { mint: this.tokenAddress },
-                    'confirmed'
-                );
+                try {
+                    // Get token accounts directly
+                    const response = await this.connection.getParsedTokenAccountsByOwner(
+                        this.wallet.publicKey,
+                        { mint: this.tokenAddress },
+                        'confirmed'
+                    );
 
-                console.log('Found token accounts:', response.value.length);
+                    console.log('Found token accounts:', response.value.length);
 
-                for (const account of response.value) {
-                    const parsedInfo = account.account.data.parsed.info;
-                    const amount = parsedInfo.tokenAmount.amount;
-                    const decimals = parsedInfo.tokenAmount.decimals;
-                    const balance = Number(amount) / Math.pow(10, decimals);
-                    console.log('Token amount:', amount, 'decimals:', decimals, 'balance:', balance);
-                    
-                    if (balance > 0) {
-                        console.log('Found positive BONES token balance:', balance);
-                        this.tokenBalance = balance;
-                        this.hasTokens = true;
-                        // Dispatch token detection event
-                        window.dispatchEvent(new CustomEvent('tokensDetected', {
-                            detail: {
-                                balance: this.tokenBalance
-                            }
-                        }));
-                        return true;
+                    for (const account of response.value) {
+                        const parsedInfo = account.account.data.parsed.info;
+                        const amount = parsedInfo.tokenAmount.amount;
+                        const decimals = parsedInfo.tokenAmount.decimals;
+                        const balance = Number(amount) / Math.pow(10, decimals);
+                        console.log('Token amount:', amount, 'decimals:', decimals, 'balance:', balance);
+                        
+                        if (balance > 0) {
+                            console.log('Found positive BONES token balance:', balance);
+                            this.tokenBalance = balance;
+                            this.hasTokens = true;
+                            window.dispatchEvent(new CustomEvent('tokensDetected', {
+                                detail: {
+                                    balance: this.tokenBalance
+                                }
+                            }));
+                            return true;
+                        }
                     }
-                }
 
-                console.log('No BONES token balance found');
-                return false;
+                    console.log('No BONES token balance found');
+                    return false;
+                } catch (err) {
+                    console.error('Error verifying tokens:', err);
+                    // Don't treat mint not found as an error - just means no tokens
+                    if (err.message.includes('could not find mint') || 
+                        err.message.includes('Invalid param')) {
+                        console.log('No token account found - this is normal for new wallets');
+                        return false;
+                    }
+                    throw err;
+                }
             });
         } catch (err) {
             console.error('All retries failed:', err);
@@ -216,43 +223,34 @@ class WalletManager {
     }
 
     async connectWallet(silent = false) {
-        if (this.isVerifying || this.verifyInProgress) {
-            this.showWalletError('Please wait, verification in progress...');
-            return;
-        }
-
         try {
-            if (!window.solana) {
-                this.showWalletError("Please install Phantom wallet!");
+            if (!window.solana || !window.solana.isPhantom) {
+                window.open('https://phantom.app/', '_blank');
                 return;
             }
 
-            this.updateStatus('Connecting wallet...');
-            const connectButton = document.querySelector('.connect-button');
-            if (connectButton) {
-                connectButton.disabled = true;
+            if (this.isConnected) {
+                console.log('Wallet already connected');
+                return;
             }
 
-            if (!silent) {
-                await window.solana.connect();
-            }
+            console.log('Connecting wallet...');
+            const resp = await window.solana.connect();
+            this.wallet = window.solana;
+            this.isConnected = true;
             
-            await new Promise(resolve => setTimeout(resolve, 500));
+            console.log('Connected, checking token...');
+            await this.verifyTokenHoldings();
             
-            if (!window.solana.isConnected) {
-                throw new Error('Wallet connection failed');
-            }
+            window.dispatchEvent(new CustomEvent('walletConnectionChanged', {
+                detail: {
+                    connected: true,
+                    address: resp.publicKey.toString()
+                }
+            }));
         } catch (err) {
-            console.error("Error connecting wallet:", err);
-            if (!silent) {
-                this.showWalletError("Failed to connect wallet");
-            }
-            this.handleDisconnect();
-        } finally {
-            const connectButton = document.querySelector('.connect-button');
-            if (connectButton) {
-                connectButton.disabled = false;
-            }
+            console.error('Error connecting wallet:', err);
+            this.showWalletError('Failed to connect wallet. Please try again.');
         }
     }
 
