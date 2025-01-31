@@ -7,20 +7,41 @@ class WalletManager {
         this.isVerifying = false;
         this.connectionRetries = 0;
         this.maxRetries = 3;
-        this.retryDelay = 1000; // 1 second
+        this.retryDelay = 1000;
+        this.verifyInProgress = false;
+        this.rpcEndpoints = [
+            {
+                url: 'https://solana-mainnet.g.alchemy.com/v2/demo',
+                options: {
+                    commitment: 'confirmed',
+                    wsEndpoint: undefined,
+                    httpHeaders: { 'Origin': window.location.origin }
+                }
+            },
+            {
+                url: 'https://api.mainnet-beta.solana.com',
+                options: {
+                    commitment: 'confirmed',
+                    wsEndpoint: undefined
+                }
+            },
+            {
+                url: 'https://solana-api.projectserum.com',
+                options: {
+                    commitment: 'confirmed',
+                    wsEndpoint: undefined
+                }
+            }
+        ];
+        this.currentRpcIndex = 0;
+        this.tokenBalance = 0;
+        this.hasTokens = false;
         this.init();
     }
 
     async init() {
         try {
-            // Use Alchemy demo endpoint that was working before
-            this.connection = new solanaWeb3.Connection(
-                'https://solana-mainnet.g.alchemy.com/v2/demo',
-                {
-                    commitment: 'confirmed',
-                    wsEndpoint: undefined
-                }
-            );
+            await this.establishConnection();
 
             // Setup wallet event listeners
             if (window.solana) {
@@ -30,14 +51,149 @@ class WalletManager {
             } else {
                 this.showWalletError("Please install Phantom Wallet", 5000);
             }
-            
-            // Check if wallet was previously connected
+
+            this.showPaywall();
             await this.checkStoredWallet();
         } catch (err) {
             console.error('Initialization error:', err);
             this.showWalletError('Failed to initialize wallet connection');
-            this.updateUI();
         }
+    }
+
+    async establishConnection() {
+        for (let i = 0; i < this.rpcEndpoints.length; i++) {
+            const endpoint = this.rpcEndpoints[this.currentRpcIndex];
+            try {
+                console.log('Trying RPC endpoint:', endpoint.url);
+                this.connection = new solanaWeb3.Connection(endpoint.url, endpoint.options);
+                
+                // Test the connection
+                await this.connection.getSlot();
+                console.log('Successfully connected to:', endpoint.url);
+                return;
+            } catch (err) {
+                console.warn('Failed to connect to:', endpoint.url, err);
+                this.currentRpcIndex = (this.currentRpcIndex + 1) % this.rpcEndpoints.length;
+            }
+        }
+        throw new Error('Failed to connect to any RPC endpoint');
+    }
+
+    async retryWithFallback(operation) {
+        for (let retry = 0; retry <= this.maxRetries; retry++) {
+            try {
+                return await operation();
+            } catch (err) {
+                console.error('Operation failed:', err);
+                
+                if (retry < this.maxRetries) {
+                    const delay = this.retryDelay * Math.pow(2, retry);
+                    console.log(`Retrying in ${delay}ms...`);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    
+                    // Try next RPC endpoint
+                    await this.establishConnection();
+                } else {
+                    throw err;
+                }
+            }
+        }
+    }
+
+    async verifyTokenHoldings() {
+        if (this.verifyInProgress) {
+            console.log('Verification already in progress, skipping');
+            return false;
+        }
+
+        if (!this.connection || !this.wallet?.publicKey) {
+            console.log('Missing connection or wallet for token verification');
+            return false;
+        }
+
+        this.verifyInProgress = true;
+        this.connectionRetries = 0;
+        this.tokenBalance = 0;
+        this.hasTokens = false;
+
+        try {
+            return await this.retryWithFallback(async () => {
+                console.log('Verifying token ownership for address:', this.wallet.publicKey.toString());
+                
+                const response = await this.connection.getParsedTokenAccountsByOwner(
+                    this.wallet.publicKey,
+                    { mint: this.tokenAddress },
+                    'confirmed'
+                );
+
+                console.log('Found token accounts:', response.value.length);
+
+                for (const account of response.value) {
+                    const parsedInfo = account.account.data.parsed.info;
+                    const amount = parsedInfo.tokenAmount.amount;
+                    const decimals = parsedInfo.tokenAmount.decimals;
+                    const balance = Number(amount) / Math.pow(10, decimals);
+                    console.log('Token amount:', amount, 'decimals:', decimals, 'balance:', balance);
+                    
+                    if (balance > 0) {
+                        console.log('Found positive BONES token balance:', balance);
+                        this.tokenBalance = balance;
+                        this.hasTokens = true;
+                        // Dispatch token detection event
+                        window.dispatchEvent(new CustomEvent('tokensDetected', {
+                            detail: {
+                                balance: this.tokenBalance
+                            }
+                        }));
+                        return true;
+                    }
+                }
+
+                console.log('No BONES token balance found');
+                return false;
+            });
+        } catch (err) {
+            console.error('All retries failed:', err);
+            return false;
+        } finally {
+            this.verifyInProgress = false;
+        }
+    }
+
+    async handleConnect() {
+        if (this.verifyInProgress) {
+            console.log('Connect event received but verification in progress, skipping');
+            return;
+        }
+
+        console.log('Wallet connected');
+        this.wallet = window.solana;
+        this.isConnected = true;
+        this.connectionRetries = 0;
+        localStorage.setItem('walletConnected', 'true');
+        
+        this.updateUI();
+        this.updateStatus('Connected, checking token...');
+        
+        const hasTokens = await this.verifyTokenHoldings();
+        if (hasTokens) {
+            this.hidePaywall();
+            this.updateWalletInfo();
+        } else {
+            this.showPaywall();
+        }
+        
+        this.updateUI();
+    }
+
+    async handleDisconnect() {
+        console.log('Wallet disconnected');
+        this.wallet = null;
+        this.isConnected = false;
+        this.verifyInProgress = false;
+        localStorage.removeItem('walletConnected');
+        this.updateUI();
+        this.showPaywall();
     }
 
     async checkStoredWallet() {
@@ -47,21 +203,20 @@ class WalletManager {
                 this.updateStatus('Reconnecting wallet...');
                 const resp = await window.solana.connect({ onlyIfTrusted: true });
                 if (resp) {
-                    this.wallet = window.solana;
-                    this.isConnected = true;
-                    await this.verifyTokenOwnership();
-                    this.updateUI();
+                    await this.handleConnect();
                 }
             } catch (err) {
                 console.log('Silent connect failed:', err);
                 localStorage.removeItem('walletConnected');
                 this.handleDisconnect();
             }
+        } else {
+            this.handleDisconnect();
         }
     }
 
     async connectWallet(silent = false) {
-        if (this.isVerifying) {
+        if (this.isVerifying || this.verifyInProgress) {
             this.showWalletError('Please wait, verification in progress...');
             return;
         }
@@ -73,120 +228,71 @@ class WalletManager {
             }
 
             this.updateStatus('Connecting wallet...');
+            const connectButton = document.querySelector('.connect-button');
+            if (connectButton) {
+                connectButton.disabled = true;
+            }
+
             if (!silent) {
                 await window.solana.connect();
             }
             
-            // Wait for connection to be ready
             await new Promise(resolve => setTimeout(resolve, 500));
             
             if (!window.solana.isConnected) {
                 throw new Error('Wallet connection failed');
             }
-            
-            this.wallet = window.solana;
-            this.isConnected = true;
-            localStorage.setItem('walletConnected', 'true');
-            
-            await this.verifyTokenOwnership();
-            this.updateUI();
         } catch (err) {
             console.error("Error connecting wallet:", err);
             if (!silent) {
                 this.showWalletError("Failed to connect wallet");
             }
             this.handleDisconnect();
+        } finally {
+            const connectButton = document.querySelector('.connect-button');
+            if (connectButton) {
+                connectButton.disabled = false;
+            }
         }
     }
 
-    async verifyTokenOwnership() {
-        if (!this.connection || !this.wallet?.publicKey) {
-            console.log('Missing connection or wallet for token verification');
-            return false;
-        }
-
+    async disconnectWallet() {
+        console.log('Disconnecting wallet');
         try {
-            console.log('Verifying token ownership for address:', this.wallet.publicKey.toString());
-            
-            // Get all token accounts held by the wallet
-            const response = await this.connection.getParsedTokenAccountsByOwner(
-                this.wallet.publicKey,
-                {
-                    programId: new solanaWeb3.PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA')
-                }
-            );
-
-            console.log('Found token accounts:', response.value.length);
-
-            let totalAmount = 0;
-            let decimals = 0;
-
-            // Look for BONES token among all token accounts
-            for (const account of response.value) {
-                const parsedInfo = account.account.data.parsed.info;
-                if (parsedInfo.mint === this.tokenAddress.toString()) {
-                    const amount = Number(parsedInfo.tokenAmount.amount);
-                    decimals = parsedInfo.tokenAmount.decimals;
-                    totalAmount += amount;
-                }
+            if (this.wallet) {
+                await this.wallet.disconnect();
             }
-
-            if (totalAmount > 0) {
-                console.log('Found positive BONES token balance');
-                const formattedAmount = totalAmount / Math.pow(10, decimals);
-                console.log('Formatted amount:', formattedAmount);
-                
-                this.tokenBalance = formattedAmount;
-                this.hasTokens = true;
-                return true;
-            }
-
-            console.log('No BONES token balance found');
-            this.tokenBalance = 0;
+            this.wallet = null;
+            this.isConnected = false;
             this.hasTokens = false;
-            return false;
-        } catch (err) {
-            console.error('Error verifying token ownership:', err);
-            if (this.connectionRetries < this.maxRetries) {
-                this.connectionRetries++;
-                this.updateStatus(`Retrying verification (${this.connectionRetries}/${this.maxRetries})...`);
-                await new Promise(resolve => setTimeout(resolve, this.retryDelay));
-                return this.verifyTokenOwnership();
+            this.tokenBalance = 0;
+            
+            // Reset button state
+            const connectButton = document.querySelector('.connect-toggle-button');
+            if (connectButton) {
+                connectButton.textContent = 'Connect Wallet';
+                connectButton.onclick = () => this.connectWallet();
             }
-            return false;
+            
+            // Show paywall
+            this.showPaywall();
+            
+            // Dispatch connection event
+            window.dispatchEvent(new CustomEvent('walletConnectionChanged', {
+                detail: {
+                    connected: false,
+                    address: null
+                }
+            }));
+        } catch (err) {
+            console.error('Error disconnecting wallet:', err);
+            this.showWalletError('Error disconnecting wallet');
         }
-    }
-
-    handleConnect() {
-        console.log('Wallet connected');
-        this.wallet = window.solana;
-        this.isConnected = true;
-        localStorage.setItem('walletConnected', 'true');
-        this.verifyTokenOwnership().then(() => this.updateUI());
-    }
-
-    handleDisconnect() {
-        console.log('Wallet disconnected');
-        this.wallet = null;
-        this.isConnected = false;
-        this.hasTokens = false;
-        this.tokenBalance = 0;
-        localStorage.removeItem('walletConnected');
-        
-        // Force UI update for disconnect
-        this.updateUI();
     }
 
     handleAccountChanged() {
         console.log('Account changed');
-        this.verifyTokenOwnership().then(() => this.updateUI());
-    }
-
-    disconnectWallet() {
-        if (window.solana) {
-            window.solana.disconnect();
-        }
-        this.handleDisconnect();
+        this.verifyTokenHoldings().then(() => this.updateUI());
     }
 
     // UI Update Methods
@@ -214,7 +320,14 @@ class WalletManager {
     }
 
     updateBalanceDisplays() {
-        const formattedBalance = this.tokenBalance ? `${this.tokenBalance.toLocaleString()} $BONES` : '0 $BONES';
+        let formattedBalance;
+        if (!this.isConnected) {
+            formattedBalance = '0 $BONES';
+        } else if (this.tokenBalance) {
+            formattedBalance = `${Number(this.tokenBalance).toLocaleString()} $BONES`;
+        } else {
+            formattedBalance = '0 $BONES';
+        }
         
         const infoBonesBalance = document.getElementById('infoBonesBalance');
         const panelBonesBalance = document.getElementById('panelBonesBalance');
@@ -239,8 +352,8 @@ class WalletManager {
         const walletModal = document.getElementById('walletModal');
         const mainContent = document.getElementById('mainContent');
 
-        if (this.hasTokens && this.isConnected) {
-            // Show content, hide paywall
+        // Show content and hide paywall if connected AND has tokens
+        if (this.isConnected && this.hasTokens) {
             if (content) content.style.display = 'block';
             if (paywall) paywall.style.display = 'none';
             if (walletModal) walletModal.style.display = 'none';
@@ -250,7 +363,7 @@ class WalletManager {
                 mainContent.style.userSelect = 'auto';
             }
         } else {
-            // Show paywall, hide content
+            // Show paywall if not connected OR no tokens
             if (content) content.style.display = 'none';
             if (paywall) paywall.style.display = 'flex';
             if (walletModal) walletModal.style.display = this.isConnected ? 'none' : 'flex';
@@ -273,15 +386,15 @@ class WalletManager {
         const connectButtons = document.querySelectorAll('.connect-toggle-button');
         const modalToggle = document.getElementById('modalToggle');
         
-        // Show/hide connect buttons based on token ownership and connection state
-        const shouldShow = !this.hasTokens || !this.isConnected;
+        // Hide buttons if connected AND has tokens, show otherwise
+        const shouldHide = this.isConnected && this.hasTokens;
         
         connectButtons.forEach(button => {
-            button.style.display = shouldShow ? 'block' : 'none';
+            button.style.display = shouldHide ? 'none' : 'block';
         });
         
         if (modalToggle) {
-            modalToggle.style.display = shouldShow ? 'block' : 'none';
+            modalToggle.style.display = shouldHide ? 'none' : 'block';
         }
     }
 
@@ -289,18 +402,44 @@ class WalletManager {
         const walletPanel = document.querySelector('.wallet-panel');
         if (!walletPanel) return;
 
-        if (this.hasTokens && this.isConnected) {
-            // Show wallet panel with animation
+        // Show panel if connected AND has tokens
+        if (this.isConnected && this.hasTokens) {
             walletPanel.style.display = 'block';
             setTimeout(() => {
                 walletPanel.classList.add('slide-in');
             }, 10);
         } else {
-            // Hide wallet panel with animation
             walletPanel.classList.remove('slide-in');
             setTimeout(() => {
                 walletPanel.style.display = 'none';
             }, 300);
+        }
+    }
+
+    updateWalletInfo() {
+        const walletAddress = this.wallet?.publicKey?.toString();
+        if (walletAddress) {
+            // Update address displays
+            const addressDisplays = document.querySelectorAll('.wallet-address');
+            addressDisplays.forEach(display => {
+                display.textContent = `${walletAddress.slice(0, 4)}...${walletAddress.slice(-4)}`;
+            });
+
+            // Update balance displays
+            const balanceDisplays = document.querySelectorAll('.token-balance');
+            balanceDisplays.forEach(display => {
+                const balance = this.tokenBalance || 0;
+                display.textContent = balance.toLocaleString(undefined, {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2
+                });
+            });
+
+            // Show connected state
+            document.querySelectorAll('.connect-toggle-button').forEach(btn => {
+                btn.textContent = 'Disconnect';
+                btn.onclick = () => this.disconnectWallet();
+            });
         }
     }
 
@@ -311,19 +450,71 @@ class WalletManager {
         if (paywall) paywall.style.display = 'none';
     }
 
+    hidePaywall() {
+        console.log('Hiding paywall');
+        const mainContent = document.getElementById('mainContent');
+        const walletModal = document.getElementById('walletModal');
+        const blurOverlay = document.querySelector('.blur-overlay');
+        
+        if (mainContent) {
+            mainContent.classList.add('visible');
+        }
+        if (walletModal) {
+            walletModal.classList.add('hidden');
+        }
+        if (blurOverlay) {
+            blurOverlay.style.display = 'none';
+        }
+    }
+
     showPaywall() {
-        const content = document.querySelector('.content');
-        const paywall = document.querySelector('.paywall');
-        if (content) content.style.display = 'none';
-        if (paywall) paywall.style.display = 'block';
+        console.log('Showing paywall');
+        const mainContent = document.getElementById('mainContent');
+        const walletModal = document.getElementById('walletModal');
+        const blurOverlay = document.querySelector('.blur-overlay');
+        const connectButton = document.querySelector('.connect-toggle-button');
+        
+        if (mainContent) {
+            mainContent.classList.remove('visible');
+        }
+        if (walletModal) {
+            walletModal.classList.remove('hidden');
+        }
+        if (blurOverlay) {
+            blurOverlay.style.display = 'block';
+        }
+        if (connectButton) {
+            connectButton.textContent = 'Connect Wallet';
+            connectButton.onclick = () => this.connectWallet();
+        }
     }
 
     updateStatus(message, isError = false) {
         console.log(message);
+        const statusElement = document.getElementById('walletStatus');
+        const errorElement = document.getElementById('walletError');
+        
+        if (statusElement && !isError) {
+            statusElement.textContent = message;
+            statusElement.style.display = 'block';
+            if (errorElement) errorElement.style.display = 'none';
+        }
+        
+        if (errorElement && isError) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            if (statusElement) statusElement.style.display = 'none';
+        }
     }
 
     showWalletError(message, duration = 3000) {
-        console.error(message);
+        this.updateStatus(message, true);
+        setTimeout(() => {
+            const errorElement = document.getElementById('walletError');
+            if (errorElement) {
+                errorElement.style.display = 'none';
+            }
+        }, duration);
     }
 }
 
