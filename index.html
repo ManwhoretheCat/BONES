@@ -600,36 +600,13 @@
         bottom: 1rem;
         right: 1rem;
         background: #fff;
-        padding: 0.5rem;
+        padding: 0.8rem 1.5rem;
+        border-radius: 0;
         border: 3px solid #000;
-        border-radius: 8px;
         box-shadow: 4px 4px 0 #000;
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-        z-index: 1000;
+        display: none;
         font-family: Arial, sans-serif;
-      }
-
-      .info-button-mini {
-        background: #FFD700;
-        color: #000;
-        border: 2px solid #000;
-        border-radius: 4px;
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-weight: bold;
-        padding: 0;
-        font-size: 14px;
-      }
-
-      .info-button-mini:hover {
-        background: #FFC500;
-        transform: translateY(-1px);
+        z-index: 1000;
       }
 
       .wallet-address {
@@ -656,6 +633,15 @@
       .disconnect-button:hover {
         transform: translateY(-2px);
         box-shadow: 4px 4px 0 #000;
+      }
+
+      .blur-content {
+        filter: blur(5px);
+        pointer-events: none !important;
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
       }
 
       /* Status Display and Improved Modal UI */
@@ -889,6 +875,21 @@
 
       .disconnect-button-mini:hover {
         background: #ff6666;
+      }
+
+      .info-button-mini {
+        background: #4444ff;
+        color: white;
+        border: 2px solid #000;
+        padding: 0.2rem 0.5rem;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-family: Arial, sans-serif;
+        margin-right: 0.5rem;
+      }
+
+      .info-button-mini:hover {
+        background: #6666ff;
       }
 
       /* Connected Wallet Panel */
@@ -1559,7 +1560,7 @@
 
     <!-- Footer Wallet Status -->
     <div id="footerWallet" class="footer-wallet">
-        <button class="info-button-mini" onclick="toggleWalletInfo()">i</button>
+        <button class="info-button-mini" onclick="toggleWalletInfo()"><i class="fas fa-info"></i></button>
         <button class="disconnect-button-mini" onclick="window.walletManager.disconnectWallet()">×</button>
     </div>
 
@@ -1568,12 +1569,12 @@
         <div class="panel-content">
             <h2 class="wallet-title">Connected Wallet</h2>
             <div class="wallet-address-display" id="panelWalletAddress"></div>
-            <div class="info-box">
-                <p>Your BONES balance: <span id="panelBonesBalance">Loading...</span></p>
-            </div>
             <button class="disconnect-button" onclick="window.walletManager.disconnectWallet()">
                 Disconnect Wallet
             </button>
+            <div class="info-box">
+                <p>Your BONES balance: <span id="panelBonesBalance">Loading...</span></p>
+            </div>
             <div class="panel-bottom">
                 <p>Thanks for being part of the BONES community! 🦴</p>
             </div>
@@ -2406,6 +2407,175 @@
       });
     </script>
     <script>
+      // Function to create POW effect
+      function createPowEffect(x, y) {
+        const pow = document.createElement('div');
+        pow.className = 'pow-effect';
+        pow.style.left = x + 'px';
+        pow.style.top = y + 'px';
+        pow.textContent = 'POW!';
+        document.body.appendChild(pow);
+        setTimeout(() => pow.remove(), 500);
+      }
+
+      // Add click handlers for comic images
+      document.querySelectorAll('.comic-image').forEach((img, index) => {
+        // Create container and wrap image
+        const container = document.createElement('div');
+        container.className = 'comic-image-container';
+        
+        // Create panels array to store all panels
+        const panels = [];
+        
+        // Create initial front panel
+        const frontPanel = document.createElement('div');
+        frontPanel.className = 'comic-image-front';
+        frontPanel.appendChild(img.cloneNode(true));
+        panels.push(frontPanel);
+        
+        // Create different content based on section
+        let panel2Content, panel3Content;
+        
+        if (index === 0) {
+          // BONES section (first section)
+          panel2Content = `
+            <div class="comic-panel comic-panel-large">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic bubble-1">
+                <a href="https://stake.smithii.io/last25bones" style="color: inherit; text-decoration: none;">$BONES Staking</a>
+              </div>
+            </div>
+            <div class="comic-panel">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Join the skeletal revolution!</div>
+            </div>
+            <div class="comic-panel">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">To the moon and beyond!</div>
+            </div>
+          `;
+          
+          panel3Content = `
+            <div class="comic-panel comic-panel-large">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">The Final Frontier</div>
+            </div>
+            <div class="comic-panel">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Last stop before takeoff!</div>
+            </div>
+            <div class="comic-panel">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Click to return home</div>
+            </div>
+          `;
+        } else {
+          // All other sections (2-20) - A Cat Named Manwhore Universe
+          panel2Content = `
+            <div class="comic-panel comic-panel-large">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">A Cat Named Manwhore</div>
+            </div>
+            <div class="comic-panel">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Tales of feline mischief...</div>
+            </div>
+            <div class="comic-panel">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Meow meow!</div>
+            </div>
+          `;
+          
+          panel3Content = `
+            <div class="comic-panel comic-panel-large">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Adventures Await</div>
+            </div>
+            <div class="comic-panel">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="comic-text">Purr-fect stories coming soon</div>
+            </div>
+            <div class="comic-panel">
+              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+              <div class="speech-bubble-comic">Click to close</div>
+            </div>
+          `;
+        }
+        
+        // Create panel 2
+        const panel2 = document.createElement('div');
+        panel2.className = 'comic-image-back';
+        panel2.innerHTML = panel2Content;
+        panels.push(panel2);
+        
+        // Create panel 3
+        const panel3 = document.createElement('div');
+        panel3.className = 'comic-image-back';
+        panel3.innerHTML = panel3Content;
+        panels.push(panel3);
+        
+        // Add all panels to container
+        panels.forEach(panel => container.appendChild(panel));
+        
+        // Replace original image with container
+        img.parentNode.insertBefore(container, img);
+        img.remove();
+        
+        // Track current panel index
+        let currentPanelIndex = 0;
+        let isAnimating = false;
+        
+        function animatePageTurn(fromPanel, toPanel, onComplete) {
+          isAnimating = true;
+          
+          // Start the page turn animation
+          fromPanel.classList.add('flipping');
+          
+          // Wait for the flip animation to reach halfway
+          setTimeout(() => {
+            toPanel.classList.add('active');
+            fromPanel.classList.remove('active');
+            
+            // Complete the animation
+            setTimeout(() => {
+              fromPanel.classList.remove('flipping');
+              isAnimating = false;
+              if (onComplete) onComplete();
+            }, 400);
+          }, 200);
+        }
+        
+        // Add click handler
+        container.addEventListener('click', function() {
+          if (isAnimating) return;
+          
+          const currentPanel = panels[currentPanelIndex];
+          const nextPanel = panels[currentPanelIndex + 1];
+          
+          if (currentPanelIndex === 0) {
+            // First panel to second
+            currentPanel.classList.add('active');
+            animatePageTurn(currentPanel, nextPanel, () => {
+              this.classList.add('peeled');
+              currentPanelIndex++;
+            });
+          } else if (currentPanelIndex === 1) {
+            // Second panel to third
+            animatePageTurn(currentPanel, nextPanel, () => {
+              currentPanelIndex++;
+            });
+          } else if (currentPanelIndex === 2) {
+            // Third panel back to first
+            animatePageTurn(currentPanel, panels[0], () => {
+              this.classList.remove('peeled');
+              panels.forEach(panel => panel.classList.remove('active'));
+              currentPanelIndex = 0;
+            });
+          }
+        });
+      });
+    </script>
+    <script>
       // Wallet Info Panel Functions
       let walletInfoVisible = false;
 
@@ -2417,8 +2587,8 @@
 
       function updateWalletInfo() {
         const walletAddress = document.getElementById('walletAddress');
-        const panelBonesBalance = document.getElementById('panelBonesBalance');
         const infoBonesBalance = document.getElementById('infoBonesBalance');
+        const panelBonesBalance = document.getElementById('panelBonesBalance');
         
         if (window.walletManager?.isConnected) {
           const address = window.walletManager.publicKey?.toBase58() || 'Not Connected';
@@ -2427,29 +2597,36 @@
           walletAddress.textContent = address;
           if (hasTokens) {
             // Balance will be updated by verifyTokenOwnership
-            if (panelBonesBalance.textContent === 'Loading...') {
-              panelBonesBalance.textContent = 'Checking balance...';
-              infoBonesBalance.textContent = 'Checking balance...';
+            if (infoBonesBalance.textContent === 'Loading...' || panelBonesBalance.textContent === 'Loading...') {
+              const checkingText = 'Checking balance...';
+              infoBonesBalance.textContent = checkingText;
+              panelBonesBalance.textContent = checkingText;
             }
           } else {
-            panelBonesBalance.textContent = '0 $BONES';
-            infoBonesBalance.textContent = '0 $BONES';
+            const zeroBalance = '0 $BONES';
+            infoBonesBalance.textContent = zeroBalance;
+            panelBonesBalance.textContent = zeroBalance;
           }
         } else {
           walletAddress.textContent = 'Not Connected';
-          panelBonesBalance.textContent = '0 $BONES';
-          infoBonesBalance.textContent = '0 $BONES';
+          const zeroBalance = '0 $BONES';
+          infoBonesBalance.textContent = zeroBalance;
+          panelBonesBalance.textContent = zeroBalance;
         }
       }
 
       // Update wallet info when connection changes
       window.addEventListener('walletConnectionChanged', updateWalletInfo);
       window.addEventListener('tokensDetected', (e) => {
-        const panelBonesBalance = document.getElementById('panelBonesBalance');
         const infoBonesBalance = document.getElementById('infoBonesBalance');
-        if (panelBonesBalance && infoBonesBalance) {
-          panelBonesBalance.textContent = `${e.detail.amount.toLocaleString()} $BONES`;
-          infoBonesBalance.textContent = `${e.detail.amount.toLocaleString()} $BONES`;
+        const panelBonesBalance = document.getElementById('panelBonesBalance');
+        const formattedBalance = `${e.detail.amount.toLocaleString()} $BONES`;
+        
+        if (infoBonesBalance) {
+          infoBonesBalance.textContent = formattedBalance;
+        }
+        if (panelBonesBalance) {
+          panelBonesBalance.textContent = formattedBalance;
         }
       });
     </script>
