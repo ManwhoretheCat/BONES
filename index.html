@@ -1550,7 +1550,7 @@
         pointer-events: none;
       }
 
-      /* Mobile styles for about modal */
+      /* Mobile styles for about modal and footer */
       @media screen and (max-width: 768px) {
         .modal-overlay {
           position: fixed;
@@ -1580,26 +1580,28 @@
         }
 
         .modal-content {
-          flex: 1;
-          padding: 1.5rem;
+          flex: 1 1 auto;
+          padding: 1.5rem 1.5rem 0 1.5rem;
           overflow-y: auto;
           -webkit-overflow-scrolling: touch;
           display: flex;
           flex-direction: column;
-          padding-bottom: 2rem;
+          min-height: 0;
         }
 
         .modal-header {
+          flex: 0 0 auto;
           margin-bottom: 1.5rem;
         }
 
         .modal-section {
+          flex: 0 0 auto;
           margin-bottom: 2rem;
+          width: 100%;
         }
 
         .modal-section:last-child {
-          margin-bottom: 0;
-          padding-bottom: 1rem;
+          margin-bottom: 1.5rem;
         }
 
         .info-box, .speech-bubble {
@@ -1613,6 +1615,48 @@
           right: 1rem;
           top: 1rem;
           z-index: 2;
+        }
+
+        /* Footer bar mobile styles */
+        .footer-bar {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 60px;
+          background: white;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 1rem;
+          border-top: 3px solid #000;
+          z-index: 999;
+        }
+
+        .footer-title {
+          font-size: 0.9rem;
+          font-weight: bold;
+          margin: 0;
+          text-align: left;
+          flex: 1;
+        }
+
+        .footer-center {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+        .footer-right {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .menu-button {
+          position: static;
+          transform: none;
+          margin: 0;
         }
       }
     </style>
@@ -2231,11 +2275,14 @@
       <a href="/about/about.html">About</a>
     </div>
     <footer>
-      <div class="social-links">
-        <span class="studio-text">A CAT NAMED MANWHORE studios</span>
-        <button class="menu-button">
-          <i class="fas fa-bars"></i>
-        </button>
+      <div class="footer-bar">
+        <h1 class="footer-title">A CAT NAMED MANWHORE STUDIOS</h1>
+        <div class="footer-center">
+          <button class="menu-button">MENU</button>
+        </div>
+        <div class="footer-right">
+          <button id="walletToggle" class="disconnect-button">Disconnect</button>
+        </div>
       </div>
     </footer>
     <script>
