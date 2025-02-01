@@ -1553,28 +1553,35 @@
       /* Mobile styles for about modal */
       @media screen and (max-width: 768px) {
         .modal-overlay {
-          padding: 1rem;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.8);
           display: flex;
           align-items: center;
           justify-content: center;
-          overflow: hidden;
+          z-index: 1000;
+          padding: 0;
         }
 
         .modal {
-          width: 95%;
-          max-width: none;
-          margin: 0;
-          height: auto;
-          max-height: 90vh;
-          transform: none;
           position: relative;
-          top: 0;
-          left: 0;
+          width: 92%;
+          height: 95vh;
+          margin: 0 auto;
+          background: white;
+          border-radius: 12px;
+          box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
         }
 
         .modal-content {
+          flex: 1;
           padding: 1.5rem;
-          height: auto;
           overflow-y: auto;
           -webkit-overflow-scrolling: touch;
         }
@@ -1586,6 +1593,13 @@
         .info-box, .speech-bubble {
           padding: 1rem;
           margin-bottom: 1.5rem;
+        }
+
+        .close-modal {
+          position: absolute;
+          right: 1rem;
+          top: 1rem;
+          z-index: 2;
         }
       }
     </style>
