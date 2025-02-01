@@ -1569,7 +1569,7 @@
         .modal {
           position: relative;
           width: 92%;
-          height: 95vh;
+          height: 85vh;
           margin: 0 auto;
           background: white;
           border-radius: 12px;
@@ -1580,13 +1580,11 @@
         }
 
         .modal-content {
-          flex: 1 1 auto;
-          padding: 1.5rem 1.5rem 0 1.5rem;
+          flex: 1;
+          padding: 1.5rem;
           overflow-y: auto;
           -webkit-overflow-scrolling: touch;
-          display: flex;
-          flex-direction: column;
-          min-height: 0;
+          height: calc(100% - 2rem);
         }
 
         .modal-header {
@@ -1658,15 +1656,6 @@
           transform: none;
           margin: 0;
         }
-      }
-      @media screen and (max-width: 768px) {
-        .modal-content {
-          flex: 1;
-          padding: 1.5rem;
-          overflow-y: auto;
-          -webkit-overflow-scrolling: touch;
-          height: calc(95vh - 4rem);
-        }
 
         .social-links {
           display: flex;
@@ -1674,17 +1663,30 @@
           justify-content: space-between;
           width: 100%;
           padding: 0 1rem;
-        }
-
-        .studio-text {
-          font-size: 0.9rem;
-          text-align: left;
+          height: 60px;
+          position: relative;
         }
 
         .menu-button {
+          position: static;
+          margin-right: auto;
+          transform: none;
+        }
+
+        .studio-text {
           position: absolute;
           left: 50%;
           transform: translateX(-50%);
+          font-size: 0.8rem;
+          text-align: center;
+          line-height: 1.2;
+          margin: 0;
+          padding: 0;
+        }
+
+        .studio-text div {
+          margin: 0;
+          padding: 0;
         }
       }
     </style>
@@ -2304,10 +2306,13 @@
     </div>
     <footer>
       <div class="social-links">
-        <span class="studio-text">A CAT NAMED MANWHORE studios</span>
         <button class="menu-button">
           <i class="fas fa-bars"></i>
         </button>
+        <div class="studio-text">
+          <div>A CAT NAMED</div>
+          <div>MANWHORE STUDIOS</div>
+        </div>
       </div>
     </footer>
     <script>
