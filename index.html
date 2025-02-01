@@ -1584,15 +1584,28 @@
           padding: 1.5rem;
           overflow-y: auto;
           -webkit-overflow-scrolling: touch;
+          display: flex;
+          flex-direction: column;
+          padding-bottom: 2rem;
+        }
+
+        .modal-header {
+          margin-bottom: 1.5rem;
         }
 
         .modal-section {
           margin-bottom: 2rem;
         }
 
+        .modal-section:last-child {
+          margin-bottom: 0;
+          padding-bottom: 1rem;
+        }
+
         .info-box, .speech-bubble {
           padding: 1rem;
           margin-bottom: 1.5rem;
+          width: 100%;
         }
 
         .close-modal {
