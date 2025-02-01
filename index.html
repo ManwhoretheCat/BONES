@@ -1549,6 +1549,37 @@
         z-index: 999;
         pointer-events: none;
       }
+
+      /* Mobile styles for about modal */
+      @media screen and (max-width: 768px) {
+        .modal {
+          width: 90%;
+          max-width: 340px;
+          margin: 20px auto;
+          max-height: 85vh;
+          overflow-y: auto;
+        }
+
+        .modal-content {
+          padding: 1rem;
+          height: auto;
+          min-height: 70vh;
+        }
+
+        .modal-section {
+          margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+          font-size: 1.8rem;
+          margin-bottom: 1rem;
+        }
+
+        .info-box, .speech-bubble {
+          padding: 0.8rem;
+          margin-bottom: 1rem;
+        }
+      }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
   </head>
