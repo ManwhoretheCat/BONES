@@ -2673,7 +2673,11 @@
       window.addEventListener('tokensDetected', (e) => {
         const infoBonesBalance = document.getElementById('infoBonesBalance');
         const panelBonesBalance = document.getElementById('panelBonesBalance');
-        const formattedBalance = `${e.detail.amount.toLocaleString()} $BONES`;
+        const amount = e.detail.amount || 0;
+        const formattedBalance = `${amount.toLocaleString('en-US', { 
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2 
+        })} $BONES`;
         
         if (infoBonesBalance) {
           infoBonesBalance.textContent = formattedBalance;
