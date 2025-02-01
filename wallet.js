@@ -137,7 +137,10 @@ class WalletManager {
                             this.hasTokens = true;
                             window.dispatchEvent(new CustomEvent('tokensDetected', {
                                 detail: {
-                                    balance: this.tokenBalance
+                                    balance: balance ? balance.toLocaleString('en-US', { 
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2 
+                                    }) : '0.00'
                                 }
                             }));
                             return true;
