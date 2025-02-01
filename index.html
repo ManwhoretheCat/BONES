@@ -1581,7 +1581,7 @@
 
         .modal-content {
           flex: 1 1 auto;
-          padding: 1.5rem;
+          padding: 1.5rem 1.5rem 0 1.5rem;
           overflow-y: auto;
           -webkit-overflow-scrolling: touch;
           display: flex;
@@ -1657,6 +1657,34 @@
           position: static;
           transform: none;
           margin: 0;
+        }
+      }
+      @media screen and (max-width: 768px) {
+        .modal-content {
+          flex: 1;
+          padding: 1.5rem;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+          height: calc(95vh - 4rem);
+        }
+
+        .social-links {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          padding: 0 1rem;
+        }
+
+        .studio-text {
+          font-size: 0.9rem;
+          text-align: left;
+        }
+
+        .menu-button {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
         }
       }
     </style>
