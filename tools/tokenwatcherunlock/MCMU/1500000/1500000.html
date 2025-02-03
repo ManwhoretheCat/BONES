@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$1,500,000 Milestone</title>
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #2d2d2d;
+            --accent-color: #8a2be2;
+            --text-color: #ffffff;
+            --border-color: #8a2be2;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: transparent;
+            color: var(--text-color);
+        }
+
+        .card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            gap: 15px;
+            height: 120px;
+            box-sizing: border-box;
+        }
+
+        .thumbnail {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: 2px solid var(--border-color);
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow: hidden;
+        }
+
+        .description {
+            font-size: 0.9em;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .link:hover {
+            color: var(--text-color);
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                flex-direction: column;
+                height: auto;
+                text-align: center;
+            }
+
+            .thumbnail {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="thumbnail.gif" alt="$1500000 Milestone" class="thumbnail">
+        <div class="content">
+            <div class="description">
+                Incredible! The BONES Community has achieved the $1,500,000 Market Cap Milestone. We're making history together!
+            </div>
+            <a href="https://acatnamedmanwhore.com" target="_blank" class="link">Visit this BONES MC Milestone →</a>
+        </div>
+    </div>
+</body>
+</html>
