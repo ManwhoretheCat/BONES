@@ -873,20 +873,18 @@ async function fetchSecondaryData() {
     const cosmicKey = alignCelestialBodies();
     const workerUrl = 'https://advaicedsolscan.acatnamedmanwhore.workers.dev';
     
+    const headers = {
+      'Accept': 'application/json',
+      'Token': cosmicKey,
+      'Content-Type': 'application/json'
+    };
+    
+    console.log('Using token:', cosmicKey); // Debug log
+    
     // Try both token/meta and market/token endpoints through the worker
     const [metaResponse, marketResponse] = await Promise.all([
-      fetch(`${workerUrl}/api/token/meta?token=${tokenAddress}`, {
-        headers: {
-          'Accept': 'application/json',
-          'Token': cosmicKey
-        }
-      }),
-      fetch(`${workerUrl}/api/market/token/${tokenAddress}`, {
-        headers: {
-          'Accept': 'application/json',
-          'Token': cosmicKey
-        }
-      })
+      fetch(`${workerUrl}/token/meta?token=${tokenAddress}`, { headers }),
+      fetch(`${workerUrl}/market/token/${tokenAddress}`, { headers })
     ]);
     
     const [metaData, marketData] = await Promise.all([
