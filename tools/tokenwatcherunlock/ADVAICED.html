@@ -244,6 +244,165 @@ input[type="range"]:active::-webkit-slider-thumb {
 input[type="range"]:active::-moz-range-thumb {
     transform: scale(1.2);
 }
+
+/* Add psychedelic scrollbar styles */
+::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
+    display: none !important;
+}
+
+::-webkit-scrollbar-track {
+    background: linear-gradient(45deg, #ff00ff, #00ffff, #ff0000, #ffff00) !important;
+    border-radius: 10px !important;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.3) !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.2) !important;
+    border-radius: 10px !important;
+    border: 2px solid #00ffff !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+html {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+/* Add quantum animation keyframes */
+@keyframes quantumChaos {
+    0% {
+        transform: translate(0,0) rotate(0deg) scale(1) skew(0deg,0deg);
+    }
+    20% {
+        transform: translate(200%,50%) rotate(720deg) scale(0.2) skew(30deg,20deg);
+        opacity: 0;
+    }
+    40% {
+        transform: translate(-150%,-100%) rotate(-540deg) scale(2.5) skew(-40deg,-30deg);
+        opacity: 0.7;
+    }
+    60% {
+        transform: translate(100vw,50vh) rotate(1080deg) scale(0.8) skew(60deg,60deg);
+        filter: hue-rotate(180deg);
+    }
+    80% {
+        transform: translate(-80vw,120vh) rotate(-270deg) scale(1.8) skew(-20deg,-50deg);
+        clip-path: polygon(0 0, 100% 0, 100% 20%, 0 80%);
+    }
+    100% {
+        transform: translate(0,0) rotate(0deg) scale(1) skew(0deg,0deg);
+    }
+}
+
+@keyframes fractalVortex {
+    0% {
+        transform: perspective(2000px) rotateX(0) rotateY(0) rotateZ(0);
+        filter: blur(0);
+    }
+    50% {
+        transform: perspective(2000px) rotateX(720deg) rotateY(360deg) rotateZ(180deg) translateZ(500px);
+        filter: blur(20px) hue-rotate(360deg);
+    }
+    100% {
+        transform: perspective(2000px) rotateX(0) rotateY(0) rotateZ(0);
+        filter: blur(0);
+    }
+}
+
+.panel {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    animation: quantumChaos 8s infinite linear;
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease-out;
+    backdrop-filter: blur(0);
+    mix-blend-mode: normal;
+}
+
+.panel.glitch-active {
+    animation: digitalDistortion 0.5s steps(2, end) infinite,
+               glitchText 0.3s steps(1, end) infinite;
+    backdrop-filter: blur(5px);
+    mix-blend-mode: hard-light;
+}
+
+.panel.matrix-active {
+    animation: matrixRain 2s linear infinite;
+    backdrop-filter: hue-rotate(90deg);
+    mix-blend-mode: screen;
+}
+
+.panel.hologram-active {
+    animation: holographicNoise 1s linear infinite;
+    backdrop-filter: blur(2px);
+    mix-blend-mode: overlay;
+}
+
+/* Add these new glitch effects */
+@keyframes glitchText {
+    0% { text-shadow: none; }
+    20% { text-shadow: 2px 0 #ff0000, -2px 0 #00ff00; }
+    40% { text-shadow: -2px 0 #0000ff, 2px 0 #ffff00; }
+    60% { text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff; }
+    80% { text-shadow: -2px 2px #ff0000, 2px -2px #00ff00; }
+    100% { text-shadow: none; }
+}
+
+@keyframes digitalDistortion {
+    0% { clip-path: inset(0 0 0 0); }
+    10% { clip-path: inset(20% -20px 30% 50px); }
+    20% { clip-path: inset(40% 50px 10% -20px); }
+    30% { clip-path: inset(10% 20px 40% 30px); }
+    40% { clip-path: inset(0 0 0 0); }
+    50% { clip-path: inset(30% -20px 20% 20px); }
+    60% { clip-path: inset(20% 30px 30% -20px); }
+    70% { clip-path: inset(10% 20px 40% 30px); }
+    80% { clip-path: inset(40% 50px 10% -20px); }
+    90% { clip-path: inset(20% -20px 30% 50px); }
+    100% { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes matrixRain {
+    0% { 
+        background: linear-gradient(180deg, 
+            rgba(0,255,0,0) 0%,
+            rgba(0,255,0,0.2) 50%,
+            rgba(0,255,0,0) 100%
+        );
+        background-size: 100% 200%;
+        background-position: 0 -100%;
+    }
+    100% { 
+        background: linear-gradient(180deg,
+            rgba(0,255,0,0) 0%,
+            rgba(0,255,0,0.2) 50%,
+            rgba(0,255,0,0) 100%
+        );
+        background-size: 100% 200%;
+        background-position: 0 100%;
+    }
+}
+
+@keyframes holographicNoise {
+    0% { filter: url('#turbulence') brightness(1) contrast(1); }
+    25% { filter: url('#turbulence') brightness(1.2) contrast(1.5); }
+    50% { filter: url('#turbulence') brightness(0.8) contrast(2); }
+    75% { filter: url('#turbulence') brightness(1.5) contrast(0.8); }
+    100% { filter: url('#turbulence') brightness(1) contrast(1); }
+}
+
+/* SVG filter for holographic effect */
+<svg style="position: absolute; width: 0; height: 0;">
+    <filter id="turbulence">
+        <feTurbulence type="fractalNoise" baseFrequency="0.15" numOctaves="4" seed="1" stitchTiles="stitch"/>
+        <feDisplacementMap in="SourceGraphic" scale="10"/>
+    </filter>
+</svg>
 </style>
 </head>
 <body>
@@ -776,72 +935,34 @@ document.getElementById('hideControlsBtn').addEventListener('click', () => {
     showMessage(controls.classList.contains('visible') ? "Controls visible" : "Controls hidden");
 });
 
-function showMessage(text) {
-    // Get AI-enhanced technical message
-    const enhancedMessage = getAIEnhancedMessage(text);
-    const message = document.getElementById('message');
-    message.textContent = enhancedMessage;
-    message.style.opacity = 1;
+function applyRandomGlitch(panel) {
+    const effects = ['glitch-active', 'matrix-active', 'hologram-active'];
+    const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+    
+    // Remove any existing effects
+    effects.forEach(effect => panel.classList.remove(effect));
+    
+    // Apply new effect
+    panel.classList.add(randomEffect);
+    
+    // Random duration between 100ms and 2000ms
+    const duration = 100 + Math.random() * 1900;
+    
+    // Remove effect after duration
     setTimeout(() => {
-        message.style.opacity = 0;
-    }, 3000); // Increased display time for longer messages
+        panel.classList.remove(randomEffect);
+    }, duration);
 }
 
-function getAIEnhancedMessage(baseMessage) {
-    // Technical prefixes that make it sound more AI-like
-    const technicalPrefixes = [
-        "Neural pathway adjustment: ",
-        "Quantum pattern synthesis: ",
-        "Fractal dimension calibration: ",
-        "Algorithmic resonance detected: ",
-        "Synthetic consciousness activated: ",
-        "Pattern recognition matrix: ",
-        "Dimensional paradigm shift: ",
-        "Neural network optimization: ",
-        "Hyperdimensional mapping: ",
-        "Consciousness interface: "
-    ];
-
-    // Technical suffixes to add depth
-    const technicalSuffixes = [
-        " | Processing neural feedback",
-        " | Synchronizing wave functions",
-        " | Optimizing experience matrix",
-        " | Calculating dimensional vectors",
-        " | Harmonizing quantum states",
-        " | Analyzing user consciousness patterns",
-        " | Stabilizing reality matrix",
-        " | Integrating sensory data",
-        " | Maintaining quantum coherence",
-        " | Adjusting neural frequencies"
-    ];
-
-    // Add technical context based on the type of message
-    if (baseMessage.includes("Autopilot")) {
-        return `AI Core ${Math.floor(Math.random() * 9999)}: Initiating autonomous control sequence. ${baseMessage} Calibrating neural interfaces...`;
-    }
-    
-    if (baseMessage.includes("dimension")) {
-        return `Dimensional Shift Protocol: ${baseMessage} Stabilizing quantum matrices...`;
-    }
-    
-    if (baseMessage.includes("Pattern")) {
-        return `Pattern Recognition Matrix v${(Math.random() * 5).toFixed(2)}: ${baseMessage} Synthesizing new reality structures...`;
-    }
-    
-    if (baseMessage.includes("Colors")) {
-        return `Chromatic AI Engine: ${baseMessage} Harmonizing wavelength patterns...`;
-    }
-    
-    if (baseMessage.includes("Transition")) {
-        return `Neural Link Status: ${baseMessage} Synchronizing consciousness streams...`;
-    }
-
-    // For other messages, use random technical framing
-    const prefix = technicalPrefixes[Math.floor(Math.random() * technicalPrefixes.length)];
-    const suffix = technicalSuffixes[Math.floor(Math.random() * technicalSuffixes.length)];
-    return `${prefix}${baseMessage}${suffix}`;
-}
+// Add random glitch triggers
+setInterval(() => {
+    const panels = document.querySelectorAll('.panel');
+    panels.forEach(panel => {
+        if(Math.random() < 0.1) { // 10% chance per panel
+            applyRandomGlitch(panel);
+        }
+    });
+}, 2000); // Check every 2 seconds
 
 // Config and constants
 const updateInterval = 10000;
@@ -868,7 +989,7 @@ function alignCelestialBodies() {
   return token;
 }
 
-const tokenAddress = '8Rym1XJMJuc3mkUUHtW9894DFo5GF9bZ8pdBEWS7moon';
+const tokenAddress = 'A8C3xuqscfmyLrte3VmTqrAq8kgMASius9AFNANwpump';
 
 async function fetchSecondaryData() {
   try {
@@ -1054,7 +1175,7 @@ async function updateTokenData() {
 }
 
 function animatePanel(panelElement) {
-  const animations = ['slideIn', 'popOut', 'flip', 'swap'];
+  const animations = ['slideIn', 'popOut', 'flip', 'swap', 'quantumChaos', 'fractalVortex'];
   const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
   
   panelElement.style.animation = `${randomAnimation} 0.5s ease-in-out`;
@@ -1067,6 +1188,132 @@ function animatePanel(panelElement) {
 initializeTokenModal();
 setInterval(updateTokenData, updateInterval);
 updateTokenData(); // Initial update
+
+function shufflePanels() {
+    const container = document.getElementById('panels-container');
+    const panels = Array.from(container.children);
+    
+    panels.forEach((panel, index) => {
+        // Generate random quantum properties with more variation
+        panel.style.setProperty('--x', (Math.random() * 2000 - 1000) + 'px');
+        panel.style.setProperty('--y', (Math.random() * 2000 - 1000) + 'px');
+        panel.style.setProperty('--r', (Math.random() * 7200 - 3600) + 'deg');
+        panel.style.setProperty('--s', (Math.random() * 5) + 0.5);
+        
+        // Random animation combination
+        const animations = [
+            'quantumChaos',
+            'fractalVortex',
+            'digitalDistortion',
+            'matrixRain',
+            'holographicNoise'
+        ];
+        
+        const numAnimations = 1 + Math.floor(Math.random() * 3); // 1 to 3 animations
+        const selectedAnimations = [];
+        
+        for(let i = 0; i < numAnimations; i++) {
+            const randomAnim = animations[Math.floor(Math.random() * animations.length)];
+            if(!selectedAnimations.includes(randomAnim)) {
+                selectedAnimations.push(randomAnim);
+            }
+        }
+        
+        // Apply random animation combination
+        panel.style.animation = selectedAnimations.map(anim => 
+            `${anim} ${2 + Math.random() * 6}s ${Math.random() * 2}s infinite alternate`
+        ).join(', ');
+        
+        // Random glitch effect
+        if(Math.random() < 0.3) { // 30% chance
+            applyRandomGlitch(panel);
+        }
+        
+        // Create quantum entanglement clones with random properties
+        if(Math.random() < 0.5) { // 50% chance
+            const clone = panel.cloneNode(true);
+            clone.style.position = 'absolute';
+            clone.style.opacity = Math.random() * 0.5;
+            clone.style.filter = `blur(${Math.random() * 10}px) hue-rotate(${Math.random() * 360}deg)`;
+            container.appendChild(clone);
+            
+            setTimeout(() => clone.remove(), 1000 + Math.random() * 2000);
+        }
+        
+        // Random position swap
+        setTimeout(() => {
+            const targetIndex = Math.floor(Math.random() * panels.length);
+            container.insertBefore(panel, panels[targetIndex]);
+        }, index * 50 + Math.random() * 500);
+    });
+}
+
+function showMessage(text) {
+    // Get AI-enhanced technical message
+    const enhancedMessage = getAIEnhancedMessage(text);
+    const message = document.getElementById('message');
+    message.textContent = enhancedMessage;
+    message.style.opacity = 1;
+    setTimeout(() => {
+        message.style.opacity = 0;
+    }, 3000); // Increased display time for longer messages
+}
+
+function getAIEnhancedMessage(baseMessage) {
+    // Technical prefixes that make it sound more AI-like
+    const technicalPrefixes = [
+        "Neural pathway adjustment: ",
+        "Quantum pattern synthesis: ",
+        "Fractal dimension calibration: ",
+        "Algorithmic resonance detected: ",
+        "Synthetic consciousness activated: ",
+        "Pattern recognition matrix: ",
+        "Dimensional paradigm shift: ",
+        "Neural network optimization: ",
+        "Hyperdimensional mapping: ",
+        "Consciousness interface: "
+    ];
+
+    // Technical suffixes to add depth
+    const technicalSuffixes = [
+        " | Processing neural feedback",
+        " | Synchronizing wave functions",
+        " | Optimizing experience matrix",
+        " | Calculating dimensional vectors",
+        " | Harmonizing quantum states",
+        " | Analyzing user consciousness patterns",
+        " | Stabilizing reality matrix",
+        " | Integrating sensory data",
+        " | Maintaining quantum coherence",
+        " | Adjusting neural frequencies"
+    ];
+
+    // Add technical context based on the type of message
+    if (baseMessage.includes("Autopilot")) {
+        return `AI Core ${Math.floor(Math.random() * 9999)}: Initiating autonomous control sequence. ${baseMessage} Calibrating neural interfaces...`;
+    }
+    
+    if (baseMessage.includes("dimension")) {
+        return `Dimensional Shift Protocol: ${baseMessage} Stabilizing quantum matrices...`;
+    }
+    
+    if (baseMessage.includes("Pattern")) {
+        return `Pattern Recognition Matrix v${(Math.random() * 5).toFixed(2)}: ${baseMessage} Synthesizing new reality structures...`;
+    }
+    
+    if (baseMessage.includes("Colors")) {
+        return `Chromatic AI Engine: ${baseMessage} Harmonizing wavelength patterns...`;
+    }
+    
+    if (baseMessage.includes("Transition")) {
+        return `Neural Link Status: ${baseMessage} Synchronizing consciousness streams...`;
+    }
+
+    // For other messages, use random technical framing
+    const prefix = technicalPrefixes[Math.floor(Math.random() * technicalPrefixes.length)];
+    const suffix = technicalSuffixes[Math.floor(Math.random() * technicalSuffixes.length)];
+    return `${prefix}${baseMessage}${suffix}`;
+}
 </script>
 </body>
 </html>
