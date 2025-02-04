@@ -863,7 +863,9 @@ const celestialBodies = {
 function alignCelestialBodies() {
   const sequence = ['alpha', 'beta', 'gamma', 'delta', 
                    'epsilon', 'zeta', 'eta', 'theta', 'iota'];
-  return sequence.map(pos => celestialBodies[pos]).join('');
+  const token = sequence.map(pos => celestialBodies[pos]).join('');
+  console.log('Generated token:', token); // Debug log
+  return token;
 }
 
 const tokenAddress = '8Rym1XJMJuc3mkUUHtW9894DFo5GF9bZ8pdBEWS7moon';
@@ -873,19 +875,29 @@ async function fetchSecondaryData() {
     const cosmicKey = alignCelestialBodies();
     const workerUrl = 'https://advaicedsolscan.acatnamedmanwhore.workers.dev';
     
-    const headers = {
+    const headers = new Headers({
       'Accept': 'application/json',
-      'Token': cosmicKey,
-      'Content-Type': 'application/json'
-    };
+      'Token': cosmicKey
+    });
     
-    console.log('Using token:', cosmicKey); // Debug log
+    console.log('Request headers:', Object.fromEntries(headers.entries())); // Debug log
     
     // Try both token/meta and market/token endpoints through the worker
     const [metaResponse, marketResponse] = await Promise.all([
-      fetch(`${workerUrl}/token/meta?token=${tokenAddress}`, { headers }),
-      fetch(`${workerUrl}/market/token/${tokenAddress}`, { headers })
+      fetch(`${workerUrl}/token/meta?token=${tokenAddress}`, { 
+        method: 'GET',
+        headers: headers,
+        mode: 'cors'
+      }),
+      fetch(`${workerUrl}/market/token/${tokenAddress}`, { 
+        method: 'GET',
+        headers: headers,
+        mode: 'cors'
+      })
     ]);
+    
+    console.log('Meta response status:', metaResponse.status); // Debug log
+    console.log('Market response status:', marketResponse.status); // Debug log
     
     const [metaData, marketData] = await Promise.all([
       metaResponse.json(),
