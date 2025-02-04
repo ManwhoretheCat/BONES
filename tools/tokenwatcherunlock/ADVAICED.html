@@ -871,17 +871,17 @@ const tokenAddress = '8Rym1XJMJuc3mkUUHtW9894DFo5GF9bZ8pdBEWS7moon';
 async function fetchSecondaryData() {
   try {
     const cosmicKey = alignCelestialBodies();
-    const workerUrl = 'https://acatnamedmanwhorecomsolana-proxy.acatnamedmanwhore.workers.dev';
+    const workerUrl = 'https://advaicedsolscan.acatnamedmanwhore.workers.dev';
     
     // Try both token/meta and market/token endpoints through the worker
     const [metaResponse, marketResponse] = await Promise.all([
-      fetch(`${workerUrl}/token/meta?token=${tokenAddress}`, {
+      fetch(`${workerUrl}/api/token/meta?token=${tokenAddress}`, {
         headers: {
           'Accept': 'application/json',
           'Token': cosmicKey
         }
       }),
-      fetch(`${workerUrl}/market/token/${tokenAddress}`, {
+      fetch(`${workerUrl}/api/market/token/${tokenAddress}`, {
         headers: {
           'Accept': 'application/json',
           'Token': cosmicKey
