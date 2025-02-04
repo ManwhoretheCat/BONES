@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>$BONES Market Cap Watcher</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #1a1a1a;
@@ -44,7 +45,7 @@
 
         body {
             margin: 0;
-            padding: 0;
+            padding: 10px 0 0 0;
             font-family: 'Trebuchet MS', 'Helvetica Neue', Arial, sans-serif;
             background-color: var(--primary-color);
             color: var(--text-color);
@@ -89,8 +90,8 @@
         }
 
         #dashboard {
-            padding: 20px;
-            margin-top: 60px;
+            padding: 10px;
+            margin-top: 10px;
             width: 90%;
             max-width: var(--max-width);
             padding-bottom: 40px;
@@ -122,10 +123,58 @@
             display: block;
         }
 
+        .share-container {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            padding: 2px;
+            background: var(--primary-color);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .share-button {
+            background: var(--accent-color);
+            color: white;
+            border: 1px solid var(--border-color);
+            padding: 4px 8px;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px var(--border-color);
+            transition: all 0.1s ease;
+            margin: 5px;
+            font-size: 0.75em;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border-radius: 3px;
+            text-decoration: none;
+        }
+
+        .share-button:hover {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0px var(--border-color);
+            opacity: 0.9;
+        }
+
+        .share-button i {
+            font-size: 0.9em;
+        }
+
+        .share-button.twitter {
+            background: #1DA1F2;
+        }
+
+        .share-button.telegram {
+            background: #0088cc;
+        }
+
+        .share-button.clipboard {
+            background: #738ADB;
+        }
+
         #market-cap-display {
             text-align: center;
             font-size: 1.8em;
-            margin: 20px 0 10px 0;
+            margin: 0 0 10px 0;
             padding: 15px;
             background: var(--secondary-color);
             border: 3px solid var(--border-color);
@@ -284,6 +333,100 @@
                 font-size: 0.7em;
             }
         }
+
+        /* Toast notification */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            background: rgba(23, 23, 23, 0.95);
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateX(120%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        .toast-header i {
+            color: #4CAF50;
+        }
+
+        .toast-title {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .toast-preview {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            word-break: break-word;
+            max-height: 150px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        .toast-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+
+        /* Banner styles */
+        .banner-container {
+            width: 600px;
+            margin: 0 auto;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .banner {
+            background: var(--secondary-color);
+            border-radius: 0;
+            padding: 10px;
+            box-shadow: 6px 6px 0px var(--border-color);
+            overflow: hidden;
+            margin-bottom: 0;
+            border: 3px solid var(--border-color);
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 0;
+        }
+
+        /* Adjust mobile responsiveness */
+        @media (max-width: 480px) {
+            .banner-container {
+                width: 300px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -298,6 +441,12 @@
             <button id="apply-override">Apply Override</button>
             <button id="reset-override">Reset to Real-time</button>
             <button id="close-modal">Close</button>
+        </div>
+    </div>
+
+    <div class="banner-container">
+        <div class="banner">
+            <img src="https://acatnamedmanwhore.com/BonesBanner.gif" alt="BONES Banner">
         </div>
     </div>
 
@@ -328,72 +477,261 @@
 
         <div class="section" id="section-6000">
             <iframe src="MCMU/6000/6000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(6000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(6000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(6000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-6500">
             <iframe src="MCMU/6500/6500.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(6500)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(6500)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(6500)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-7000">
             <iframe src="MCMU/7000/7000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(7000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(7000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(7000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-8000">
             <iframe src="MCMU/8000/8000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(8000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(8000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(8000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-10000">
             <iframe src="MCMU/10000/10000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(10000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(10000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(10000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-15000">
             <iframe src="MCMU/15000/15000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(15000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(15000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(15000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-25000">
             <iframe src="MCMU/25000/25000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(25000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(25000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(25000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-50000">
             <iframe src="MCMU/50000/50000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(50000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(50000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(50000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-100000">
             <iframe src="MCMU/100000/100000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(100000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(100000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(100000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-250000">
             <iframe src="MCMU/250000/250000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(250000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(250000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(250000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-500000">
             <iframe src="MCMU/500000/500000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(500000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(500000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(500000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-1000000">
             <iframe src="MCMU/1000000/1000000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(1000000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(1000000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(1000000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-1500000">
             <iframe src="MCMU/1500000/1500000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(1500000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(1500000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(1500000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-2500000">
             <iframe src="MCMU/2500000/2500000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(2500000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(2500000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(2500000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-5000000">
             <iframe src="MCMU/5000000/5000000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(5000000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(5000000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(5000000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-10000000">
             <iframe src="MCMU/10000000/10000000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(10000000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(10000000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(10000000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
 
         <div class="section" id="section-100000000">
             <iframe src="MCMU/100000000/100000000.html"></iframe>
+            <div class="share-container">
+                <button class="share-button twitter" onclick="shareToTwitter(100000000)">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-button telegram" onclick="shareToTelegram(100000000)">
+                    <i class="fab fa-telegram-plane"></i>
+                </button>
+                <button class="share-button clipboard" onclick="copyToClipboard(100000000)">
+                    <i class="far fa-clipboard"></i>
+                </button>
+            </div>
         </div>
     </div>
+
+    <div class="toast-container"></div>
 
     <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
     <script src="app.js"></script>

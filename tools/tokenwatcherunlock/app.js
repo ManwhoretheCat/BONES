@@ -136,6 +136,112 @@ function updateDashboard(marketCap) {
     });
 }
 
+// Function to get the correct image URL based on milestone
+function getMilestoneImageUrl(milestone) {
+    const baseUrl = 'https://acatnamedmanwhore.com';
+    
+    // Define which milestones use PNG vs GIF
+    const pngMilestones = [6000, 6500, 7000, 8000, 10000, 15000];
+    const usesPng = pngMilestones.includes(milestone);
+    
+    const extension = usesPng ? 'png' : 'gif';
+    return `${baseUrl}/tools/tokenwatcherunlock/MCMU/${milestone}/thumbnail.${extension}`;
+}
+
+// Generate share message
+function generateShareMessage(milestone) {
+    const currentPrice = document.getElementById('price-value').textContent;
+    const marketCap = document.getElementById('market-cap-value').textContent;
+    
+    return {
+        text: `🎉 Achievement Unlocked: $${milestone.toLocaleString()} Market Cap! 🚀\n` +
+              `$BONES has reached ${marketCap}!\n` +
+              `Current Price: ${currentPrice}\n` +
+              `#BONES #Solana #SolanaNFT #memecoin`,
+        image: getMilestoneImageUrl(milestone)
+    };
+}
+
+// Share to Twitter
+function shareToTwitter(milestone) {
+    const shareData = generateShareMessage(milestone);
+    
+    // First open Twitter compose window
+    const tweetText = `${shareData.text}\n\nℹ️ Save and attach the achievement image to make your tweet more engaging!`;
+    const twitterWindow = window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
+    
+    // Then open image in new tab after a short delay
+    setTimeout(() => {
+        window.open(shareData.image, '_blank');
+    }, 1000);
+    
+    // Make sure Twitter window gets focus
+    if (twitterWindow) {
+        twitterWindow.focus();
+    }
+}
+
+// Share to Telegram
+function shareToTelegram(milestone) {
+    const shareData = generateShareMessage(milestone);
+    // Format: message first, then image URL on new line
+    const message = `${shareData.text}\n\n${shareData.image}`;
+    const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent('https://t.me/TwentyFiveBones')}&text=${encodeURIComponent(message)}`;
+    window.open(telegramUrl, '_blank');
+}
+
+// Show toast notification
+function showToast(title, message, previewContent) {
+    const toastContainer = document.querySelector('.toast-container');
+    
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `
+        <div class="toast-header">
+            <i class="fas fa-check-circle"></i>
+            <div class="toast-title">${title}</div>
+        </div>
+        <div>${message}</div>
+        <div class="toast-preview">${previewContent}</div>
+    `;
+    
+    // Add toast to container
+    toastContainer.appendChild(toast);
+    
+    // Trigger animation
+    setTimeout(() => toast.classList.add('show'), 10);
+    
+    // Remove toast after 10 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toastContainer.removeChild(toast), 300);
+    }, 10000);
+}
+
+// Copy to clipboard
+function copyToClipboard(milestone) {
+    const shareData = generateShareMessage(milestone);
+    const message = `${shareData.text}\n\n${shareData.image}`;
+    
+    navigator.clipboard.writeText(message).then(() => {
+        // Show toast with preview
+        const previewContent = message.replace(/\n/g, '<br>');
+        showToast(
+            'Achievement Copied!', 
+            'Your achievement has been copied to clipboard. You can now paste it anywhere!',
+            previewContent
+        );
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+        showToast(
+            'Error', 
+            'Could not copy achievement. Please try again.',
+            ''
+        );
+    });
+}
+
 // Main update loop
 async function updateLoop() {
     try {
