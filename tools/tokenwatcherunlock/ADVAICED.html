@@ -882,22 +882,51 @@ async function fetchSecondaryData() {
       headers: {
         'Accept': 'application/json',
         'Token': cosmicKey
-      },
-      mode: 'cors'
+      }
     };
     
     // Try both token/meta and market/token endpoints through the worker
-    const [metaResponse, marketResponse] = await Promise.all([
-      fetch(`${workerUrl}/token/meta?token=${tokenAddress}`, requestOptions),
-      fetch(`${workerUrl}/market/token/${tokenAddress}`, requestOptions)
-    ]);
+    let metaResponse, marketResponse;
     
-    if (!metaResponse.ok || !marketResponse.ok) {
-      const metaError = await metaResponse.text();
-      const marketError = await marketResponse.text();
-      console.error('Meta response:', metaError);
-      console.error('Market response:', marketError);
-      throw new Error('Failed to fetch data from worker');
+    try {
+      metaResponse = await fetch(`${workerUrl}/token/meta?token=${tokenAddress}`, requestOptions);
+      console.log('Meta response status:', metaResponse.status);
+    } catch (error) {
+      console.error('Meta request failed:', error);
+      metaResponse = null;
+    }
+    
+    try {
+      marketResponse = await fetch(`${workerUrl}/market/token/${tokenAddress}`, requestOptions);
+      console.log('Market response status:', marketResponse.status);
+    } catch (error) {
+      console.error('Market request failed:', error);
+      marketResponse = null;
+    }
+    
+    if (!metaResponse?.ok || !marketResponse?.ok) {
+      const errors = [];
+      if (metaResponse) {
+        const metaText = await metaResponse.text();
+        console.error('Meta error:', metaText);
+        try {
+          const metaJson = JSON.parse(metaText);
+          errors.push(`Meta: ${metaJson.error || metaJson.details || metaText}`);
+        } catch {
+          errors.push(`Meta: ${metaText}`);
+        }
+      }
+      if (marketResponse) {
+        const marketText = await marketResponse.text();
+        console.error('Market error:', marketText);
+        try {
+          const marketJson = JSON.parse(marketText);
+          errors.push(`Market: ${marketJson.error || marketJson.details || marketText}`);
+        } catch {
+          errors.push(`Market: ${marketText}`);
+        }
+      }
+      throw new Error(errors.join('\n'));
     }
     
     const [metaData, marketData] = await Promise.all([
@@ -905,7 +934,7 @@ async function fetchSecondaryData() {
       marketResponse.json()
     ]);
     
-    console.log('Solscan meta data:', metaData);
+    console.log('Meta data:', metaData);
     console.log('Market data:', marketData);
     
     if (metaData?.success && marketData?.success) {
@@ -922,34 +951,13 @@ async function fetchSecondaryData() {
       };
     }
     
-    console.error('Invalid secondary data structure');
+    console.error('Invalid data structure:', { metaData, marketData });
     return null;
   } catch (error) {
     console.error('Error fetching secondary data:', error);
     return null;
   }
 }
-
-const panels = [
-  { id: 'price', title: 'Price', getValue: (data) => `$${parseFloat(data.priceUsd).toFixed(12)}`, source: 'primary' },
-  { id: 'holders', title: 'Holders', getValue: (data) => {
-    const count = data.holderCount || 0;
-    return count.toLocaleString();
-  }, source: 'secondary' },
-  { id: 'liquidity', title: 'Liquidity', getValue: (data) => `$${parseInt(data.liquidity?.usd || 0).toLocaleString()}`, source: 'secondary' },
-  { id: 'marketCap', title: 'Market Cap', getValue: (data) => `$${parseInt(data.fdv).toLocaleString()}`, source: 'primary' },
-  { id: 'priceChange', title: '24h Change', getValue: (data) => `${parseFloat(data.priceChange.h24).toFixed(2)}%`, source: 'primary' },
-  { id: 'lastTrade', title: 'Last Trade', getValue: (data) => {
-    const timestamp = data.lastTradeTime;
-    if (!timestamp) return 'N/A';
-    const date = new Date(timestamp);
-    const now = new Date();
-    const diffSeconds = Math.floor((now - date) / 1000);
-    if (diffSeconds < 60) return `${diffSeconds}s ago`;
-    if (diffSeconds < 3600) return `${Math.floor(diffSeconds/60)}m ago`;
-    return `${Math.floor(diffSeconds/3600)}h ago`;
-  }, source: 'secondary' }
-];
 
 async function fetchTokenData() {
   try {
@@ -1038,6 +1046,27 @@ function animatePanel(panelElement) {
 initializeTokenModal();
 setInterval(updateTokenData, updateInterval);
 updateTokenData(); // Initial update
+
+const panels = [
+  { id: 'price', title: 'Price', getValue: (data) => `$${parseFloat(data.priceUsd).toFixed(12)}`, source: 'primary' },
+  { id: 'holders', title: 'Holders', getValue: (data) => {
+    const count = data.holderCount || 0;
+    return count.toLocaleString();
+  }, source: 'secondary' },
+  { id: 'liquidity', title: 'Liquidity', getValue: (data) => `$${parseInt(data.liquidity?.usd || 0).toLocaleString()}`, source: 'secondary' },
+  { id: 'marketCap', title: 'Market Cap', getValue: (data) => `$${parseInt(data.fdv).toLocaleString()}`, source: 'primary' },
+  { id: 'priceChange', title: '24h Change', getValue: (data) => `${parseFloat(data.priceChange.h24).toFixed(2)}%`, source: 'primary' },
+  { id: 'lastTrade', title: 'Last Trade', getValue: (data) => {
+    const timestamp = data.lastTradeTime;
+    if (!timestamp) return 'N/A';
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffSeconds = Math.floor((now - date) / 1000);
+    if (diffSeconds < 60) return `${diffSeconds}s ago`;
+    if (diffSeconds < 3600) return `${Math.floor(diffSeconds/60)}m ago`;
+    return `${Math.floor(diffSeconds/3600)}h ago`;
+  }, source: 'secondary' }
+];
 </script>
 </body>
 </html>
