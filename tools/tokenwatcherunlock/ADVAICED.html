@@ -873,7 +873,7 @@ const tokenAddress = '8Rym1XJMJuc3mkUUHtW9894DFo5GF9bZ8pdBEWS7moon';
 async function fetchSecondaryData() {
   try {
     const cosmicKey = alignCelestialBodies();
-    console.log('Generated token:', cosmicKey); // Debug log
+    console.log('Generated token:', cosmicKey);
     
     const workerUrl = 'https://advaicedsolscan.acatnamedmanwhore.workers.dev';
     
@@ -881,17 +881,10 @@ async function fetchSecondaryData() {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
-        'Token': cosmicKey,
-        'Content-Type': 'application/json'
+        'Token': cosmicKey
       },
-      mode: 'cors',
-      credentials: 'omit'
+      mode: 'cors'
     };
-    
-    console.log('Request options:', {
-      ...requestOptions,
-      headers: Object.fromEntries(Object.entries(requestOptions.headers))
-    });
     
     // Try both token/meta and market/token endpoints through the worker
     const [metaResponse, marketResponse] = await Promise.all([
@@ -900,8 +893,10 @@ async function fetchSecondaryData() {
     ]);
     
     if (!metaResponse.ok || !marketResponse.ok) {
-      console.error('Meta response:', await metaResponse.text());
-      console.error('Market response:', await marketResponse.text());
+      const metaError = await metaResponse.text();
+      const marketError = await marketResponse.text();
+      console.error('Meta response:', metaError);
+      console.error('Market response:', marketError);
       throw new Error('Failed to fetch data from worker');
     }
     
@@ -911,7 +906,7 @@ async function fetchSecondaryData() {
     ]);
     
     console.log('Solscan meta data:', metaData);
-    console.log('Solscan market data:', marketData);
+    console.log('Market data:', marketData);
     
     if (metaData?.success && marketData?.success) {
       return {
