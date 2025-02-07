@@ -50,7 +50,7 @@
         overflow: hidden;
         perspective: 1000px;
       }
-  
+
       .comic-image-container {
         position: relative;
         width: 100%;
@@ -80,10 +80,6 @@
       .comic-image-back {
         background: #fff;
         padding: 15px;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(2, 1fr);
-        gap: 10px;
         overflow: hidden;
         transform: rotateY(0);
         z-index: 1;
@@ -3290,27 +3286,36 @@
         // Add click handler
         container.addEventListener('click', function() {
           if (isAnimating) return;
+          isAnimating = true;
           
           const currentPanel = panels[currentPanelIndex];
           const nextPanel = panels[(currentPanelIndex + 1) % panels.length];
           
-          if (currentPanelIndex === 0) {
-            currentPanel.classList.add('active');
-          } else if (currentPanelIndex === 2) {
-            setTimeout(() => {
-              Array.from(panels).forEach(panel => {
-                if (panel !== panels[0]) {
-                  panel.classList.remove('active');
-                  panel.style.transform = '';
-                }
-              });
-            }, 250);
-          }
+          currentPanel.classList.add('flipping');
           
           setTimeout(() => {
-            currentPanelIndex = (currentPanelIndex + 1) % panels.length;
-            isAnimating = false;
-          }, 500);
+            nextPanel.classList.add('active');
+            currentPanel.classList.remove('active');
+            
+            setTimeout(() => {
+              currentPanel.classList.remove('flipping');
+              isAnimating = false;
+              
+              if (currentPanelIndex === 0) {
+                container.classList.add('peeled');
+              } else if (currentPanelIndex === 2) {
+                container.classList.remove('peeled');
+                Array.from(panels).forEach(panel => {
+                  if (panel !== panels[0]) {
+                    panel.classList.remove('active');
+                    panel.style.transform = '';
+                  }
+                });
+              }
+              
+              currentPanelIndex = (currentPanelIndex + 1) % panels.length;
+            }, 400);
+          }, 200);
         });
       });
     </script>
