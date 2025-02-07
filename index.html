@@ -80,6 +80,10 @@
       .comic-image-back {
         background: #fff;
         padding: 15px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 10px;
         overflow: hidden;
         transform: rotateY(0);
         z-index: 1;
@@ -110,7 +114,46 @@
         height: 100%;
         object-fit: cover;
       }
-  
+
+      .comic-panel {
+        background: #fff;
+        border: 2px solid #000;
+        position: relative;
+        padding: 30px 10px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+        overflow: hidden;
+      }
+
+      .comic-panel::before {
+        content: '';
+        position: absolute;
+        top: -4px;
+        left: -4px;
+        right: -4px;
+        bottom: -4px;
+        border: 1px solid #000;
+        z-index: 1;
+      }
+
+      .comic-panel-large {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+
+      .comic-panel-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+      }
+
       .comic-caption {
         height: 100px;
         padding: 0.5rem;
@@ -1710,7 +1753,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="https://acatnamedmanwhore.com/25bonesMoonshotBanner.png" alt="BONES Banner" class="comic-image">
+            <img src="https://acatnamedmanwhore.com/25bonesMoonshotBanner.png" alt="BONES Banner" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">
@@ -1747,7 +1790,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">More Character Panels from the Universe Coming Soon</div>
@@ -1769,7 +1812,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 3</div>
@@ -1791,7 +1834,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 4</div>
@@ -1813,7 +1856,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 5</div>
@@ -1835,7 +1878,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 6</div>
@@ -1857,7 +1900,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 7</div>
@@ -1879,7 +1922,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 8</div>
@@ -1901,7 +1944,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 9</div>
@@ -1923,7 +1966,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 10</div>
@@ -1945,7 +1988,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 11</div>
@@ -1967,7 +2010,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 12</div>
@@ -1989,7 +2032,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 13</div>
@@ -2011,7 +2054,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 14</div>
@@ -2033,7 +2076,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 15</div>
@@ -2055,7 +2098,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 16</div>
@@ -2077,7 +2120,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 17</div>
@@ -2099,7 +2142,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 18</div>
@@ -2121,7 +2164,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 19</div>
@@ -2143,7 +2186,7 @@
             </div>
           </div>
           <div class="comic-image-front">
-            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image">
+            <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
           </div>
         </div>
         <div class="comic-caption">Section 20</div>
@@ -3114,7 +3157,7 @@
         const frontImg = document.createElement('img');
         frontImg.src = '../comingsoon.jpeg';
         frontImg.alt = 'Panel Background';
-        frontImg.className = 'comic-image';
+        frontImg.className = 'comic-image comic-panel comic-panel-large';
         frontPanel.appendChild(frontImg);
         panels.push(frontPanel);
         
@@ -3336,47 +3379,4 @@
         
         if (window.walletManager?.isConnected) {
           const address = window.walletManager.publicKey?.toBase58() || 'Not Connected';
-          const hasTokens = window.walletManager.hasTokens;
-          
-          walletAddress.textContent = address;
-          if (hasTokens) {
-            // Balance will be updated by verifyTokenOwnership
-            if (infoBonesBalance.textContent === 'Loading...' || panelBonesBalance.textContent === 'Loading...') {
-              const checkingText = 'Checking balance...';
-              infoBonesBalance.textContent = checkingText;
-              panelBonesBalance.textContent = checkingText;
-            }
-          } else {
-            const zeroBalance = '0 $BONES';
-            infoBonesBalance.textContent = zeroBalance;
-            panelBonesBalance.textContent = zeroBalance;
-          }
-        } else {
-          walletAddress.textContent = 'Not Connected';
-          const zeroBalance = '0 $BONES';
-          infoBonesBalance.textContent = zeroBalance;
-          panelBonesBalance.textContent = zeroBalance;
-        }
-      }
-
-      // Update wallet info when connection changes
-      window.addEventListener('walletConnectionChanged', updateWalletInfo);
-      window.addEventListener('tokensDetected', (e) => {
-        const infoBonesBalance = document.getElementById('infoBonesBalance');
-        const panelBonesBalance = document.getElementById('panelBonesBalance');
-        const amount = e.detail.amount || 0;
-        const formattedBalance = `${amount.toLocaleString('en-US', { 
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2 
-        })} $BONES`;
-        
-        if (infoBonesBalance) {
-          infoBonesBalance.textContent = formattedBalance;
-        }
-        if (panelBonesBalance) {
-          panelBonesBalance.textContent = formattedBalance;
-        }
-      });
-    </script>
-  </body>
-</html>
+       
