@@ -1,0 +1,254 @@
+<html>
+<head>
+  <title>BONES - The Skeleton Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="game">
+    <div class="border-panel">
+      <a href="https://acatnamedmanwhore.com" class="home-button" target="_blank">HOME</a>
+      <button class="help-button" onclick="showHelp()">Help</button>
+    </div>
+    <div class="border-panel">
+      <div id="stats">
+        <div id="highScore">High Score: 0</div>
+        <div id="stagesCleared">Stages: 0</div>
+        <div class="pause-hint">P key = Pause</div>
+      </div>
+    </div>
+    <div class="border-panel">
+      <div class="social-links">
+        <a href="https://t.me/TwentyFiveBones" class="social-button" target="_blank">Telegram</a>
+        <a href="https://x.com/myLAST25BONES" class="social-button" target="_blank">Probs Nothing</a>
+      </div>
+    </div>
+    <div class="border-panel"></div>
+    <canvas id="gameCanvas"></canvas>
+    <div class="border-panel"></div>
+    <div class="border-panel"></div>
+    <div class="border-panel"></div>
+    <div class="border-panel"></div>
+    <div id="hud">
+      <div id="score">Bones: 0</div>
+      <div id="health">Health: 100</div>
+    </div>
+    <div class="border-panel">
+      <button class="help-button" onclick="showHelp()">Help</button>
+    </div>
+    <div class="border-panel"></div>
+    <div class="border-panel"></div>
+    <div class="border-panel"></div>
+    <div class="border-panel"></div>
+    <div class="border-panel"></div>
+    <div class="border-panel">
+      <button class="devs-button" onclick="showDevs()">BARE BONES DEVS</button>
+    </div>
+  </div>
+  <script>
+    function showHelp() {
+      const modal = document.createElement('div');
+      modal.className = 'modal help-modal';
+      modal.innerHTML = `
+        <button class="close-button" onclick="this.parentElement.remove()">×</button>
+        <h2>The Tale of BONES - A Crypto Skeleton's Adventure</h2>
+        
+        <h3>The BONES Story</h3>
+        Meet BONES, a resilient cartoon skeleton who lost everything in the great meme token crash of '23. 
+        After YOLOing his life savings into "SafeMoonElonDoge" and "SquidGameV4", BONES was left with 
+        nothing but his entrepreneurial spirit and his last $25.
+
+        "But wait!" BONES declared one day, adjusting his non-existent tie, "I've got it! I'll create 
+        the most revolutionary meme token ever - LAST $25 BONES ($BONES)! This time it's different!"
+
+        Unfortunately, the crypto world isn't ready to let BONES have his comeback. Suited Salesmen, 
+        fresh from their latest rugpull ventures, are determined to destroy the $BONES project before 
+        it can moon. Even worse, the notorious Jeets are spreading FUD everywhere, leaving toxic red 
+        candles in their wake and literally pooping out fear, uncertainty, and doubt!
+
+        Now BONES must collect actual bones to grow stronger and bigger, proving that his project 
+        has real utility (unlike those other meme tokens, trust him bro).
+
+        <h3>How to Help BONES Moon</h3>
+        Arrow Keys / WASD: Guide BONES through the cryptoverse
+        Space / Up / W: Jump (because NUMBER GO UP!)
+        Hold Jump: Higher jump (like $BONES price action)
+        Double Jump: Press jump again mid-air (bullish divergence)
+        0 Key: Drop a bone (costs 10 bones) and shrink (like taking profits, paper hands!)
+        Backspace: Reset current stage (like a chain rollback)
+        Enter: Launch your token... err, start game
+        P: Pause game (like when checking CoinGecko)
+
+        <h3>BONES Stats</h3>
+        Base Health: 100 (starting market cap)
+        Growth: Collect bones to grow larger (bullish!)
+        Milestone: Turns gray at 70+ bones (whale status achieved)
+        Paper Hands: Drop bones to shrink (weak!)
+        Death: Health reaches 0 (rugpull)
+        Reset: Falling off stage is like getting liquidated
+
+        <h3>The FUDders</h3>
+        <h4>Salesmen (The Suits)</h4>
+        These former SafeMoon marketing team members will:
+        Chase BONES within 4 spaces
+        Pursue for at least 5 seconds after spotting you
+        Jump between platforms to catch you
+        Deal 30 damage on touch (once per second)
+        Get hyped on red candles and double in size for 15 seconds
+        
+        Fun fact: They wear sunglasses to hide their dead inside eyes
+        
+        <h4>Jeets (The FUD Spreaders)</h4>
+        These toxic brown blobs:
+        Move slower than Salesmen (probably over-leveraged)
+        Hunt for bones within 6 spaces
+        Randomly enter panic mode and spread FUD (red candles)
+        Jump only when necessary (lazy!)
+        Drop red candles every space during FUD attacks
+        
+        Warning: Their red candles deal 60 damage and make BONES flash red for 5 seconds!
+
+        <h3>Special Items</h3>
+        Regular Bones:
+        Worth 10 points each
+        Makes BONES grow (like token price discovery)
+        Found floating above platforms
+        
+        Golden Bones (RARE!):
+        Spawns every 1-5 minutes
+        Worth 100 points (like finding a gem early)
+        Disappears after 10 seconds (FOMO!)
+        
+        Green Candles (SUPER RARE!):
+        Spawns every 3-5 minutes
+        Heals 30 health points (community support!)
+        Lasts for 1 minute
+        
+        Red Candles (DANGER!):
+        Dropped by Jeets
+        Instant death if health drops to 0
+        Causes panic selling (red flashing) for 5 seconds
+
+        <h3>The Charts... err, Platforms</h3>
+        Below Base: Tan rocky platforms (bear market territory)
+        Base Level: Green grassy platforms (stable support)
+        Above 300: White cloud platforms (moon territory)
+        
+        Remember: BONES is not financial advice! But collecting bones 
+        is always the way to grow. Don't let the FUD get to you, 
+        and never trust a man in a suit with sunglasses!
+
+        To the moon! 
+      `;
+      document.body.appendChild(modal);
+    }
+
+    function showDevs() {
+      if (window.game && window.game.gameState === 'playing') {
+        window.game.togglePause();
+      }
+      
+      const modal = document.createElement('div');
+      modal.className = 'modal devs-modal';
+      modal.innerHTML = `
+        <button class="close-button" onclick="closeDevs(this)">×</button>
+        <h2>BARE BONES DEVELOPMENTS</h2>
+        <div class="devs-grid">
+          ${generateDevCards()}
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+
+    function closeDevs(button) {
+      button.parentElement.remove();
+    }
+
+    function generateDevCards() {
+      const cards = [
+        {
+          image: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23333"/></svg>',
+          title: 'Project Alpha',
+          description: 'Revolutionary gaming engine built for the future.',
+          link: 'https://example.com/alpha'
+        },
+        {
+          image: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23444"/></svg>',
+          title: 'Beta Framework',
+          description: 'Next-gen development framework for modern games.',
+          link: 'https://example.com/beta'
+        },
+        {
+          image: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23555"/></svg>',
+          title: 'Gamma Tools',
+          description: 'Essential toolkit for game developers.',
+          link: 'https://example.com/gamma'
+        },
+        {
+          image: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23666"/></svg>',
+          title: 'Delta Engine',
+          description: 'High-performance game engine for modern platforms.',
+          link: 'https://example.com/delta'
+        },
+        {
+          image: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23777"/></svg>',
+          title: 'Epsilon SDK',
+          description: 'Complete SDK for game development.',
+          link: 'https://example.com/epsilon'
+        },
+        {
+          image: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23888"/></svg>',
+          title: 'Zeta Platform',
+          description: 'Cross-platform game development solution.',
+          link: 'https://example.com/zeta'
+        },
+        {
+          image: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23999"/></svg>',
+          title: 'Eta Framework',
+          description: 'Lightweight framework for indie developers.',
+          link: 'https://example.com/eta'
+        },
+        {
+          image: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23aaa"/></svg>',
+          title: 'Theta Engine',
+          description: 'Powerful engine for AAA game development.',
+          link: 'https://example.com/theta'
+        },
+        {
+          image: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23bbb"/></svg>',
+          title: 'Iota Tools',
+          description: 'Professional game development tools.',
+          link: 'https://example.com/iota'
+        },
+        {
+          image: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23ccc"/></svg>',
+          title: 'Kappa Suite',
+          description: 'Complete game development suite.',
+          link: 'https://example.com/kappa'
+        },
+        {
+          image: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23ddd"/></svg>',
+          title: 'Lambda Platform',
+          description: 'Cloud-based game development platform.',
+          link: 'https://example.com/lambda'
+        },
+        {
+          image: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23eee"/></svg>',
+          title: 'Mu Framework',
+          description: 'Modern framework for next-gen games.',
+          link: 'https://example.com/mu'
+        }
+      ];
+
+      return cards.map(card => `
+        <div class="dev-card">
+          <img src="${card.image}" alt="${card.title}">
+          <h3>${card.title}</h3>
+          <p>${card.description}</p>
+          <a href="${card.link}" target="_blank">Learn More →</a>
+        </div>
+      `).join('');
+    }
+  </script>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
