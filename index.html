@@ -277,6 +277,10 @@
         width: 100%;
         z-index: 100;
         border-top: 1px solid rgba(255, 255, 255, 0.3);
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        gap: 0.5rem;
       }
 
       .menu-panel {
@@ -392,6 +396,12 @@
         color: black;
         position: relative;
         padding: 0 10px;
+        order: 2;
+      }
+
+      .footer-menu {
+        order: 1;
+        margin-bottom: 0.25rem;
       }
 
       /* Wallet Modal Styles */
@@ -1656,26 +1666,76 @@
 
         /* Footer bar mobile styles */
         .footer-bar {
-          position: relative;
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 60px;
+          background: white;
           display: flex;
           align-items: center;
-          justify-content: flex-start;
-          padding-left: 20px;
-          padding-right: 60px;
+          justify-content: space-between;
+          padding: 0 1rem;
+          border-top: 3px solid #000;
+          z-index: 999;
         }
 
-        .footer-text {
+        .footer-title {
+          font-size: 0.9rem;
+          font-weight: bold;
           margin: 0;
-          flex-grow: 1;
           text-align: left;
+          flex: 1;
+        }
+
+        .footer-center {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+        .footer-right {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
         }
 
         .menu-button {
-          position: absolute;
-          right: 20px;
-          top: 50%;
-          transform: translateY(-50%);
+          position: static;
+          transform: none;
           margin: 0;
+        }
+
+        .social-links {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          padding: 0 1rem;
+          height: 60px;
+          position: relative;
+        }
+
+        .menu-button {
+          position: static;
+          margin-right: auto;
+          transform: none;
+        }
+
+        .studio-text {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 0.8rem;
+          text-align: center;
+          line-height: 1.2;
+          margin: 0;
+          padding: 0;
+        }
+
+        .studio-text div {
+          margin: 0;
+          padding: 0;
         }
       }
       .footer-pickaxe {
