@@ -1656,76 +1656,26 @@
 
         /* Footer bar mobile styles */
         .footer-bar {
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 60px;
-          background: white;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0 1rem;
-          border-top: 3px solid #000;
-          z-index: 999;
-        }
-
-        .footer-title {
-          font-size: 0.9rem;
-          font-weight: bold;
-          margin: 0;
-          text-align: left;
-          flex: 1;
-        }
-
-        .footer-center {
-          position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
-        }
-
-        .footer-right {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-        }
-
-        .menu-button {
-          position: static;
-          transform: none;
-          margin: 0;
-        }
-
-        .social-links {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-          padding: 0 1rem;
-          height: 60px;
           position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          padding-left: 20px;
+          padding-right: 60px;
+        }
+
+        .footer-text {
+          margin: 0;
+          flex-grow: 1;
+          text-align: left;
         }
 
         .menu-button {
-          position: static;
-          margin-right: auto;
-          transform: none;
-        }
-
-        .studio-text {
           position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
-          font-size: 0.8rem;
-          text-align: center;
-          line-height: 1.2;
+          right: 20px;
+          top: 50%;
+          transform: translateY(-50%);
           margin: 0;
-          padding: 0;
-        }
-
-        .studio-text div {
-          margin: 0;
-          padding: 0;
         }
       }
       .footer-pickaxe {
