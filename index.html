@@ -281,6 +281,7 @@
         align-items: center;
         padding: 1rem;
         gap: 0.5rem;
+        position: relative;
       }
 
       .menu-panel {
@@ -355,6 +356,12 @@
         font-size: 1.5rem;
         color: #000;
         transition: transform 0.2s;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 45px;
+        margin: 0;
+        z-index: 102;
       }
 
       .menu-button:hover {
@@ -397,6 +404,7 @@
         position: relative;
         padding: 0 10px;
         order: 2;
+        margin-top: 35px;
       }
 
       .footer-menu {
@@ -1670,31 +1678,24 @@
           flex-direction: column;
           align-items: center;
           padding: 0.5rem;
-          gap: 0.5rem;
+          gap: 0.25rem;
           position: relative;
-          z-index: 102;
         }
 
         .footer-title {
-          font-size: 0.75rem;
+          font-size: 0.85rem;
           order: 2;
-          margin-top: 0.5rem;
-          text-align: center;
-          width: 100%;
+          margin-top: 35px;
         }
 
         .footer-menu {
           order: 1;
-          margin-bottom: 0;
-          width: 100%;
-          display: flex;
-          justify-content: center;
+          margin-bottom: 0.25rem;
         }
 
         .footer-menu button {
-          padding: 0.5rem 1rem;
+          padding: 0.25rem 0.5rem;
           font-size: 0.9rem;
-          z-index: 103;
         }
       }
       .footer-pickaxe {
