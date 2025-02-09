@@ -2358,7 +2358,7 @@
     </div>
     <div class="menu-panel">
       <a href="/structure/structure.html">Structure</a>
-      <a href="/about/about.html">About</a>
+      <a href="#" class="about-button">About</a>
     </div>
     <footer>
       <div class="social-links">
@@ -2411,13 +2411,19 @@
 
       // About Modal Functions
       function showModal() {
-        aboutModalOverlay.classList.add('active');
-        aboutModal.classList.add('active');
+        aboutModalOverlay.style.display = 'block';
+        setTimeout(() => {
+          aboutModalOverlay.classList.add('active');
+          aboutModal.classList.add('active');
+        }, 10);
       }
 
       function hideModal() {
         aboutModal.classList.remove('active');
         aboutModalOverlay.classList.remove('active');
+        setTimeout(() => {
+          aboutModalOverlay.style.display = 'none';
+        }, 300);
       }
 
       // Disconnect Modal Functions
@@ -2432,7 +2438,11 @@
       }
 
       // Event Listeners for About Modal
-      aboutMenuButton?.addEventListener('click', showModal);
+      aboutMenuButton?.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelector('.menu-panel').classList.remove('active');
+        showModal();
+      });
       closeAboutModal?.addEventListener('click', hideModal);
       aboutModalOverlay?.addEventListener('click', (e) => {
         if (e.target === aboutModalOverlay) {
