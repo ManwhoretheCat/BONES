@@ -3682,55 +3682,49 @@
         return container;
       }
 
-      // Add click handlers for comic images
-      // Add click handlers for comic images
-        document.querySelectorAll('.comic-image, .comic-panel-image').forEach((img, index) => {
-        const container = createPanelsForSection(index);
-        const panels = container.children;
+      // Add click handlers for existing comic panels
+document.querySelectorAll('.comic-image-container').forEach((container) => {
+    const panels = container.children;
+    
+    // Track current panel index
+    let currentPanelIndex = 0;
+    let isAnimating = false;
+    
+    // Add click handler
+    container.addEventListener('click', function() {
+        if (isAnimating) return;
+        isAnimating = true;
         
-        // Replace original image with container
-        img.parentNode.insertBefore(container, img);
-        img.remove();
+        const currentPanel = panels[currentPanelIndex];
+        const nextPanel = panels[(currentPanelIndex + 1) % panels.length];
         
-        // Track current panel index
-        let currentPanelIndex = 0;
-        let isAnimating = false;
+        currentPanel.classList.add('flipping');
         
-        // Add click handler
-        container.addEventListener('click', function() {
-          if (isAnimating) return;
-          isAnimating = true;
-          
-          const currentPanel = panels[currentPanelIndex];
-          const nextPanel = panels[(currentPanelIndex + 1) % panels.length];
-          
-          currentPanel.classList.add('flipping');
-          
-          setTimeout(() => {
+        setTimeout(() => {
             nextPanel.classList.add('active');
             currentPanel.classList.remove('active');
             
             setTimeout(() => {
-              currentPanel.classList.remove('flipping');
-              isAnimating = false;
-              
-              if (currentPanelIndex === 0) {
-                container.classList.add('peeled');
-              } else if (currentPanelIndex === 2) {
-                container.classList.remove('peeled');
-                Array.from(panels).forEach(panel => {
-                  if (panel !== panels[0]) {
-                    panel.classList.remove('active');
-                    panel.style.transform = '';
-                  }
-                });
-              }
-              
-              currentPanelIndex = (currentPanelIndex + 1) % panels.length;
+                currentPanel.classList.remove('flipping');
+                isAnimating = false;
+                
+                if (currentPanelIndex === 0) {
+                    container.classList.add('peeled');
+                } else if (currentPanelIndex === 1) {
+                    container.classList.remove('peeled');
+                    Array.from(panels).forEach(panel => {
+                        if (panel !== panels[0]) {
+                            panel.classList.remove('active');
+                            panel.style.transform = '';
+                        }
+                    });
+                }
+                
+                currentPanelIndex = (currentPanelIndex + 1) % panels.length;
             }, 400);
-          }, 200);
-        });
-      });
+        }, 200);
+    });
+});
     </script>
       
     <script>
