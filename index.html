@@ -3527,7 +3527,210 @@
         </div>
       `;
 
-     
+       
+      
+        
+        // Create panel 1
+        const panel1 = document.createElement('div');
+        panel1.className = 'comic-image-back';
+        
+        // Use the appropriate panel content based on section index
+        switch(index) {
+          case 0:
+            panel1.innerHTML = section1Panel1;
+            break;
+          case 1:
+            panel1.innerHTML = section2Panel1;
+            break;
+          case 2:
+            panel1.innerHTML = section3Panel1;
+            break;
+          case 3:
+            panel1.innerHTML = section4Panel1;
+            break;
+          case 4:
+            panel1.innerHTML = section5Panel1;
+            break;
+          case 5:
+            panel1.innerHTML = section6Panel1;
+            break;
+          case 6:
+            panel1.innerHTML = section7Panel1;
+            break;
+          case 7:
+            panel1.innerHTML = section8Panel1;
+            break;
+          case 8:
+            panel1.innerHTML = section9Panel1;
+            break;
+          case 9:
+            panel1.innerHTML = section10Panel1;
+            break;
+          case 10:
+            panel1.innerHTML = section11Panel1;
+            break;
+          case 11:
+            panel1.innerHTML = section12Panel1;
+            break;
+          case 12:
+            panel1.innerHTML = section13Panel1;
+            break;
+          case 13:
+            panel1.innerHTML = section14Panel1;
+            break;
+          case 14:
+            panel1.innerHTML = section15Panel1;
+            break;
+          case 15:
+            panel1.innerHTML = section16Panel1;
+            break;
+          case 16:
+            panel1.innerHTML = section17Panel1;
+            break;
+          case 17:
+            panel1.innerHTML = section18Panel1;
+            break;
+          case 18:
+            panel1.innerHTML = section19Panel1;
+            break;
+          case 19:
+            panel1.innerHTML = section20Panel1;
+            break;
+          default:
+            // Fallback to first section
+            panel1.innerHTML = section1Panel1;
+            break;
+        }
+        panels.push(panel1);
+        
+        // Create panel 2
+        const panel2 = document.createElement('div');
+        panel2.className = 'comic-image-back';
+        
+        // Use the appropriate panel content based on section index
+        switch(index) {
+          case 0:
+            panel2.innerHTML = section1Panel2;
+            break;
+          case 1:
+            panel2.innerHTML = section2Panel2;
+            break;
+          case 2:
+            panel2.innerHTML = section3Panel2;
+            break;
+          case 3:
+            panel2.innerHTML = section4Panel2;
+            break;
+          case 4:
+            panel2.innerHTML = section5Panel2;
+            break;
+          case 5:
+            panel2.innerHTML = section6Panel2;
+            break;
+          case 6:
+            panel2.innerHTML = section7Panel2;
+            break;
+          case 7:
+            panel2.innerHTML = section8Panel2;
+            break;
+          case 8:
+            panel2.innerHTML = section9Panel2;
+            break;
+          case 9:
+            panel2.innerHTML = section10Panel2;
+            break;
+          case 10:
+            panel2.innerHTML = section11Panel2;
+            break;
+          case 11:
+            panel2.innerHTML = section12Panel2;
+            break;
+          case 12:
+            panel2.innerHTML = section13Panel2;
+            break;
+          case 13:
+            panel2.innerHTML = section14Panel2;
+            break;
+          case 14:
+            panel2.innerHTML = section15Panel2;
+            break;
+          case 15:
+            panel2.innerHTML = section16Panel2;
+            break;
+          case 16:
+            panel2.innerHTML = section17Panel2;
+            break;
+          case 17:
+            panel2.innerHTML = section18Panel2;
+            break;
+          case 18:
+            panel2.innerHTML = section19Panel2;
+            break;
+          case 19:
+            panel2.innerHTML = section20Panel2;
+            break;
+          default:
+            // Fallback to first section
+            panel2.innerHTML = section1Panel2;
+            break;
+        }
+        panels.push(panel2);
+        
+        // Add all panels to container
+        panels.forEach(panel => container.appendChild(panel));
+        
+        return container;
+      }
+
+      // Add click handlers for comic images
+      document.querySelectorAll('.comic-image').forEach((img, index) => {
+        const container = createPanelsForSection(index);
+        const panels = container.children;
+        
+        // Replace original image with container
+        img.parentNode.insertBefore(container, img);
+        img.remove();
+        
+        // Track current panel index
+        let currentPanelIndex = 0;
+        let isAnimating = false;
+        
+        // Add click handler
+        container.addEventListener('click', function() {
+          if (isAnimating) return;
+          isAnimating = true;
+          
+          const currentPanel = panels[currentPanelIndex];
+          const nextPanel = panels[(currentPanelIndex + 1) % panels.length];
+          
+          currentPanel.classList.add('flipping');
+          
+          setTimeout(() => {
+            nextPanel.classList.add('active');
+            currentPanel.classList.remove('active');
+            
+            setTimeout(() => {
+              currentPanel.classList.remove('flipping');
+              isAnimating = false;
+              
+              if (currentPanelIndex === 0) {
+                container.classList.add('peeled');
+              } else if (currentPanelIndex === 2) {
+                container.classList.remove('peeled');
+                Array.from(panels).forEach(panel => {
+                  if (panel !== panels[0]) {
+                    panel.classList.remove('active');
+                    panel.style.transform = '';
+                  }
+                });
+              }
+              
+              currentPanelIndex = (currentPanelIndex + 1) % panels.length;
+            }, 400);
+          }, 200);
+        });
+      });
+    </script>
       
     <script>
       // Wallet Info Panel Functions
