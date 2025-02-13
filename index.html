@@ -2505,6 +2505,15 @@
             if (e.target === mod_overlay) mod_handleCloseClick();
         }
 
+        // Add this function to your JavaScript:
+        function openModal(url) {
+            const modal = document.querySelector('.mod_modal-overlay');
+            const iframe = document.querySelector('.mod_modal-iframe');
+            iframe.src = url;
+            modal.style.display = 'flex';
+            positionCloseButton();
+        }
+
         mod_launchButton.addEventListener('click', mod_handleLaunchClick);
         mod_closeButton.addEventListener('click', mod_handleCloseClick);
         mod_overlay.addEventListener('click', mod_handleOverlayClick);
@@ -2871,9 +2880,8 @@
           <div class="speech-bubble-comic bubble-1"><a href="https://stake.smithii.io/last25bones" target="_blank">BONES Staking</a></div>
           <div class="comic-text" style="top: 20%; left: 16%; transform: translate(-50%, -50%);">Welcome to the BONES comic!</div>
           
-          
-<button class="mod_comic-button" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">Launch</button>
 
+<button class="mod_comic-button" onclick="openModal('https://your-target-url.com')" style="top: 50px; right: 50px;">Launch</button>
         
 
         </div>
