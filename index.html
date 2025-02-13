@@ -3533,15 +3533,10 @@
         const container = document.createElement('div');
         container.className = 'comic-image-container';
         
-        // Create front panel (remains unchanged)
-        const frontPanel = document.createElement('div');
-        frontPanel.className = 'comic-image-front';
-        const frontImg = document.createElement('img');
-        frontImg.src = 'transparentcover.png';
-        frontImg.alt = 'Panel Background';
-        frontImg.className = 'comic-image comic-panel comic-panel-large';
-        frontPanel.appendChild(frontImg);
-        panels.push(frontPanel);
+        // Create front panel without overlay
+const frontPanel = document.createElement('div');
+frontPanel.className = 'comic-image-front';
+panels.push(frontPanel);
         
         // Create panel 1
         const panel1 = document.createElement('div');
