@@ -3683,7 +3683,8 @@
       }
 
       // Add click handlers for comic images
-      document.querySelectorAll('.comic-image').forEach((img, index) => {
+      // Add click handlers for comic images
+        document.querySelectorAll('.comic-image, .comic-panel-image').forEach((img, index) => {
         const container = createPanelsForSection(index);
         const panels = container.children;
         
