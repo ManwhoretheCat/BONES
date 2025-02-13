@@ -344,21 +344,19 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
             justify-content: center;
             align-items: center;
         }
-
+        
         .mod_modal-container {
             position: relative;
-            width: 80%;
-            height: 70vh;
+            width: 90%;
             max-width: 800px;
-            max-height: 600px;
+            height: 80vh;
             background: white;
-            border: 3px solid #000;
-            box-shadow: 8px 8px 0 #000;
-            overflow: auto;
+            border: 3px solid black;
         }
 
         .mod_modal-container::-webkit-scrollbar {
@@ -380,38 +378,36 @@
 
         .mod_close-button {
             position: absolute;
+            top: -20px;
+            right: -20px;
             width: 40px;
             height: 40px;
             background: #FF4444;
-            border: 3px solid #000;
-            border-radius: 50%;
+            border: 3px solid black;
             cursor: pointer;
+            z-index: 1001;
             display: flex;
-            justify-content: center;
             align-items: center;
-            box-shadow: 3px 3px 0 #000;
-            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), box-shadow 0.2s ease;
-            z-index: 2;
+            justify-content: center;
         }
-
+        
         .mod_close-button::before,
         .mod_close-button::after {
             content: '';
             position: absolute;
             width: 20px;
             height: 3px;
-            background: #000;
-            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.2s ease 0.3s;
+            background: white;
         }
-
+        
         .mod_close-button::before {
             transform: rotate(45deg);
         }
-
+        
         .mod_close-button::after {
             transform: rotate(-45deg);
         }
-
+      
         .mod_close-button:hover {
             transform: translate(2px, -2px);
             box-shadow: 1px 1px 0 #000;
@@ -2475,49 +2471,68 @@
     
     <div class="mod_modal-overlay">
         <div class="mod_modal-container">
-            <iframe class="mod_modal-iframe" src="https://example.com"></iframe>
+            <div class="mod_close-button"></div>
+            <iframe class="mod_modal-iframe" src="" frameborder="0" width="100%" height="100%"></iframe>
         </div>
-        <div class="mod_close-button"></div>
     </div>
 
     <script>
+        // Select all modal elements
         const mod_launchButton = document.querySelector('.mod_comic-button');
         const mod_overlay = document.querySelector('.mod_modal-overlay');
         const mod_closeButton = document.querySelector('.mod_close-button');
         const mod_modalContainer = document.querySelector('.mod_modal-container');
-
+        const mod_modalIframe = document.querySelector('.mod_modal-iframe');
+    
+        // Position the close button relative to the modal container
         function mod_positionCloseButton() {
-            const containerRect = mod_modalContainer.getBoundingClientRect();
-            mod_closeButton.style.top = `${containerRect.top - 20}px`;
-            mod_closeButton.style.right = `${window.innerWidth - containerRect.right - 20}px`;
+            // No need to calculate position since we're using absolute positioning in CSS
+            mod_closeButton.style.top = '-20px';
+            mod_closeButton.style.right = '-20px';
         }
-
-        function mod_handleLaunchClick() {
+    
+        // Handle opening the modal with the URL
+        function mod_handleLaunchClick(url) {
+            if (mod_modalIframe) {
+                mod_modalIframe.src = url;
+            }
             mod_overlay.style.display = 'flex';
             mod_positionCloseButton();
         }
-
+    
+        // Handle closing the modal
         function mod_handleCloseClick() {
             mod_overlay.style.display = 'none';
+            if (mod_modalIframe) {
+                mod_modalIframe.src = ''; // Clear the iframe src
+            }
         }
-
+    
+        // Handle clicking outside the modal
         function mod_handleOverlayClick(e) {
-            if (e.target === mod_overlay) mod_handleCloseClick();
+            if (e.target === mod_overlay) {
+                mod_handleCloseClick();
+            }
         }
-
-        // Add this function to your JavaScript:
-        function openModal(url) {
-            const modal = document.querySelector('.mod_modal-overlay');
-            const iframe = document.querySelector('.mod_modal-iframe');
-            iframe.src = url;
-            modal.style.display = 'flex';
-            positionCloseButton();
+    
+        // Add event listeners
+        if (mod_launchButton) {
+            mod_launchButton.addEventListener('click', () => mod_handleLaunchClick('https://your-url-here.com'));
         }
-
-        mod_launchButton.addEventListener('click', mod_handleLaunchClick);
-        mod_closeButton.addEventListener('click', mod_handleCloseClick);
-        mod_overlay.addEventListener('click', mod_handleOverlayClick);
+        
+        if (mod_closeButton) {
+            mod_closeButton.addEventListener('click', mod_handleCloseClick);
+        }
+        
+        if (mod_overlay) {
+            mod_overlay.addEventListener('click', mod_handleOverlayClick);
+        }
+    
+        // Adjust close button position on resize
         window.addEventListener('resize', mod_positionCloseButton);
+    
+        // Initial positioning of close button
+        mod_positionCloseButton();
     </script>
 
 
