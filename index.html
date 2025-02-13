@@ -125,9 +125,17 @@
       }
 
       .comic-image-front > img[src*="transparentcover"] {
-        opacity: 0;
-        
-      }
+    mix-blend-mode: overlay; /* or try: screen, multiply, soft-light */
+    pointer-events: auto;
+    opacity: 0.3; /* Adjust between 0 and 1 for desired transparency */
+    background: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
       .comic-image-back {
         background: #fff;
