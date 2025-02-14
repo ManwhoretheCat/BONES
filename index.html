@@ -3532,15 +3532,95 @@
         const container = document.createElement('div');
         container.className = 'comic-image-container';
 
-        // Create front panel (remains unchanged)
+        // Create front panel 
         const frontPanel = document.createElement('div');
-        frontPanel.className = 'comic-image-front';
-        const frontImg = document.createElement('img');
-        frontImg.src = 'transparentcover.png';
-        frontImg.alt = 'Panel Background';
-        frontImg.className = 'comic-image comic-panel comic-panel-large';
-        frontPanel.appendChild(frontImg);
-        panels.push(frontPanel);
+frontPanel.className = 'comic-image-front';
+const frontImg = document.createElement('img');
+switch(index) {
+    case 0:
+        frontImg.src = 'https://acatnamedmanwhore.com/25bonesMoonshotBanner.png';
+        frontImg.alt = 'BONES Banner';
+        break;
+    case 1:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 2 Cover';
+        break;
+    case 2:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 3 Cover';
+        break;
+    case 3:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 4 Cover';
+        break;
+    case 4:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 5 Cover';
+        break;
+    case 5:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 6 Cover';
+        break;
+    case 6:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 7 Cover';
+        break;
+    case 7:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 8 Cover';
+        break;
+    case 8:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 9 Cover';
+        break;
+    case 9:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 10 Cover';
+        break;
+    case 10:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 11 Cover';
+        break;
+    case 11:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 12 Cover';
+        break;
+    case 12:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 13 Cover';
+        break;
+    case 13:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 14 Cover';
+        break;
+    case 14:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 15 Cover';
+        break;
+    case 15:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 16 Cover';
+        break;
+    case 16:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 17 Cover';
+        break;
+    case 17:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 18 Cover';
+        break;
+    case 18:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 19 Cover';
+        break;
+    case 19:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Section 20 Cover';
+        break;
+    default:
+        frontImg.src = '../comingsoon.jpeg';
+        frontImg.alt = 'Default Cover';
+}
 
         // Create panel 1
         const panel1 = document.createElement('div');
