@@ -2863,43 +2863,111 @@
     </script>
     <script>
       // Panel content for all sections
-      const panelContents = {
-        section1: {
-          front: `<div class="comic-image-front">
-            <img src="https://acatnamedmanwhore.com/25bonesMoonshotBanner.png" alt="BONES Banner" class="comic-image comic-panel comic-panel-large" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
-          </div>`,
-          back: `<div class="comic-image-back">
-            <div class="comic-panel comic-panel-large">
-              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="speech-bubble-comic bubble-1"><a href="https://stake.smithii.io/last25bones" target="_blank">BONES Staking</a></div>
-              <div class="comic-text" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">Welcome to the BONES comic!</div>
-            </div>
-            <div class="comic-panel">
-              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="comic-text">Panel Content</div>
-            </div>
-            <div class="comic-panel">
-              <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-              <div class="speech-bubble-comic"><a href="https://acatnamedmanwhore.com/tools/BAREBONES/BAREBONES.html" target="_blank">BARE BONES DEVELOPMENTS</a></div>
-            </div>
-          </div>`
+      const section1Panel1 = `
+        <div class="comic-panel comic-panel-large">
+          <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+          <div class="speech-bubble-comic bubble-1"><a href="https://stake.smithii.io/last25bones" target="_blank">BONES Staking</a></div>
+          <div class="comic-text" style="top: 20%; left: 16%; transform: translate(-50%, -50%);">Welcome to the BONES comic!</div>
+          <button class="mod_comic-button" style="top: 20%; left: 190%; transform: translate(-50%, -50%);">Launch</button>
+        </div>
+        <div class="comic-panel">
+          <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+          <div class="comic-text">Panel Content</div>
+        </div>
+        <div class="comic-panel">
+          <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+          <div class="speech-bubble-comic bubble-2"><a href="https://acatnamedmanwhore.com/tools/BAREBONES/BAREBONES.html" target="_blank">BARE BONES DEVELOPMENTS</a></div>
+        </div>
+      `;
+
+      const section1Panel2 = `
+        <div class="comic-panel comic-panel-large">
+          <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+          <div class="speech-bubble-comic bubble-3"><a href="https://placeholder-1-2.com" target="_blank">Additional Section 1</a></div>
+        </div>
+        <div class="comic-panel">
+          <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+          <div class="comic-text">More Info</div>
+        </div>
+        <div class="comic-panel">
+          <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+          <div class="speech-bubble-comic bubble-4"><a href="https://placeholder-1-3.com" target="_blank">Return to Start</a></div>
+        </div>
+      `;
+
+      // Section 2 - keeping original structure
+      const section2Panel1 = `
+        <div class="comic-panel comic-panel-large">
+          <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+          <div class="speech-bubble-comic bubble-5"><a href="https://placeholder-2-1.com" target="_blank">Section 2</a></div>
+        </div>
+        <div class="comic-panel">
+          <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+          <div class="comic-text">Panel Content</div>
+        </div>
+        <div class="comic-panel">
+          <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+          <div class="speech-bubble-comic bubble-6"><a href="https://placeholder-2-2.com" target="_blank">Click for more</a></div>
+        </div>
+      `;
+
+      const section2Panel2 = `
+        <div class="comic-panel comic-panel-large">
+          <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+          <div class="speech-bubble-comic bubble-7"><a href="https://placeholder-2-3.com" target="_blank">Additional Section 2</a></div>
+        </div>
+        <div class="comic-panel">
+          <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+          <div class="comic-text">More Info</div>
+        </div>
+        <div class="comic-panel">
+          <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+          <div class="speech-bubble-comic bubble-8"><a href="https://placeholder-2-4.com" target="_blank">Return to Start</a></div>
+        </div>
+      `;
+
+      function createPanelsForSection(index) {
+        const container = document.createElement('div');
+        container.className = 'comic-image-container';
+        
+        // Create front panel
+        const frontPanel = document.createElement('div');
+        frontPanel.className = 'comic-image-front';
+        const frontImg = document.createElement('img');
+        frontImg.src = index === 0 ? 'https://acatnamedmanwhore.com/25bonesMoonshotBanner.png' : '../comingsoon.jpeg';
+        frontImg.alt = index === 0 ? 'BONES Banner' : 'Panel Background';
+        frontImg.className = 'comic-image comic-panel comic-panel-large';
+        if (index === 0) {
+          frontImg.style.cssText = 'width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;';
         }
-      };
+        frontPanel.appendChild(frontImg);
+        container.appendChild(frontPanel);
+
+        // Create back panel
+        const backPanel = document.createElement('div');
+        backPanel.className = 'comic-image-back';
+        
+        switch(index) {
+          case 0:
+            backPanel.innerHTML = section1Panel1;
+            break;
+          case 1:
+            backPanel.innerHTML = section2Panel1;
+            break;
+          default:
+            backPanel.innerHTML = section1Panel1;
+        }
+        container.appendChild(backPanel);
+        
+        return container;
+      }
 {{ ... }}
       // Update the switch statements to include all sections
       function createComicSection(index) {
         const section = document.createElement('div');
         section.className = 'comic-section';
         
-        const container = document.createElement('div');
-        container.className = 'comic-image-container';
-        
-        const sectionKey = `section${index + 1}`;
-        const content = panelContents[sectionKey];
-        
-        if (content) {
-          container.innerHTML = content.front + content.back;
-        }
+        const container = createPanelsForSection(index);
         
         section.appendChild(container);
         
