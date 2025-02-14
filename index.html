@@ -2020,13 +2020,16 @@
       <div id="mainContent" class="container">
         <div class="blur-overlay"></div>
         <script>
-          // Consolidated panel content for all sections
+          // Panel content for all sections
           const panelContents = {
             section1: {
-              front: `<div class="comic-image-front">
-                <img src="https://acatnamedmanwhore.com/25bonesMoonshotBanner.png" alt="BONES Banner" class="comic-image comic-panel comic-panel-large" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
-              </div>`,
-              back: `<div class="comic-panel comic-panel-large">
+              panels: [
+                // Panel 1
+                `<div class="comic-image-front">
+                  <img src="https://acatnamedmanwhore.com/25bonesMoonshotBanner.png" alt="BONES Banner" class="comic-image comic-panel comic-panel-large">
+                </div>`,
+                // Panel 2
+                `<div class="comic-panel comic-panel-large">
                   <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
                   <div class="speech-bubble-comic bubble-1"><a href="https://stake.smithii.io/last25bones" target="_blank">BONES Staking</a></div>
                   <div class="comic-text" style="top: 20%; left: 16%; transform: translate(-50%, -50%);">Welcome to the BONES comic!</div>
@@ -2038,13 +2041,30 @@
                 <div class="comic-panel">
                   <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
                   <div class="speech-bubble-comic bubble-2"><a href="https://acatnamedmanwhore.com/tools/BAREBONES/BAREBONES.html" target="_blank">BARE BONES DEVELOPMENTS</a></div>
+                </div>`,
+                // Panel 3
+                `<div class="comic-panel comic-panel-large">
+                  <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                  <div class="speech-bubble-comic bubble-3"><a href="https://placeholder-1-3.com" target="_blank">Additional Section 1</a></div>
+                </div>
+                <div class="comic-panel">
+                  <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                  <div class="comic-text">More Panel Content</div>
+                </div>
+                <div class="comic-panel">
+                  <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                  <div class="speech-bubble-comic bubble-4"><a href="https://placeholder-1-4.com" target="_blank">Next Section</a></div>
                 </div>`
+              ]
             },
             section2: {
-              front: `<div class="comic-image-front">
-                <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-              </div>`,
-              back: `<div class="comic-panel comic-panel-large">
+              panels: [
+                // Panel 1
+                `<div class="comic-image-front">
+                  <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
+                </div>`,
+                // Panel 2
+                `<div class="comic-panel comic-panel-large">
                   <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
                   <div class="speech-bubble-comic bubble-5"><a href="https://placeholder-2-1.com" target="_blank">Section 2</a></div>
                 </div>
@@ -2055,387 +2075,116 @@
                 <div class="comic-panel">
                   <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
                   <div class="speech-bubble-comic bubble-6"><a href="https://placeholder-2-2.com" target="_blank">Click for more</a></div>
+                </div>`,
+                // Panel 3
+                `<div class="comic-panel comic-panel-large">
+                  <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                  <div class="speech-bubble-comic bubble-7"><a href="https://placeholder-2-3.com" target="_blank">Additional Section 2</a></div>
+                </div>
+                <div class="comic-panel">
+                  <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                  <div class="comic-text">More Panel Content</div>
+                </div>
+                <div class="comic-panel">
+                  <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                  <div class="speech-bubble-comic bubble-8"><a href="https://placeholder-2-4.com" target="_blank">Next Section</a></div>
                 </div>`
+              ]
             }
           };
 
-          // Add sections 3-20 with individual structures
-          panelContents.section3 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-3"><a href="https://placeholder-3-1.com" target="_blank">Section 3</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-4"><a href="https://placeholder-3-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
+          // Add sections 3-20 with similar panel structure
+          for (let i = 3; i <= 20; i++) {
+            panelContents[`section${i}`] = {
+              panels: [
+                // Panel 1
+                `<div class="comic-image-front">
+                  <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
+                </div>`,
+                // Panel 2
+                `<div class="comic-panel comic-panel-large">
+                  <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                  <div class="speech-bubble-comic bubble-${i*4-3}"><a href="https://placeholder-${i}-1.com" target="_blank">Section ${i}</a></div>
+                </div>
+                <div class="comic-panel">
+                  <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                  <div class="comic-text">Panel Content</div>
+                </div>
+                <div class="comic-panel">
+                  <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                  <div class="speech-bubble-comic bubble-${i*4-2}"><a href="https://placeholder-${i}-2.com" target="_blank">Click for more</a></div>
+                </div>`,
+                // Panel 3
+                `<div class="comic-panel comic-panel-large">
+                  <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                  <div class="speech-bubble-comic bubble-${i*4-1}"><a href="https://placeholder-${i}-3.com" target="_blank">Additional Section ${i}</a></div>
+                </div>
+                <div class="comic-panel">
+                  <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                  <div class="comic-text">More Panel Content</div>
+                </div>
+                <div class="comic-panel">
+                  <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                  <div class="speech-bubble-comic bubble-${i*4}"><a href="https://placeholder-${i}-4.com" target="_blank">Next Section</a></div>
+                </div>`
+              ]
+            };
+          }
 
-          panelContents.section4 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-4"><a href="https://placeholder-4-1.com" target="_blank">Section 4</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-5"><a href="https://placeholder-4-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section5 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-5"><a href="https://placeholder-5-1.com" target="_blank">Section 5</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-6"><a href="https://placeholder-5-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section6 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-6"><a href="https://placeholder-6-1.com" target="_blank">Section 6</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-7"><a href="https://placeholder-6-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section7 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-7"><a href="https://placeholder-7-1.com" target="_blank">Section 7</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-8"><a href="https://placeholder-7-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section8 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-8"><a href="https://placeholder-8-1.com" target="_blank">Section 8</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-9"><a href="https://placeholder-8-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section9 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-9"><a href="https://placeholder-9-1.com" target="_blank">Section 9</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-10"><a href="https://placeholder-9-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section10 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-10"><a href="https://placeholder-10-1.com" target="_blank">Section 10</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-11"><a href="https://placeholder-10-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section11 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-11"><a href="https://placeholder-11-1.com" target="_blank">Section 11</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-12"><a href="https://placeholder-11-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section12 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-12"><a href="https://placeholder-12-1.com" target="_blank">Section 12</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-13"><a href="https://placeholder-12-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section13 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-13"><a href="https://placeholder-13-1.com" target="_blank">Section 13</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-14"><a href="https://placeholder-13-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section14 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-14"><a href="https://placeholder-14-1.com" target="_blank">Section 14</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-15"><a href="https://placeholder-14-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section15 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-15"><a href="https://placeholder-15-1.com" target="_blank">Section 15</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-16"><a href="https://placeholder-15-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section16 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-16"><a href="https://placeholder-16-1.com" target="_blank">Section 16</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-17"><a href="https://placeholder-16-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section17 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-17"><a href="https://placeholder-17-1.com" target="_blank">Section 17</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-18"><a href="https://placeholder-17-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section18 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-18"><a href="https://placeholder-18-1.com" target="_blank">Section 18</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-19"><a href="https://placeholder-18-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section19 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-19"><a href="https://placeholder-19-1.com" target="_blank">Section 19</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-20"><a href="https://placeholder-19-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
-
-          panelContents.section20 = {
-            front: `<div class="comic-image-front">
-              <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
-            </div>`,
-            back: `<div class="comic-panel comic-panel-large">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-20"><a href="https://placeholder-20-1.com" target="_blank">Section 20</a></div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="comic-text">Panel Content</div>
-              </div>
-              <div class="comic-panel">
-                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
-                <div class="speech-bubble-comic bubble-21"><a href="https://placeholder-20-2.com" target="_blank">Click for more</a></div>
-              </div>`
-          };
           function createComicSection(index) {
-            const section = document.createElement('div');
-            section.className = 'comic-section';
+            const container = document.createElement('div');
+            container.className = 'comic-section';
             
             const sectionKey = `section${index + 1}`;
             const content = panelContents[sectionKey];
             
             if (content) {
-              section.innerHTML = `
-                <div class="comic-image-container" data-current-state="front">
-                  ${content.front}
-                  <div class="comic-image-back">
-                    ${content.back}
-                  </div>
-                </div>
-                <div class="comic-caption">
-                  ${index === 0 ? 'Meet BONES - The Audacious Undaunted Skeletal Maverick' : `Section ${index + 1}`}
-                </div>`;
+              const comicContainer = document.createElement('div');
+              comicContainer.className = 'comic-image-container';
+              comicContainer.innerHTML = content.panels[0]; // Start with first panel
+              comicContainer.setAttribute('data-current-panel', '0');
+              comicContainer.setAttribute('data-total-panels', content.panels.length.toString());
+              container.appendChild(comicContainer);
             }
             
-            return section;
+            return container;
           }
 
           // Initialize all comic sections
           document.addEventListener('DOMContentLoaded', () => {
             const mainContent = document.getElementById('mainContent');
             if (mainContent) {
-              // Create all sections
-              for (let i = 0; i < 20; i++) {
-                const section = createComicSection(i);
+              // Create and append all sections
+              Object.keys(panelContents).forEach((_, index) => {
+                const section = createComicSection(index);
                 mainContent.appendChild(section);
-              }
+              });
 
-              // Initialize flipbook behavior
-              document.querySelectorAll('.comic-image-container').forEach(container => {
-                const front = container.querySelector('.comic-image-front');
-                const back = container.querySelector('.comic-image-back');
-                
-                if (front && back) {
-                  container.addEventListener('click', () => {
-                    const currentState = container.getAttribute('data-current-state');
+              // Initialize flipbook functionality
+              const containers = document.querySelectorAll('.comic-image-container');
+              containers.forEach((container, sectionIndex) => {
+                container.addEventListener('click', () => {
+                  const currentPanel = parseInt(container.getAttribute('data-current-panel'));
+                  const totalPanels = parseInt(container.getAttribute('data-total-panels'));
+                  const sectionKey = `section${sectionIndex + 1}`;
+                  const panels = panelContents[sectionKey].panels;
+                  
+                  // Calculate next panel index
+                  const nextPanel = (currentPanel + 1) % totalPanels;
+                  
+                  // Create animation
+                  const currentElement = container.children[0];
+                  currentElement.style.transform = 'rotateY(-180deg)';
+                  
+                  // After animation, switch to next panel
+                  setTimeout(() => {
+                    container.innerHTML = panels[nextPanel];
+                    container.setAttribute('data-current-panel', nextPanel.toString());
                     
-                    if (currentState === 'front') {
-                      front.style.transform = 'rotateY(-180deg)';
-                      back.style.transform = 'rotateY(0)';
-                      container.setAttribute('data-current-state', 'back');
-                    } else {
-                      front.style.transform = 'rotateY(0)';
-                      back.style.transform = 'rotateY(180deg)';
-                      container.setAttribute('data-current-state', 'front');
-                    }
-                  });
-                }
+                    // Reset transform for new panel
+                    container.children[0].style.transform = 'rotateY(0)';
+                  }, 300);
+                });
               });
 
               // Add story button to the first section
@@ -2445,7 +2194,10 @@
               storyButton.style.cssText = 'top: 70px; right: 65px;';
               storyButton.textContent = 'The story continues..';
               
-              document.querySelector('.comic-section:first-child .comic-image-back')?.appendChild(storyButton);
+              const firstSection = document.querySelector('.comic-section:first-child');
+              if (firstSection) {
+                firstSection.appendChild(storyButton);
+              }
             }
           });
         </script>
@@ -2489,37 +2241,121 @@
         </div>
       </div>
       <script>
-        // Consolidated panel content for all sections
+        // Panel content for all sections
         const panelContents = {
           section1: {
             panels: [
-              '<div class="comic-image-front"><img src="../cover_1.png" alt="Cover 1"></div>',
-              '<div class="comic-image-back"><img src="../comic_1.png" alt="Comic panel 1"></div>',
-              '<div class="comic-image-front"><img src="../comic_2.png" alt="Comic panel 2"></div>',
-              '<div class="comic-image-back"><img src="../cover_1.png" alt="Cover 1"></div>'
+              // Panel 1
+              `<div class="comic-image-front">
+                <img src="https://acatnamedmanwhore.com/25bonesMoonshotBanner.png" alt="BONES Banner" class="comic-image comic-panel comic-panel-large">
+              </div>`,
+              // Panel 2
+              `<div class="comic-panel comic-panel-large">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="speech-bubble-comic bubble-1"><a href="https://stake.smithii.io/last25bones" target="_blank">BONES Staking</a></div>
+                <div class="comic-text" style="top: 20%; left: 16%; transform: translate(-50%, -50%);">Welcome to the BONES comic!</div>
+              </div>
+              <div class="comic-panel">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="comic-text">Panel Content</div>
+              </div>
+              <div class="comic-panel">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="speech-bubble-comic bubble-2"><a href="https://acatnamedmanwhore.com/tools/BAREBONES/BAREBONES.html" target="_blank">BARE BONES DEVELOPMENTS</a></div>
+              </div>`,
+              // Panel 3
+              `<div class="comic-panel comic-panel-large">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="speech-bubble-comic bubble-3"><a href="https://placeholder-1-3.com" target="_blank">Additional Section 1</a></div>
+              </div>
+              <div class="comic-panel">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="comic-text">More Panel Content</div>
+              </div>
+              <div class="comic-panel">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="speech-bubble-comic bubble-4"><a href="https://placeholder-1-4.com" target="_blank">Next Section</a></div>
+              </div>`
             ]
           },
           section2: {
             panels: [
-              '<div class="comic-image-front"><img src="../cover_2.png" alt="Cover 2"></div>',
-              '<div class="comic-image-back"><img src="../comic_3.png" alt="Comic panel 3"></div>',
-              '<div class="comic-image-front"><img src="../comic_4.png" alt="Comic panel 4"></div>',
-              '<div class="comic-image-back"><img src="../cover_2.png" alt="Cover 2"></div>'
-            ]
-          },
-          section3: {
-            panels: [
-              '<div class="comic-image-front"><img src="../cover_3.png" alt="Cover 3"></div>',
-              '<div class="comic-image-back"><img src="../comic_5.png" alt="Comic panel 5"></div>',
-              '<div class="comic-image-front"><img src="../comic_6.png" alt="Comic panel 6"></div>',
-              '<div class="comic-image-back"><img src="../cover_3.png" alt="Cover 3"></div>'
+              // Panel 1
+              `<div class="comic-image-front">
+                <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
+              </div>`,
+              // Panel 2
+              `<div class="comic-panel comic-panel-large">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="speech-bubble-comic bubble-5"><a href="https://placeholder-2-1.com" target="_blank">Section 2</a></div>
+              </div>
+              <div class="comic-panel">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="comic-text">Panel Content</div>
+              </div>
+              <div class="comic-panel">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="speech-bubble-comic bubble-6"><a href="https://placeholder-2-2.com" target="_blank">Click for more</a></div>
+              </div>`,
+              // Panel 3
+              `<div class="comic-panel comic-panel-large">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="speech-bubble-comic bubble-7"><a href="https://placeholder-2-3.com" target="_blank">Additional Section 2</a></div>
+              </div>
+              <div class="comic-panel">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="comic-text">More Panel Content</div>
+              </div>
+              <div class="comic-panel">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="speech-bubble-comic bubble-8"><a href="https://placeholder-2-4.com" target="_blank">Next Section</a></div>
+              </div>`
             ]
           }
         };
 
+        // Add sections 3-20 with similar panel structure
+        for (let i = 3; i <= 20; i++) {
+          panelContents[`section${i}`] = {
+            panels: [
+              // Panel 1
+              `<div class="comic-image-front">
+                <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large">
+              </div>`,
+              // Panel 2
+              `<div class="comic-panel comic-panel-large">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="speech-bubble-comic bubble-${i*4-3}"><a href="https://placeholder-${i}-1.com" target="_blank">Section ${i}</a></div>
+              </div>
+              <div class="comic-panel">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="comic-text">Panel Content</div>
+              </div>
+              <div class="comic-panel">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="speech-bubble-comic bubble-${i*4-2}"><a href="https://placeholder-${i}-2.com" target="_blank">Click for more</a></div>
+              </div>`,
+              // Panel 3
+              `<div class="comic-panel comic-panel-large">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="speech-bubble-comic bubble-${i*4-1}"><a href="https://placeholder-${i}-3.com" target="_blank">Additional Section ${i}</a></div>
+              </div>
+              <div class="comic-panel">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="comic-text">More Panel Content</div>
+              </div>
+              <div class="comic-panel">
+                <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                <div class="speech-bubble-comic bubble-${i*4}"><a href="https://placeholder-${i}-4.com" target="_blank">Next Section</a></div>
+              </div>`
+            ]
+          };
+        }
+
         function createComicSection(index) {
           const container = document.createElement('div');
           container.className = 'comic-section';
+          
           const sectionKey = `section${index + 1}`;
           const content = panelContents[sectionKey];
           
@@ -2565,14 +2401,17 @@
                 setTimeout(() => {
                   container.innerHTML = panels[nextPanel];
                   container.setAttribute('data-current-panel', nextPanel.toString());
-                }, 500);
+                  
+                  // Reset transform for new panel
+                  container.children[0].style.transform = 'rotateY(0)';
+                }, 300);
               });
             });
 
             // Add story button to the first section
             const storyButton = document.createElement('button');
             storyButton.className = 'mod_comic-button';
-            storyButton.onclick = () => mod_handleLaunchClick('https://www.youtube.com/embed/dQw4w9WgXcQ');
+            storyButton.onclick = () => mod_handleLaunchClick('https://websim.ai/@beautifulbloom/comic-chat/5');
             storyButton.style.cssText = 'top: 70px; right: 65px;';
             storyButton.textContent = 'The story continues..';
             
