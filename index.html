@@ -100,108 +100,119 @@
         .comic-image-container {
           position: relative;
           width: 100%;
-          height: 300px;
+          height: 600px;
+          perspective: 1000px;
           cursor: pointer;
-          perspective: 2000px;
           transform-style: preserve-3d;
         }
-  
+
         .comic-image-front,
         .comic-image-back {
           position: absolute;
           width: 100%;
           height: 100%;
-          backface-visibility: visible;
-          transform-origin: left center;
-          transition: all 0.4s cubic-bezier(0.645, 0.045, 0.355, 1.000);
-        }
-  
-        .comic-image-front {
-          z-index: 3;
-          background: #fff;
+          backface-visibility: hidden;
+          transition: transform 0.6s;
           transform-style: preserve-3d;
-          transform: rotateY(0);
-          overflow: hidden;
         }
-  
-        .comic-image-front > img[src*="transparentcover.png"] {
-      mix-blend-mode: overlay !important;
-      opacity: 0.3 !important;
-      background: transparent !important;
-      position: absolute !important;
-      top: 0 !important;
-      left: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: cover !important;
-  }
-  
+
+        .comic-image-front {
+          z-index: 2;
+          transform: rotateY(0deg);
+        }
+
         .comic-image-back {
+          transform: rotateY(180deg);
           background: #fff;
           padding: 15px;
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           grid-template-rows: repeat(2, 1fr);
-          gap: 10px;
-          overflow: hidden;
-          transform: rotateY(0);
-          z-index: 1;
-          opacity: 0;
-          pointer-events: none;
+          gap: 15px;
         }
-  
-        .comic-image-back.active {
-          opacity: 1;
-          pointer-events: auto;
-          z-index: 2;
-        }
-  
-        .comic-image-back.flipping,
-        .comic-image-front.flipping {
-          transform: rotateY(-90deg);
-          box-shadow: -30px 0 30px rgba(0,0,0,0.2);
-        }
-  
-        .comic-image-container.peeled .comic-image-front {
-          transform: rotateY(-90deg);
-          box-shadow: -30px 0 30px rgba(0,0,0,0.2);
-          z-index: 1;
-        }
-  
+
         .comic-panel {
-          background: #fff;
-          border: 2px solid #000;
           position: relative;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-start;
-          align-items: center;
-          text-align: center;
+          width: 100%;
+          height: 100%;
+          border: 3px solid #000;
+          box-shadow: 4px 4px 0 #000;
           overflow: hidden;
-          padding: 0;
+          background: #fff;
         }
-  
-        .comic-panel::before {
-          content: '';
+
+        .comic-panel-large {
+          grid-column: span 2;
+        }
+
+        .comic-panel-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .speech-bubble-comic {
           position: absolute;
-          top: -4px;
-          left: -4px;
-          right: -4px;
-          bottom: -4px;
-          border: 1px solid #000;
+          background: #fff;
+          border: 3px solid #000;
+          padding: 10px 15px;
+          border-radius: 15px;
+          max-width: 200px;
+          font-family: 'Bangers', cursive;
+          font-size: 1.2em;
+          transform: skew(-5deg);
+          box-shadow: 4px 4px 0 #000;
           z-index: 1;
-          pointer-events: none;
         }
+
+        .speech-bubble-comic a {
+          color: #000;
+          text-decoration: none;
+          transition: color 0.3s;
+        }
+
+        .speech-bubble-comic a:hover {
+          color: #FFD700;
+        }
+
+        .comic-text {
+          position: absolute;
+          font-family: 'Bangers', cursive;
+          font-size: 1.5em;
+          color: #000;
+          text-shadow: 2px 2px 0 #fff;
+          z-index: 1;
+        }
+
+        .comic-section {
+          margin-bottom: 30px;
+          position: relative;
+        }
+
+        .comic-caption {
+          text-align: center;
+          font-family: 'Bangers', cursive;
+          font-size: 1.5em;
+          margin-top: 15px;
+          color: #000;
+        }
+
+        /* Bubble positions */
+        .bubble-1 { top: 15%; left: 20%; }
+        .bubble-2 { top: 25%; right: 15%; }
+        .bubble-3 { top: 35%; left: 25%; }
+        .bubble-4 { top: 45%; right: 20%; }
+        .bubble-5 { top: 55%; left: 15%; }
+        .bubble-6 { top: 65%; right: 25%; }
+        .bubble-7 { top: 75%; left: 20%; }
+        .bubble-8 { top: 85%; right: 15%; }
+        .bubble-9 { top: 25%; left: 25%; }
+        .bubble-10 { top: 35%; right: 20%; }
   
         .comic-image {
           width: 100%;
           height: 100%;
           object-fit: cover;
-        }
-  
-        .comic-panel-large {
-          grid-column: span 2;
-          grid-row: span 1;
         }
   
         .comic-panel-image {
@@ -2089,9 +2100,12 @@
         const panelContents = {
           section1: {
             panels: [
+              // Cover Page
               {
                 front: `<div class="comic-image-front">
-                  <img src="https://acatnamedmanwhore.com/25bonesMoonshotBanner.png" alt="BONES Banner" class="comic-image comic-panel comic-panel-large" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+                  <div class="comic-panel comic-panel-large">
+                    <img src="https://acatnamedmanwhore.com/25bonesMoonshotBanner.png" alt="BONES Banner" class="comic-image comic-panel comic-panel-large" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+                  </div>
                 </div>`,
                 back: `<div class="comic-image-back">
                   <div class="comic-panel comic-panel-large">
@@ -2108,6 +2122,68 @@
                     <div class="speech-bubble-comic bubble-2"><a href="https://acatnamedmanwhore.com/tools/BAREBONES/BAREBONES.html" target="_blank">BARE BONES DEVELOPMENTS</a></div>
                   </div>
                 </div>`
+              },
+              // Page 2
+              {
+                front: `<div class="comic-image-front">
+                  <div class="comic-panel comic-panel-large">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="speech-bubble-comic bubble-3"><a href="https://placeholder-1-3.com" target="_blank">Additional Section 1</a></div>
+                  </div>
+                  <div class="comic-panel">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="comic-text">More Panel Content</div>
+                  </div>
+                  <div class="comic-panel">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="speech-bubble-comic bubble-4"><a href="https://placeholder-1-4.com" target="_blank">Next Section</a></div>
+                  </div>
+                </div>`,
+                back: `<div class="comic-image-back">
+                  <div class="comic-panel comic-panel-large">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="speech-bubble-comic bubble-5"><a href="https://placeholder-2-1.com" target="_blank">Section 2</a></div>
+                  </div>
+                  <div class="comic-panel">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="comic-text">Panel Content</div>
+                  </div>
+                  <div class="comic-panel">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="speech-bubble-comic bubble-6"><a href="https://placeholder-2-2.com" target="_blank">Click for more</a></div>
+                  </div>
+                </div>`
+              },
+              // Page 3
+              {
+                front: `<div class="comic-image-front">
+                  <div class="comic-panel comic-panel-large">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="speech-bubble-comic bubble-7"><a href="https://placeholder-2-3.com" target="_blank">Additional Section 2</a></div>
+                  </div>
+                  <div class="comic-panel">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="comic-text">More Panel Content</div>
+                  </div>
+                  <div class="comic-panel">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="speech-bubble-comic bubble-8"><a href="https://placeholder-2-4.com" target="_blank">Next Section</a></div>
+                  </div>
+                </div>`,
+                back: `<div class="comic-image-back">
+                  <div class="comic-panel comic-panel-large">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="speech-bubble-comic bubble-9"><a href="https://placeholder-3-1.com" target="_blank">Final Page</a></div>
+                  </div>
+                  <div class="comic-panel">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="comic-text">Last Panel Content</div>
+                  </div>
+                  <div class="comic-panel">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="speech-bubble-comic bubble-10"><a href="https://placeholder-3-2.com" target="_blank">The End</a></div>
+                  </div>
+                </div>`
               }
             ]
           }
@@ -2121,14 +2197,14 @@
           const content = panelContents[sectionKey];
           
           if (content) {
-            const comicContainer = document.createElement('div');
-            comicContainer.className = 'comic-image-container';
-            comicContainer.setAttribute('data-current-state', 'front');
-            
-            const panel = content.panels[0];
-            comicContainer.innerHTML = panel.front + panel.back;
-            
-            container.appendChild(comicContainer);
+            content.panels.forEach((panel, panelIndex) => {
+              const comicContainer = document.createElement('div');
+              comicContainer.className = 'comic-image-container';
+              comicContainer.setAttribute('data-current-state', 'front');
+              comicContainer.setAttribute('data-panel-index', panelIndex.toString());
+              comicContainer.innerHTML = panel.front + panel.back;
+              container.appendChild(comicContainer);
+            });
           }
           
           return container;
@@ -2147,24 +2223,36 @@
             // Initialize flipbook functionality
             const containers = document.querySelectorAll('.comic-image-container');
             containers.forEach(container => {
-              const front = container.querySelector('.comic-image-front');
-              const back = container.querySelector('.comic-image-back');
-              
-              if (front && back) {
-                container.addEventListener('click', () => {
-                  const currentState = container.getAttribute('data-current-state');
+              container.addEventListener('click', () => {
+                const currentState = container.getAttribute('data-current-state');
+                const front = container.querySelector('.comic-image-front');
+                const back = container.querySelector('.comic-image-back');
+                
+                if (currentState === 'front') {
+                  front.style.transform = 'rotateY(-180deg)';
+                  back.style.transform = 'rotateY(0)';
+                  container.setAttribute('data-current-state', 'back');
+                } else {
+                  // Move to next panel if available
+                  const currentPanelIndex = parseInt(container.getAttribute('data-panel-index'));
+                  const nextContainer = container.parentElement.querySelector(`[data-panel-index="${currentPanelIndex + 1}"]`);
                   
-                  if (currentState === 'front') {
-                    front.style.transform = 'rotateY(-180deg)';
-                    back.style.transform = 'rotateY(0)';
-                    container.setAttribute('data-current-state', 'back');
+                  if (nextContainer) {
+                    container.style.display = 'none';
+                    nextContainer.style.display = 'block';
                   } else {
+                    // Reset to front of current panel if no next panel
                     front.style.transform = 'rotateY(0)';
                     back.style.transform = 'rotateY(180deg)';
                     container.setAttribute('data-current-state', 'front');
                   }
-                });
-              }
+                }
+              });
+            });
+
+            // Show only first panel initially
+            containers.forEach((container, index) => {
+              container.style.display = index === 0 ? 'block' : 'none';
             });
 
             // Add story button to the first section
@@ -2185,9 +2273,6 @@
             panels: [
               {
                 front: `<div class="comic-image-front">
-                  <img src="../comingsoon.jpeg" alt="Coming Soon" class="comic-image comic-panel comic-panel-large" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
-                </div>`,
-                back: `<div class="comic-image-back">
                   <div class="comic-panel comic-panel-large">
                     <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
                     <div class="speech-bubble-comic bubble-${i*4-3}"><a href="https://placeholder-${i}-1.com" target="_blank">Section ${i}</a></div>
@@ -2199,6 +2284,20 @@
                   <div class="comic-panel">
                     <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
                     <div class="speech-bubble-comic bubble-${i*4-2}"><a href="https://placeholder-${i}-2.com" target="_blank">Click for more</a></div>
+                  </div>
+                </div>`,
+                back: `<div class="comic-image-back">
+                  <div class="comic-panel comic-panel-large">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="speech-bubble-comic bubble-${i*4-1}"><a href="https://placeholder-${i}-3.com" target="_blank">Additional Section ${i}</a></div>
+                  </div>
+                  <div class="comic-panel">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="comic-text">More Panel Content</div>
+                  </div>
+                  <div class="comic-panel">
+                    <img src="../comingsoon.jpeg" alt="Panel Background" class="comic-panel-image">
+                    <div class="speech-bubble-comic bubble-${i*4}"><a href="https://placeholder-${i}-4.com" target="_blank">Next Section</a></div>
                   </div>
                 </div>`
               }
@@ -2220,24 +2319,36 @@
               // Initialize flipbook functionality
               const containers = document.querySelectorAll('.comic-image-container');
               containers.forEach(container => {
-                const front = container.querySelector('.comic-image-front');
-                const back = container.querySelector('.comic-image-back');
-                
-                if (front && back) {
-                  container.addEventListener('click', () => {
-                    const currentState = container.getAttribute('data-current-state');
+                container.addEventListener('click', () => {
+                  const currentState = container.getAttribute('data-current-state');
+                  const front = container.querySelector('.comic-image-front');
+                  const back = container.querySelector('.comic-image-back');
+                  
+                  if (currentState === 'front') {
+                    front.style.transform = 'rotateY(-180deg)';
+                    back.style.transform = 'rotateY(0)';
+                    container.setAttribute('data-current-state', 'back');
+                  } else {
+                    // Move to next panel if available
+                    const currentPanelIndex = parseInt(container.getAttribute('data-panel-index'));
+                    const nextContainer = container.parentElement.querySelector(`[data-panel-index="${currentPanelIndex + 1}"]`);
                     
-                    if (currentState === 'front') {
-                      front.style.transform = 'rotateY(-180deg)';
-                      back.style.transform = 'rotateY(0)';
-                      container.setAttribute('data-current-state', 'back');
+                    if (nextContainer) {
+                      container.style.display = 'none';
+                      nextContainer.style.display = 'block';
                     } else {
+                      // Reset to front of current panel if no next panel
                       front.style.transform = 'rotateY(0)';
                       back.style.transform = 'rotateY(180deg)';
                       container.setAttribute('data-current-state', 'front');
                     }
-                  });
-                }
+                  }
+                });
+              });
+
+              // Show only first panel initially
+              containers.forEach((container, index) => {
+                container.style.display = index === 0 ? 'block' : 'none';
               });
 
               // Add story button to the first section
